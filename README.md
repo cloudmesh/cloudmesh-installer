@@ -12,13 +12,15 @@ $ pip install cloudmesh-installer
 ```
 
 ## Usage
-
-```bash
-cloudmesh-installer git [clone|pull|status] [BUNDLE]
-cloudmesh-installer install [BUNDLE] [-e]
-cloudmesh-installer local purge [DIR] [-f]
-cloudmesh-installer list
-cloudmesh-installer info
+```
+Usage:
+  cloudmesh-installer git key [LOCATION]
+  cloudmesh-installer git [clone|pull|status] [BUNDLE]
+  cloudmesh-installer install [BUNDLE] [-e]
+  cloudmesh-installer local purge [DIR] [-f]
+  cloudmesh-installer list
+  cloudmesh-installer info
+  cloudmesh-installer pyenv purge ENV [-f]
 
 A convenient program called `cloudmesh-installer` to ownload and install cloudmesh
 from sources published in github.
@@ -26,6 +28,7 @@ from sources published in github.
 Arguments:
   BUNDLE      the bundle [default: cms]
   REPOS       list of git repos
+  ENV         the name of the pyenv
 
 Options:
   -h --help
@@ -61,8 +64,7 @@ Description:
         experienced user and allows to identify eggs in your directory
         recursively. The -f option allows to delete the egg, but it may be a
         better strategy to just list the egs without th -f and than delete the
-        files you do not want.        
-
+        files you do not want.
 
     Example:
 
@@ -72,5 +74,3 @@ Description:
             cloudmesh-installer install storage -e
             cloudmesh-installer info
 ```
-
-
