@@ -2,10 +2,10 @@
   cloudmesh-installer git key [LOCATION]
   cloudmesh-installer git [clone|pull|status] [BUNDLE]
   cloudmesh-installer install [BUNDLE] [-e]
-  cloudmesh-installer local purge [DIR] [-f]
   cloudmesh-installer list
   cloudmesh-installer info
-  cloudmesh-installer pyenv purge ENV [-f]
+  cloudmesh-installer local purge [--force] DIR
+  cloudmesh-installer pyenv purge [--force] ENV
 
 A convenient program called `cloudmesh-installer` to ownload and install cloudmesh
 from sources published in github.
@@ -14,10 +14,12 @@ Arguments:
   BUNDLE      the bundle [default: cms]
   REPOS       list of git repos
   ENV         the name of the pyenv
+  DIR         the directory form where to start the search
+
 
 Options:
   -h --help
-  -f       executes the purge
+  --force    if used, will execute some commands that erase files
 
 Description:
 
@@ -59,22 +61,22 @@ Description:
         This command is very useful to list the version of the installed
         package, the version n git, and the version on pypi
 
-    cloudmesh-installer local purge [DIR] [-f]
+    cloudmesh-installer local purge [DIR] [--force]
 
         THIS IS A DANGEROUS COMMAND AND YOU SHOULD PROBABLY NOT USE IT
 
 
         This command should not be used in general. It is for the most
         experienced user and allows to identify eggs in your directory
-        recursively. The -f option allows to delete the egg, but it may be a
-        better strategy to just list the egs without th -f and than delete the
+        recursively. The --force option allows to delete the egg, but it may be a
+        better strategy to just list the egs without th --force and than delete the
         files you do not want.
 
         One test that you may want to do is to just call the command without the
-        -f option as to see possible eggs that you forgot and may need to be
+        --force option as to see possible eggs that you forgot and may need to be
         deleted.
 
-    cloudmesh-installer pyenv purge ENV [-f]
+    cloudmesh-installer pyenv purge ENV [--force]
 
         THIS IS A DANGEROUS COMMAND AND YOU SHOULD PROBABLY NOT USE IT
 
@@ -345,7 +347,7 @@ def main():
     # pprint(arguments)
 
     if arguments["purge"] and arguments["local"]:
-        dryrun = not arguments['-f']
+        dryrun = not arguments['--force']
 
         eggs = list(Path(arguments["DIR"]).glob("**/cloudmesh*egg*"))
 
@@ -506,7 +508,7 @@ def main():
             print(line.format(env=environment))
         print(70 * '-')
         print()
-        if arguments["-f"] and \
+        if arguments["--force"] and \
             yn_question("Would you like us to execute them (yes/n)? ") and \
             yn_question(
                 "Last warning, do you realy want to do it (yes/n)? ") and \
