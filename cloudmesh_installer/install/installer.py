@@ -60,18 +60,18 @@ Description:
             cloudmesh-installer info
 
 """
-from docopt import docopt
+import os
+import re
+import shutil
 import subprocess
 import sys
-from pprint import pprint
+import textwrap
+import webbrowser
+from pathlib import Path
+
 import oyaml as yaml
 import requests
-import re
-import os
-from pathlib import Path
-import shutil
-import webbrowser
-import textwrap
+from docopt import docopt
 
 repos = dict({
 
@@ -125,63 +125,62 @@ repos = dict({
     ],
 
     'spring19': [
-         'fa18-516-22',
-         'fa18-516-26',
-         'fa18-516-29',
-         'hid-sample',
-         'hid-sp18-407',
-         'hid-sp18-512',
-         'hid-sp18-519',
-         'hid-sp18-520',
-         'hid-sp18-522',
-         'hid-sp18-523',
-         'hid-sp18-602',
-         'hid-sp18-701',
-         'hid-sp18-704',
-         'hid-sp18-709',
-         'hid-sp18-710',
-         'sp19-222-100',
-         'sp19-222-101',
-         'sp19-222-102',
-         'sp19-222-89',
-         'sp19-222-90',
-         'sp19-222-91',
-         'sp19-222-92',
-         'sp19-222-93',
-         'sp19-222-94',
-         'sp19-222-96',
-         'sp19-222-97',
-         'sp19-222-98',
-         'sp19-222-99',
-         'sp19-516-121',
-         'sp19-516-122',
-         'sp19-516-123',
-         'sp19-516-124',
-         'sp19-516-125',
-         'sp19-516-126',
-         'sp19-516-127',
-         'sp19-516-128',
-         'sp19-516-129',
-         'sp19-516-130',
-         'sp19-516-131',
-         'sp19-516-132',
-         'sp19-516-133',
-         'sp19-516-134',
-         'sp19-516-135',
-         'sp19-516-136',
-         'sp19-516-137',
-         'sp19-516-138',
-         'sp19-516-139',
-         'sp19-616-111',
-         'sp19-616-112'
+        'fa18-516-22',
+        'fa18-516-26',
+        'fa18-516-29',
+        'hid-sample',
+        'hid-sp18-407',
+        'hid-sp18-512',
+        'hid-sp18-519',
+        'hid-sp18-520',
+        'hid-sp18-522',
+        'hid-sp18-523',
+        'hid-sp18-602',
+        'hid-sp18-701',
+        'hid-sp18-704',
+        'hid-sp18-709',
+        'hid-sp18-710',
+        'sp19-222-100',
+        'sp19-222-101',
+        'sp19-222-102',
+        'sp19-222-89',
+        'sp19-222-90',
+        'sp19-222-91',
+        'sp19-222-92',
+        'sp19-222-93',
+        'sp19-222-94',
+        'sp19-222-96',
+        'sp19-222-97',
+        'sp19-222-98',
+        'sp19-222-99',
+        'sp19-516-121',
+        'sp19-516-122',
+        'sp19-516-123',
+        'sp19-516-124',
+        'sp19-516-125',
+        'sp19-516-126',
+        'sp19-516-127',
+        'sp19-516-128',
+        'sp19-516-129',
+        'sp19-516-130',
+        'sp19-516-131',
+        'sp19-516-132',
+        'sp19-516-133',
+        'sp19-516-134',
+        'sp19-516-135',
+        'sp19-516-136',
+        'sp19-516-137',
+        'sp19-516-138',
+        'sp19-516-139',
+        'sp19-616-111',
+        'sp19-616-112'
     ]
 })
-
 
 # git clone git@github.com:cloudmesh-community/$f.git
 
 
-#git clone https://github.com/cloudmesh/get.git
+# git clone https://github.com/cloudmesh/get.git
 
 pyenv_purge = [
     'rm -f ~/.pyenv/shims/cms',
@@ -192,17 +191,19 @@ pyenv_purge = [
     "pip install pip -U"
 ]
 
+
 def run(command):
     try:
         output = subprocess.check_output(command,
-            shell=True,
-            stderr=subprocess.STDOUT,
-        )
+                                         shell=True,
+                                         stderr=subprocess.STDOUT,
+                                         )
     except subprocess.CalledProcessError as err:
         print('ERROR:', err)
         sys.exit(1)
 
     return output.decode('utf-8')
+
 
 def script(commands, environment):
     for command in commands:
@@ -227,18 +228,18 @@ class Git(object):
                 try:
                     location = Git.url(repo)
                     r = run(f"git clone {location}.git")
-                    print (f"         {r}")
+                    print(f"         {r}")
                 except Exception as e:
-                    print (e)
+                    print(e)
             else:
-                print ("         ERROR: not downlaoded as repo already exists.")
+                print("         ERROR: not downlaoded as repo already exists.")
 
     @staticmethod
     def status(repos):
         for repo in repos:
-            print ("status ->", repo)
+            print("status ->", repo)
             os.chdir(repo)
-            print (run("git status"))
+            print(run("git status"))
             os.chdir("../")
 
     # git clone https://github.com/cloudmesh/get.git
@@ -246,30 +247,30 @@ class Git(object):
     @staticmethod
     def pull(repos):
         for repo in repos:
-            print ("pull ->", repo)
+            print("pull ->", repo)
             os.chdir(repo)
-            print (run("git pull"))
+            print(run("git pull"))
             os.chdir("../")
 
     @staticmethod
     def install(repos, dev=False):
         for repo in repos:
-            print ("install ->", repo)
+            print("install ->", repo)
             if dev:
                 os.chdir(repo)
-                print (run("pip install -e ."))
+                print(run("pip install -e ."))
                 os.chdir("../")
             else:
-                print (run("pip install {repo}".format(repo=repo)))
+                print(run("pip install {repo}".format(repo=repo)))
 
 
-#git clone https://github.com/cloudmesh/get.git
+# git clone https://github.com/cloudmesh/get.git
 
 def yn_question(msg):
     while True:
         query = input(msg)
         answer = query.lower().strip()
-        if query == '' or not answer in ['yes', 'n']:
+        if query == '' or answer not in ['yes', 'n']:
             print('Please answer with yes/n!')
         else:
             break
@@ -290,8 +291,9 @@ def banner(txt):
     print("#", txt)
     print("#" * 70)
 
+
 def remove(location):
-    print ("delete", location)
+    print("delete", location)
     try:
         shutil.rmtree(location)
     except Exception as e:
@@ -304,9 +306,10 @@ def main():
     arguments["DIR"] = \
         os.path.expandvars(os.path.expanduser(arguments.get("DIR") or '.'))
     arguments["LOCATION"] = \
-        os.path.expandvars(os.path.expanduser(arguments.get("LOCATION") or '~/.ssh/id_rsa.pub'))
+        os.path.expandvars(os.path.expanduser(
+            arguments.get("LOCATION") or '~/.ssh/id_rsa.pub'))
 
-    pprint(arguments)
+    # pprint(arguments)
 
     if arguments["purge"] and arguments["local"]:
         dryrun = not arguments['-f']
@@ -329,12 +332,14 @@ def main():
                 environment. So please only use it if you know what it effects.
                 """))
             print()
-            if not yn_question(f"WARNING: Do you realy want to continue. This is DANGEROUS (yes/n)? "):
+            if not yn_question(
+                f"WARNING: Do you realy want to continue. This is DANGEROUS (yes/n)? "):
                 sys.exit(1)
 
             for egg in eggs:
-                print ()
-                if yn_question(f"WARNING: Do you want to delete the egg '{egg}' (yes/n)? "):
+                print()
+                if yn_question(
+                    f"WARNING: Do you want to delete the egg '{egg}' (yes/n)? "):
                     remove(egg)
 
     elif arguments["list"]:
@@ -347,24 +352,24 @@ def main():
 
     elif arguments["info"]:
 
-        banner (f"Executable: {executable}".format(executable=sys.executable))
+        banner("Executable: {executable}".format(executable=sys.executable))
 
-        #print("info")
-        #packages = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
+        # print("info")
+        # packages = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
         packages = repos[bundle]
         for package in packages:
-            print ("\nVersion -> {package}".format(
+            print("\nVersion -> {package}".format(
                 package=package))
             try:
                 installed = run("pip freeze | grep {package}".format(
-                package=package)).strip()
+                    package=package)).strip()
             except:
                 installed = "!CANNOT FIND INSTALLED VERSION"
             print("...Installed Version ->", installed)
             try:
                 v = requests.get("https://raw.githubusercontent.com/cloudmesh"
-                             "/{package}/master/VERSION".format(
-                                package=package)).text
+                                 "/{package}/master/VERSION".format(
+                    package=package)).text
             except:
                 v = "!CANNOT FIND GIT VERSION INFO"
             finally:
@@ -373,55 +378,54 @@ def main():
             print("...Github Version ->", v)
             try:
                 v = requests.get("https://pypi.org/project/{package}/".format(
-                package=package)).text
+                    package=package)).text
                 pat_str = '(.*)<h1 class="package-header__name">(.+?)</h1>(.*)'
                 pattern = re.compile(pat_str, re.M | re.I | re.S)
                 groups = re.match(pattern, v)
-            #print (groups)
+                # print (groups)
                 v = (groups.group(2)).strip().split(package)[1].strip()
             except:
                 v = "!CANNOT FIND PYPI VERSION INFO"
             print("...Pypi Version ->", v)
 
-
     if arguments["status"] and arguments["git"]:
-        #repos = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
+        # repos = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
         Git.status(repos[bundle])
 
-    elif arguments["clone"]  and arguments["git"]:
+    elif arguments["clone"] and arguments["git"]:
         result = Git.clone(repos[bundle])
 
-    elif arguments["pull"]  and arguments["git"]:
+    elif arguments["pull"] and arguments["git"]:
         Git.pull(repos[bundle])
 
     elif arguments["key"] and arguments["git"]:
 
         try:
             location = arguments["LOCATION"]
-            print ("Key location:", location)
+            print("Key location:", location)
             if not location.endswith(".pub"):
                 print("ERROR: make sure you specify a public key")
                 sys.exit(1)
-            keyContents = open(location).read()
+            key_contents = open(location).read()
             print()
             print("Make sure you copy the content between the lines to github")
             print(70 * "-")
-            print(keyContents.strip())
+            print(key_contents.strip())
             print(70 * "-")
-            print("Please copy the content now, so you can use it in the browser.")
+            print(
+                "Please copy the content now, so you can use it in the browser.")
             print()
-            if yn_question("would you like to open a web page to github to upload the key (yes/n)? "):
+            if yn_question(
+                "would you like to open a web page to github to upload the key (yes/n)? "):
                 webbrowser.open_new("https://github.com/settings/keys")
                 if yn_question("Is the key missing (yes/n)? "):
-                    print ("Paste the key in the next window and submit.")
+                    print("Paste the key in the next window and submit.")
                     webbrowser.open_new("https://github.com/settings/ssh/new")
 
         except:
             print(" you must have a key and upload it to github.")
-            print ("To generate the key use ssh-keygen")
-            print ("To avoid typing in the password all the time, usee ssh-add")
-
-
+            print("To generate the key use ssh-keygen")
+            print("To avoid typing in the password all the time, usee ssh-add")
 
     elif arguments["install"]:
         if arguments["-e"]:
@@ -448,18 +452,21 @@ def main():
         
         """))
         print()
-        print("next you need to activate your pyenv, use the following commands")
+        print(
+            "next you need to activate your pyenv, use the following commands")
         print()
 
-        print (70 * '-')
+        print(70 * '-')
         for line in pyenv_purge:
             print(line.format(env=environment))
-        print (70 * '-')
+        print(70 * '-')
         print()
         if arguments["-f"] and \
             yn_question("Would you like us to execute them (yes/n)? ") and \
-            yn_question("Last warning, do you realy want to do it (yes/n)? ") and \
-            yn_question("Now the real last warning, do you realy want to do it (yes/n)? "):
+            yn_question(
+                "Last warning, do you realy want to do it (yes/n)? ") and \
+            yn_question(
+                "Now the real last warning, do you realy want to do it (yes/n)? "):
 
             print(70 * '-')
             for line in pyenv_purge:
