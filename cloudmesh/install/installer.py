@@ -4,11 +4,13 @@
           cloudmesh-installer purge [-f]
           cloudmesh-installer list
           cloudmesh-installer info
+          cloudmesh-installer git [clone|pull|status] [REPOS]
 
 Download and install cloudmesh.
 
 Arguments:
   BUNDLE      the bundle [default: cms]
+  REPOS       list of git repos
 
 Options:
   -h --help
@@ -22,6 +24,7 @@ from pprint import pprint
 import oyaml as yaml
 import requests
 import re
+import os
 
 repos = dict({
 
@@ -149,6 +152,9 @@ class Git(object):
     def status(repos):
         for repo in repos:
             print ("status", repo)
+            os.chdir(repo)
+            print (run("git status"))
+            os.chdir("../")
 
     # git clone https://github.com/cloudmesh/get.git
 
@@ -229,7 +235,10 @@ def main():
             v = (groups.group(2)).strip().split(package)[1].strip()
             print ("\t---In pypi---")
             print (v)
-
+    elif arguments["git"]:
+        if arguments["status"]:
+            repos = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
+            Git.status(repos)
 
 if __name__ == '__main__':
     main()
