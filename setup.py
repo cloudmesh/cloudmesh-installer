@@ -106,10 +106,10 @@ setup(
         "coverage",
     ],
     zip_safe=False,
-    namespace_packages=['cloudmesh'],
+    # namespace_packages=['cloudmesh'],
     entry_points={
         'console_scripts': [
-            'cloudmesh-installer = cloudmesh.install.installer:main',
+            'cloudmesh-installer = cloudmesh_installer.install.installer:main',
         ],
     }
 )
