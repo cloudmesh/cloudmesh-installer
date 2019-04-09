@@ -3,7 +3,7 @@
   cloudmesh-installer install [BUNDLE] [-e]
   cloudmesh-installer local purge [DIR] [-f]
   cloudmesh-installer list
-  cloudmesh-installer info
+  cloudmesh-installer info [BUNDLE]
 
 
 A convenient program called `cloudmesh-installer` to ownload and install cloudmesh
