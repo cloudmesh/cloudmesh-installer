@@ -242,11 +242,11 @@ def main():
             print (v)
     elif arguments["git"]:
         if arguments["status"]:
-            repos = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
-            Git.status(repos)
+            #repos = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
+            Git.status(repos[bundle])
         elif arguments["pull"]:
-            repos = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
-            Git.pull(repos)
+            #repos = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
+            Git.pull(repos[bundle])
 
 if __name__ == '__main__':
     main()
