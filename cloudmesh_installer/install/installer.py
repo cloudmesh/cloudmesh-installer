@@ -354,7 +354,19 @@ def main():
 
     elif arguments["info"]:
 
-        banner("Executable: {executable}".format(executable=sys.executable))
+        executable = sys.executable
+        if "pyenv" not in executable:
+            banner("WARNING WARNING WARNING WARNING WARNING")
+            print()
+            print("You are likely not running pyenv, please remember that for "
+                  "development purpuses we recommend you run in a virtual env. "
+                  "Please consult with our handbook on how to set one up")
+        print()
+        print ("We found your executable in:")
+        print(executable)
+        print()
+        print (70 * '-')
+        print
 
         # print("info")
         # packages = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
