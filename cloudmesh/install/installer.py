@@ -22,6 +22,7 @@ from pprint import pprint
 import oyaml as yaml
 import requests
 import re
+import os
 
 repos = dict({
 
@@ -143,11 +144,15 @@ class Git(object):
     def clone(repos):
         for repo in repos:
             print(f"clone -> {repo}")
-            try:
-                location = Git.url(repo)
-                run(f"git clone {location}.git")
-            except Exception as e:
-                print (e)
+            if not os.path.isdir(repo):
+                try:
+                    location = Git.url(repo)
+                    r = run(f"git clone {location}.git")
+                    print (r)
+                except Exception as e:
+                    print (e)
+            else:
+                print ("         ERROR: not downlaoded as repo already exists.")
 
     @staticmethod
     def status(repos):
