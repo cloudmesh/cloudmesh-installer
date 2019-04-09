@@ -195,7 +195,7 @@ class Git(object):
     @staticmethod
     def status(repos):
         for repo in repos:
-            print ("status", repo)
+            print ("status ->", repo)
             os.chdir(repo)
             print (run("git status"))
             os.chdir("../")
@@ -205,10 +205,21 @@ class Git(object):
     @staticmethod
     def pull(repos):
         for repo in repos:
-            print ("pull", repo)
+            print ("pull ->", repo)
             os.chdir(repo)
             print (run("git pull"))
             os.chdir("../")
+
+    @staticmethod
+    def install(repos, dev=False):
+        for repo in repos:
+            print ("install ->", repo)
+            if dev:
+                os.chdir(repo)
+                print (run("pip install -e ."))
+                os.chdir("../")
+            else:
+                print (run("pip install {repo}".format(repo=repo)))
 
 
 #git clone https://github.com/cloudmesh/get.git
@@ -327,12 +338,14 @@ def main():
         elif arguments["clone"]:
             result = Git.clone(repos[bundle])
 
-        elif arguments["install"]:
-            result = Git.install(repos[bundle])
-
         elif arguments["pull"]:
             Git.pull(repos[bundle])
 
+    elif arguments["install"]:
+        if arguments["-e"]:
+            result = Git.install(repos[bundle], dev=True)
+        else:
+            result = Git.install(repos[bundle])
 
 if __name__ == '__main__':
     main()
