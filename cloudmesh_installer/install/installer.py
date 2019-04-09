@@ -53,7 +53,7 @@ Description:
 
         let us assume you like to work on storage, than you need to do the following
 
-            cloudmesh-install git clone storage
+            cloudmesh-installer git clone storage
             cloudmesh-installer install storage -e
             cloudmesh-installer info
 

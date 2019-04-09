@@ -33,7 +33,7 @@ def readfile(filename):
 
 
 requiers = """
-pyyaml
+oyaml
 docopt
 requests
 """.split("\n")
