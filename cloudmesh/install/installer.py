@@ -69,7 +69,23 @@ repos = dict({
         'cloudmesh-cmd5',
         'cloudmesh-sys',
         'cloudmesh-inventory',
+    ],
+
+    'cloud': [
+        'cloudmesh-common',
+        'cloudmesh-cmd5',
+        'cloudmesh-sys',
+        'cloudmesh-inventory',
         'cloudmesh-cloud'
+    ],
+
+    'storage': [
+        'cloudmesh-common',
+        'cloudmesh-cmd5',
+        'cloudmesh-sys',
+        'cloudmesh-inventory',
+        'cloudmesh-cloud',
+        'cloudmesh-storage'
     ],
 
     'source': [
