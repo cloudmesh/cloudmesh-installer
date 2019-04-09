@@ -169,7 +169,10 @@ class Git(object):
     @staticmethod
     def pull(repos):
         for repo in repos:
-            print ("status", repo)
+            print ("pull", repo)
+            os.chdir(repo)
+            print (run("git pull"))
+            os.chdir("../")
 
 
 #git clone https://github.com/cloudmesh/get.git
@@ -199,8 +202,8 @@ def main():
     if arguments["clone"]:
         result = Git.clone(repos[bundle])
 
-    elif arguments["pull"]:
-        print("purge")
+    #elif arguments["pull"]:
+    #    print("purge")
 
     elif arguments["install"]:
         print("install")
@@ -243,8 +246,11 @@ def main():
             print (v)
     elif arguments["git"]:
         if arguments["status"]:
-            repos = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
-            Git.status(repos)
+            #repos = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
+            Git.status(repos[bundle])
+        elif arguments["pull"]:
+            #repos = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
+            Git.pull(repos[bundle])
 
 if __name__ == '__main__':
     main()
