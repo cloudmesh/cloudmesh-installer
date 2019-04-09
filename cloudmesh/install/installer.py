@@ -1,6 +1,6 @@
 """Usage: cloudmesh-installer git [clone|pull|status] [BUNDLE]
           cloudmesh-installer install [BUNDLE]
-          cloudmesh-installer purge [-f]
+          cloudmesh-installer local purge [DIR] [-f]
           cloudmesh-installer list
           cloudmesh-installer info
 
@@ -24,6 +24,8 @@ import oyaml as yaml
 import requests
 import re
 import os
+from pathlib import Path
+import shutil
 
 repos = dict({
 
@@ -176,6 +178,15 @@ class Git(object):
 
 #git clone https://github.com/cloudmesh/get.git
 
+def yn_quiestion(msg):
+    while True:
+        query = input(msg)
+        answer = query[0].lower()
+        if query == '' or not answer in ['yes', 'n']:
+            print('Please answer with yes/n!')
+        else:
+            break
+    answer == 'yes'
 
 def banner(txt):
     """prints a banner of the form with a frame of # around the txt::
@@ -196,10 +207,26 @@ def banner(txt):
 def main():
     arguments = docopt(__doc__)
     bundle = arguments["BUNDLE"] = arguments.get("BUNDLE") or 'cms'
+    arguments["DIR"] = \
+        os.path.expandvars(os.path.expanduser(arguments.get("DIR") or '.'))
+
     print(arguments)
 
-    if arguments["purge"]:
-        print("purge")
+    if arguments["purge"] and arguments["local"]:
+        dryrun = not arguments['-f']
+
+        eggs = list(Path(arguments["DIR"]).glob("**/cloudmesh*egg*"))
+
+
+        if dryrun:
+            for egg in eggs:
+                print(egg)
+        else:
+            for egg in eggs:
+                try:
+                    shutil.rmtree(egg)
+                except Exception as e:
+                    print (e)
 
     elif arguments["list"]:
         print("list")
