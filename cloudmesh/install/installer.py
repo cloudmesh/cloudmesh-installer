@@ -1,10 +1,9 @@
-"""Usage: cloudmesh-installer clone [BUNDLE]
-          cloudmesh-installer pull [BUNDLE]
+"""Usage: cloudmesh-installer git [clone|pull|status] [BUNDLE]
           cloudmesh-installer install [BUNDLE]
           cloudmesh-installer purge [-f]
           cloudmesh-installer list
           cloudmesh-installer info
-          cloudmesh-installer git [clone|pull|status] [REPOS]
+
 
 Download and install cloudmesh.
 
@@ -150,7 +149,7 @@ class Git(object):
                 try:
                     location = Git.url(repo)
                     r = run(f"git clone {location}.git")
-                    print (r)
+                    print (f"         {r}")
                 except Exception as e:
                     print (e)
             else:
@@ -199,16 +198,7 @@ def main():
     bundle = arguments["BUNDLE"] = arguments.get("BUNDLE") or 'cms'
     print(arguments)
 
-    if arguments["clone"]:
-        result = Git.clone(repos[bundle])
-
-    #elif arguments["pull"]:
-    #    print("purge")
-
-    elif arguments["install"]:
-        print("install")
-
-    elif arguments["purge"]:
+    if arguments["purge"]:
         print("purge")
 
     elif arguments["list"]:
@@ -218,7 +208,6 @@ def main():
             if ":" in line:
                 print()
             print(line)
-
 
     elif arguments["info"]:
         print("info")
@@ -244,13 +233,22 @@ def main():
             v = (groups.group(2)).strip().split(package)[1].strip()
             print ("\t---In pypi---")
             print (v)
+
     elif arguments["git"]:
+
         if arguments["status"]:
             #repos = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
             Git.status(repos[bundle])
+
+        elif arguments["clone"]:
+            result = Git.clone(repos[bundle])
+
+        elif arguments["install"]:
+            result = Git.install(repos[bundle])
+
         elif arguments["pull"]:
-            #repos = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
             Git.pull(repos[bundle])
+
 
 if __name__ == '__main__':
     main()
