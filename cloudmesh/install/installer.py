@@ -15,6 +15,26 @@ Options:
   -h --help
   -f       executes the purge
 
+Description:
+
+    Bundles
+
+        Cloudmesh has a number of bundels. you can see the bundels with the list command.
+        Bundels are simple a number of git commands. That
+        Once you identified a
+
+    cloudmesh-installer git [clone|pull|status] [BUNDLE]
+
+
+
+    cloudmesh-installer install [BUNDLE]
+
+    cloudmesh-installer local purge [DIR] [-f]
+
+    cloudmesh-installer list
+
+    cloudmesh-installer info
+
 """
 from docopt import docopt
 import subprocess
