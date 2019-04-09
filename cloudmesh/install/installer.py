@@ -178,15 +178,16 @@ class Git(object):
 
 #git clone https://github.com/cloudmesh/get.git
 
-def yn_quiestion(msg):
+def yn_question(msg):
     while True:
         query = input(msg)
-        answer = query[0].lower()
+        answer = query.lower().strip()
         if query == '' or not answer in ['yes', 'n']:
             print('Please answer with yes/n!')
         else:
             break
-    answer == 'yes'
+    return answer == 'yes'
+
 
 def banner(txt):
     """prints a banner of the form with a frame of # around the txt::
@@ -203,6 +204,7 @@ def banner(txt):
     print("#" * 70)
 
 def remove(location):
+    print ("delete", location)
     try:
         shutil.rmtree(location)
     except Exception as e:
@@ -215,19 +217,24 @@ def main():
     arguments["DIR"] = \
         os.path.expandvars(os.path.expanduser(arguments.get("DIR") or '.'))
 
-    print(arguments)
-
     if arguments["purge"] and arguments["local"]:
         dryrun = not arguments['-f']
 
         eggs = list(Path(arguments["DIR"]).glob("**/cloudmesh*egg*"))
 
         if dryrun:
+            banner("Dryrun purge")
             for egg in eggs:
-                print(egg)
+                print(f" found -> {egg}")
         else:
+            banner("WARNING dryrun: once you say yess a delete can not be undone")
+
+            if not yn_question(f"WARNING: Do you realy want to continue. This is DANGEROUS (yes/n)? "):
+                sys.exit(1)
+
             for egg in eggs:
-                if yn_quiestion("WARNING: Do you want to delete this egg. You can not und!?")
+                print ()
+                if yn_question(f"WARNING: Do you want to delete the egg '{egg}' (yes/n)? "):
                     remove(egg)
 
     elif arguments["list"]:
