@@ -6,7 +6,7 @@
   cloudmesh-installer info
 
 
-A convenient program called `cloudmesh-install` to ownload and install cloudmesh
+A convenient program called `cloudmesh-installer` to ownload and install cloudmesh
 from sources published in github.
 
 Arguments:

@@ -8,7 +8,7 @@ packages hosted at pypi.
 This command can be installed with 
 
 ```bash
-$ pip install cloudmesh-install
+$ pip install cloudmesh-installer
 ```
 
 ## Usage
