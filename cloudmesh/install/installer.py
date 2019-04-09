@@ -23,7 +23,7 @@ import oyaml as yaml
 
 repos = dict({
 
-    'cms_repos': [
+    'cms': [
         'cloudmesh-common',
         'cloudmesh-cmd5',
         'cloudmesh-sys',
@@ -31,7 +31,7 @@ repos = dict({
         'cloudmesh-cloud'
     ],
 
-    'source_repos': [
+    'source': [
         'cloudmesh-common',
         'cloudmesh-cmd5',
         'cloudmesh-sys',
@@ -46,17 +46,17 @@ repos = dict({
         'cloudmesh-conda',
     ],
 
-    'web_repos': [
+    'web': [
         'about',
         'get',
         'cloudmesh-github.io',
     ],
 
-    'community_repos': [
+    'community': [
         'cloudmesh-community.github.io'
     ],
 
-    'spring19_repos': [
+    'spring19': [
          'fa18-516-22',
          'fa18-516-26',
          'fa18-516-29',
@@ -162,6 +162,7 @@ def run(command):
 
 def main():
     arguments = docopt(__doc__)
+    bundle = arguments["BUNDLE"] = arguments.get("BUNDLE") or 'cms'
     print(arguments)
 
     if arguments["clone"]:
