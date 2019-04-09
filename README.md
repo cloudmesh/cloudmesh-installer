@@ -1,5 +1,5 @@
 
-# Cloudmehs Installer 
+# Cloudmesh Installer 
 
 This is an experimental installer that is most usefull during the development of
 cloudmesh components form source. Once cloudmehs is released, you can use the
