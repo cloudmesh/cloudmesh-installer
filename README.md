@@ -8,7 +8,7 @@ packages hosted at pypi.
 This command can be installed with 
 
 ```bash
-$ pip install cloudmesh-install
+$ pip install cloudmesh-installer
 ```
 
 ## Usage
@@ -62,4 +62,15 @@ Description:
         recursively. The -f option allows to delete the egg, but it may be a
         better strategy to just list the egs without th -f and than delete the
         files you do not want.        
+
+
+    Example:
+
+        let us assume you like to work on storage, than you need to do the following
+
+            cloudmesh-install git clone storage
+            cloudmesh-installer install storage -e
+            cloudmesh-installer info
 ```
+
+

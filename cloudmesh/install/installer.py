@@ -6,7 +6,7 @@
   cloudmesh-installer info
 
 
-A convenient program called `cloudmesh-install` to ownload and install cloudmesh
+A convenient program called `cloudmesh-installer` to ownload and install cloudmesh
 from sources published in github.
 
 Arguments:
@@ -49,6 +49,13 @@ Description:
         better strategy to just list the egs without th -f and than delete the
         files you do not want.
 
+    Example:
+
+        let us assume you like to work on storage, than you need to do the following
+
+            cloudmesh-install git clone storage
+            cloudmesh-installer install storage -e
+            cloudmesh-installer info
 
 """
 from docopt import docopt
@@ -69,7 +76,23 @@ repos = dict({
         'cloudmesh-cmd5',
         'cloudmesh-sys',
         'cloudmesh-inventory',
+    ],
+
+    'cloud': [
+        'cloudmesh-common',
+        'cloudmesh-cmd5',
+        'cloudmesh-sys',
+        'cloudmesh-inventory',
         'cloudmesh-cloud'
+    ],
+
+    'storage': [
+        'cloudmesh-common',
+        'cloudmesh-cmd5',
+        'cloudmesh-sys',
+        'cloudmesh-inventory',
+        'cloudmesh-cloud',
+        'cloudmesh-storage'
     ],
 
     'source': [
