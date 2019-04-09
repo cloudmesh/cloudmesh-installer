@@ -30,6 +30,22 @@ Description:
         repositories. You can list the bundels with the list command. and see
         their names in the top level.
 
+    cloudmesh-installer info
+
+        The info command gives some very basic information about the version
+        numbers of cloudmesh on your system, github, and pypi. THis helps
+        identifying if you may run an odlder version.
+
+        In addition we try to check if you do use pyenv
+
+    cloudmesh-installer git key [LOCATION]
+
+        This command only works if you use ssh keys to authenticate with github.
+        This command makes uploading the key easy as it checks for your key and
+        provides via the web browser automatic pageloads to github for the
+        keyupload. YOu do not have tou use this command. It is intenden for
+        novice users.
+
     cloudmesh-installer git [clone|pull|status] [BUNDLE]
 
         This command executes the given git command on the bundle
@@ -45,11 +61,26 @@ Description:
 
     cloudmesh-installer local purge [DIR] [-f]
 
+        THIS IS A DANGEROUS COMMAND AND YOU SHOULD PROBABLY NOT USE IT
+
+
         This command should not be used in general. It is for the most
         experienced user and allows to identify eggs in your directory
         recursively. The -f option allows to delete the egg, but it may be a
         better strategy to just list the egs without th -f and than delete the
         files you do not want.
+
+        One test that you may want to do is to just call the command without the
+        -f option as to see possible eggs that you forgot and may need to be
+        deleted.
+
+    cloudmesh-installer pyenv purge ENV [-f]
+
+        THIS IS A DANGEROUS COMMAND AND YOU SHOULD PROBABLY NOT USE IT
+
+        THis command removes the specified virtual envireonment and reinstalls
+        it with python 3.7.2. It will erase it entirely, thus make sure you know
+        what this command does. YOu will have to reinstall all packages.
 
     Example:
 
