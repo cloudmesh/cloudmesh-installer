@@ -49,6 +49,12 @@ Description:
         better strategy to just list the egs without th -f and than delete the
         files you do not want.
 
+    Example:
+
+        let us assume you like to work on storage, than you need to do the following
+
+            cloudmesh-install git clone storage
+
 
 """
 from docopt import docopt

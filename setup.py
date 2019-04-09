@@ -109,7 +109,7 @@ setup(
     namespace_packages=['cloudmesh'],
     entry_points={
         'console_scripts': [
-            'cloudmesh-install = cloudmesh.install.installer:main',
+            'cloudmesh-installer = cloudmesh.install.installer:main',
         ],
     }
 )
