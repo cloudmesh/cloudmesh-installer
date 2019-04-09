@@ -5,7 +5,7 @@
   cloudmesh-installer local purge [DIR] [-f]
   cloudmesh-installer list
   cloudmesh-installer info
-  cloudmesh-installer pyenv purge ENV
+  cloudmesh-installer pyenv purge ENV [-f]
 
 A convenient program called `cloudmesh-installer` to ownload and install cloudmesh
 from sources published in github.
@@ -71,6 +71,7 @@ import os
 from pathlib import Path
 import shutil
 import webbrowser
+import textwrap
 
 repos = dict({
 
@@ -187,6 +188,8 @@ pyenv_purge = [
     'pyenv deactivate',
     'pyenv uninstall -f {env}',
     'pyenv virtualenv 3.7.2 {env}',
+    'pyenv activate {env}',
+    "pip install pip -U"
 ]
 
 def run(command):
@@ -315,8 +318,17 @@ def main():
             for egg in eggs:
                 print(f" found -> {egg}")
         else:
-            banner("WARNING dryrun: once you say yess a delete can not be undone")
 
+            print()
+            banner("WARNING WARNING WARNING WARNING WARNING WARNING WARNING ")
+
+            print(textwrap.dedent("""
+                Please notice that executing this command can do harm to your
+                instalation. If you delete files with this command it is on your
+                own risk. The deletion may have bad effects on your python
+                environment. So please only use it if you know what it effects.
+                """))
+            print()
             if not yn_question(f"WARNING: Do you realy want to continue. This is DANGEROUS (yes/n)? "):
                 sys.exit(1)
 
@@ -416,13 +428,44 @@ def main():
 
     elif arguments["pyenv"] and arguments["purge"]:
         environment = arguments["ENV"]
-        script(pyenv_purge, environment)
+
         print()
-        print("next you need to activate your pyenv, use the commands and update pip")
+        banner("WARNING WARNING WARNING WARNING WARNING WARNING WARNING ")
+
+        print(textwrap.dedent("""
+        Please notice that executing this command can do harm to your
+        instalation. This command also does not work if you are not setting up
+        the pyenv as we discussed in our handbook. YOu must make sure that your
+        .bashrc or .bash_profile files are properly configured for pyenv
+        
+        If you use venv please do not use this command.
+        
+        If you do not use pyenv or do not know what it is, you for sure do not
+        want to executethis command.
+        
+        """))
+        print()
+        print("next you need to activate your pyenv, use the following commands")
         print()
 
-        print(f"pyenv activate {environment}")
-        print("pip install pip -U")
+        print (70 * '-')
+        for line in pyenv_purge:
+            print(line.format(env=environment))
+        print (70 * '-')
+        print()
+        if arguments["-f"] and \
+            yn_question("Would you like us to execute them (yesy/n)? ") and \
+            yn_question("Last warning, do you realy want to do it (yesy/n)? ") and \
+            yn_question("Now the real last warning, do you realy want to do it (yesy/n)? "):
+
+            print(70 * '-')
+            for line in pyenv_purge:
+                command = line.format(env=environment)
+                print("Executing:", command)
+                print()
+                os.system(command)
+            print(70 * '-')
+            print()
 
 
 if __name__ == '__main__':
