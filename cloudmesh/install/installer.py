@@ -216,22 +216,34 @@ def main():
         for package in packages:
             print ("\nVersion info for package <{package}>".format(
                 package=package))
-            installed = run("pip freeze | grep {package}".format(
+            try:
+                installed = run("pip freeze | grep {package}".format(
                 package=package)).strip()
+            except:
+                installed = "!CANNOT FIND INSTALLED VERSION"
             print ("\t---Installed---")
             print(installed)
-            v = requests.get("https://raw.githubusercontent.com/cloudmesh"
+            try:
+                v = requests.get("https://raw.githubusercontent.com/cloudmesh"
                              "/{package}/master/VERSION".format(
                                 package=package)).text
+            except:
+                v = "!CANNOT FIND GIT VERSION INFO"
+            finally:
+                if '404' in v:
+                    v = "!CANNOT FIND GIT VERSION INFO"
             print ("\t---In git---")
             print (v)
-            v = requests.get("https://pypi.org/project/{package}/".format(
+            try:
+                v = requests.get("https://pypi.org/project/{package}/".format(
                 package=package)).text
-            pat_str = '(.*)<h1 class="package-header__name">(.+?)</h1>(.*)'
-            pattern = re.compile(pat_str, re.M | re.I | re.S)
-            groups = re.match(pattern, v)
+                pat_str = '(.*)<h1 class="package-header__name">(.+?)</h1>(.*)'
+                pattern = re.compile(pat_str, re.M | re.I | re.S)
+                groups = re.match(pattern, v)
             #print (groups)
-            v = (groups.group(2)).strip().split(package)[1].strip()
+                v = (groups.group(2)).strip().split(package)[1].strip()
+            except:
+                v = "!CANNOT FIND PYPI VERSION INFO"
             print ("\t---In pypi---")
             print (v)
 
