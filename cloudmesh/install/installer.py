@@ -116,23 +116,49 @@ repos = dict({
 
 #git clone https://github.com/cloudmesh/get.git
 
+def run(command):
+    try:
+        output = subprocess.check_output(command,
+            shell=True,
+            stderr=subprocess.STDOUT,
+        )
+    except subprocess.CalledProcessError as err:
+        print('ERROR:', err)
+        sys.exit(1)
+
+    return output.decode('utf-8')
+
 
 class Git(object):
+
+    @staticmethod
+    def git(community=False):
+        if not community:
+            return "git clone https://github.com/cloudmesh/"
+        else:
+            return "git clone https://github.com/cloudmesh-community/"
 
     @staticmethod
     def clone(repos):
         for repo in repos:
             print ("clone", repo)
+            run(Git.git() + " " + repo)
+            # git clone https://github.com/cloudmesh/get.git
 
     @staticmethod
     def status(repos):
         for repo in repos:
             print ("status", repo)
 
+    # git clone https://github.com/cloudmesh/get.git
+
     @staticmethod
     def pull(repos):
         for repo in repos:
             print ("status", repo)
+
+
+#git clone https://github.com/cloudmesh/get.git
 
 
 def banner(txt):
@@ -150,17 +176,6 @@ def banner(txt):
     print("#" * 70)
 
 
-def run(command):
-    try:
-        output = subprocess.check_output(command,
-            shell=True,
-            stderr=subprocess.STDOUT,
-        )
-    except subprocess.CalledProcessError as err:
-        print('ERROR:', err)
-        sys.exit(1)
-
-    return output.decode('utf-8')
 
 def main():
     arguments = docopt(__doc__)
