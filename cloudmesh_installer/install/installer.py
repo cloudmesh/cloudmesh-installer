@@ -457,9 +457,9 @@ def main():
         print (70 * '-')
         print()
         if arguments["-f"] and \
-            yn_question("Would you like us to execute them (yesy/n)? ") and \
-            yn_question("Last warning, do you realy want to do it (yesy/n)? ") and \
-            yn_question("Now the real last warning, do you realy want to do it (yesy/n)? "):
+            yn_question("Would you like us to execute them (yes/n)? ") and \
+            yn_question("Last warning, do you realy want to do it (yes/n)? ") and \
+            yn_question("Now the real last warning, do you realy want to do it (yes/n)? "):
 
             print(70 * '-')
             for line in pyenv_purge:
