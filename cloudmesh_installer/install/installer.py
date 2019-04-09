@@ -346,6 +346,9 @@ def main():
             print(line)
 
     elif arguments["info"]:
+
+        banner (f"Executable: {executable}".format(executable=sys.executable))
+
         #print("info")
         #packages = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
         packages = repos[bundle]

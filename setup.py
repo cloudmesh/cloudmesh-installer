@@ -46,7 +46,7 @@ with open('README.md') as f:
     long_description = f.read()
 
 
-NAME = "cloudmesh-install"
+NAME = "cloudmesh-installer"
 DESCRIPTION = "A dynamic extensible CMD based command shell"
 AUTHOR = "Gregor von Laszewski"
 AUTHOR_EMAIL = "laszewski@gmail.com"

@@ -20,7 +20,7 @@ cloudmesh-installer local purge [DIR] [-f]
 cloudmesh-installer list
 cloudmesh-installer info
 
-A convenient program called `cloudmesh-install` to ownload and install cloudmesh
+A convenient program called `cloudmesh-installer` to ownload and install cloudmesh
 from sources published in github.
 
 Arguments:
@@ -68,7 +68,7 @@ Description:
 
         let us assume you like to work on storage, than you need to do the following
 
-            cloudmesh-install git clone storage
+            cloudmesh-installer git clone storage
             cloudmesh-installer install storage -e
             cloudmesh-installer info
 ```
