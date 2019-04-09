@@ -135,16 +135,19 @@ class Git(object):
     @staticmethod
     def url(repo):
         if repo in repos['community']:
-            return f"git clone https://github.com/cloudmesh-community/{repo}"
+            return f"https://github.com/cloudmesh-community/{repo}"
         else:
-            return f"git clone https://github.com/cloudmesh/{repo}"
+            return f"https://github.com/cloudmesh/{repo}"
 
     @staticmethod
     def clone(repos):
         for repo in repos:
-            banner (f"clone {repo}")
-            location = Git.url(repo)
-            run(f"git clone {location}")
+            print(f"clone -> {repo}")
+            try:
+                location = Git.url(repo)
+                run(f"git clone {location}.git")
+            except Exception as e:
+                print (e)
 
     @staticmethod
     def status(repos):
@@ -184,9 +187,7 @@ def main():
     print(arguments)
 
     if arguments["clone"]:
-        print("clone")
-        result = run  ("ls -lisa")
-        print(result)
+        result = Git.clone(repos[bundle])
 
     elif arguments["pull"]:
         print("purge")
