@@ -1,4 +1,4 @@
-package=cmd5
+package=cloudmesh-installer
 UNAME=$(shell uname)
 VERSION=`head -1 VERSION`
 
@@ -42,7 +42,7 @@ dist:
 
 patch: clean
 	$(call banner, "build")
-	bump2version --no-tag --allow-dirty patch
+	bump2version --no-tag patch
 	python setup.py sdist bdist_wheel
 	git push
 	# git push origin master --tags
