@@ -20,6 +20,8 @@ import subprocess
 import sys
 from pprint import pprint
 import oyaml as yaml
+import requests
+import re
 
 repos = dict({
 
@@ -190,6 +192,28 @@ def main():
 
     elif arguments["info"]:
         print("info")
+        packages = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
+        for package in packages:
+            print ("\nVersion info for package <{package}>".format(
+                package=package))
+            installed = run("pip freeze | grep {package}".format(
+                package=package)).strip()
+            print ("\t---Installed---")
+            print(installed)
+            v = requests.get("https://raw.githubusercontent.com/cloudmesh"
+                             "/{package}/master/VERSION".format(
+                                package=package)).text
+            print ("\t---In git---")
+            print (v)
+            v = requests.get("https://pypi.org/project/{package}/".format(
+                package=package)).text
+            pat_str = '(.*)<h1 class="package-header__name">(.+?)</h1>(.*)'
+            pattern = re.compile(pat_str, re.M | re.I | re.S)
+            groups = re.match(pattern, v)
+            #print (groups)
+            v = (groups.group(2)).strip().split(package)[1].strip()
+            print ("\t---In pypi---")
+            print (v)
 
 
 if __name__ == '__main__':
