@@ -211,7 +211,8 @@ def main():
 
     elif arguments["info"]:
         print("info")
-        packages = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
+        #packages = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
+        packages = repos[bundle]
         for package in packages:
             print ("\nVersion info for package <{package}>".format(
                 package=package))
