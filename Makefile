@@ -43,7 +43,8 @@ dist:
 patch: clean
 	$(call banner, "build")
 	bump2version --no-tag patch
-	python setup.py sdist bdist_wheel
+	python setup.py sdist
+	python setup.py bdist_wheel
 	git push
 	# git push origin master --tags
 	twine check dist/*

@@ -53,8 +53,6 @@ AUTHOR_EMAIL = "laszewski@gmail.com"
 URL = "https://github.com/cloudmesh/cloudmesh-install"
 
 
-
-
 setup(
     name=NAME,
     author=AUTHOR,
