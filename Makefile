@@ -40,7 +40,10 @@ dist:
 	python setup.py sdist bdist_wheel
 	twine check dist/*
 
-patch: clean
+requirements_dev:
+	pip install -r  requirements-dev.txt
+
+patch: clean requirements_dev
 	$(call banner, "build")
 	bump2version --no-tag patch
 	python setup.py sdist
