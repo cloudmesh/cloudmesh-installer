@@ -185,10 +185,8 @@ repos = dict({
 pyenv_purge = [
     'rm ~/.pyenv/shims/cms',
     'pyenv deactivate',
-    'pyenv uninstall -f ENV3',
-    'pyenv virtualenv 3.7.2 ENV3',
-    'pyenv activate ENV3',
-    'pip install pip -U'
+    'pyenv uninstall -f {env}',
+    'pyenv virtualenv 3.7.2 {env}',
 ]
 
 def run(command):
@@ -203,9 +201,9 @@ def run(command):
 
     return output.decode('utf-8')
 
-def script(commands):
+def script(commands, environment):
     for command in commands:
-        result = run(command)
+        result = run(command.format(env=environment))
         print(result)
 
 
@@ -417,8 +415,14 @@ def main():
             result = Git.install(repos[bundle])
 
     elif arguments["pyenv"] and arguments["purge"]:
+        environment = arguments["ENV"]
+        script(pyenv_purge, environment)
+        print()
+        print("next you need to activate your pyenv, use the commands and update pip")
+        print()
 
-        script(pyenv_purge)
+        print(f"pyenv activate {environment}")
+        print("pip install pip -U")
 
 
 if __name__ == '__main__':
