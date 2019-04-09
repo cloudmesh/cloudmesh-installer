@@ -1,11 +1,10 @@
 """Usage:
-  cloudmesh-installer git key [LOCATION]
   cloudmesh-installer git [clone|pull|status] [BUNDLE]
   cloudmesh-installer install [BUNDLE] [-e]
   cloudmesh-installer local purge [DIR] [-f]
   cloudmesh-installer list
   cloudmesh-installer info
-  cloudmesh-installer pyenv purge ENV
+
 
 A convenient program called `cloudmesh-installer` to ownload and install cloudmesh
 from sources published in github.
@@ -13,7 +12,6 @@ from sources published in github.
 Arguments:
   BUNDLE      the bundle [default: cms]
   REPOS       list of git repos
-  ENV         the name of the pyenv
 
 Options:
   -h --help
@@ -70,7 +68,6 @@ import re
 import os
 from pathlib import Path
 import shutil
-import webbrowser
 
 repos = dict({
 
@@ -182,15 +179,6 @@ repos = dict({
 
 #git clone https://github.com/cloudmesh/get.git
 
-pyenv_purge = [
-    'rm ~/.pyenv/shims/cms',
-    'pyenv deactivate',
-    'pyenv uninstall -f ENV3',
-    'pyenv virtualenv 3.7.2 ENV3',
-    'pyenv activate ENV3',
-    'pip install pip -U'
-]
-
 def run(command):
     try:
         output = subprocess.check_output(command,
@@ -202,11 +190,6 @@ def run(command):
         sys.exit(1)
 
     return output.decode('utf-8')
-
-def script(commands):
-    for command in commands:
-        result = run(command)
-        print(result)
 
 
 class Git(object):
@@ -302,10 +285,6 @@ def main():
     bundle = arguments["BUNDLE"] = arguments.get("BUNDLE") or 'cms'
     arguments["DIR"] = \
         os.path.expandvars(os.path.expanduser(arguments.get("DIR") or '.'))
-    arguments["LOCATION"] = \
-        os.path.expandvars(os.path.expanduser(arguments.get("LOCATION") or '~/.ssh/id_rsa.pub'))
-
-    pprint(arguments)
 
     if arguments["purge"] and arguments["local"]:
         dryrun = not arguments['-f']
@@ -370,56 +349,23 @@ def main():
                 v = "!CANNOT FIND PYPI VERSION INFO"
             print("...Pypi Version ->", v)
 
+    elif arguments["git"]:
 
-    if arguments["status"] and arguments["git"]:
-        #repos = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
-        Git.status(repos[bundle])
+        if arguments["status"]:
+            #repos = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
+            Git.status(repos[bundle])
 
-    elif arguments["clone"]  and arguments["git"]:
-        result = Git.clone(repos[bundle])
+        elif arguments["clone"]:
+            result = Git.clone(repos[bundle])
 
-    elif arguments["pull"]  and arguments["git"]:
-        Git.pull(repos[bundle])
-
-    elif arguments["key"] and arguments["git"]:
-
-        try:
-            location = arguments["LOCATION"]
-            print ("Key location:", location)
-            if not location.endswith(".pub"):
-                print("ERROR: make sure you specify a public key")
-                sys.exit(1)
-            keyContents = open(location).read()
-            print()
-            print("Make sure you copy the content between the lines to github")
-            print(70 * "-")
-            print(keyContents.strip())
-            print(70 * "-")
-            print("Please copy the content now, so you can use it in the browser.")
-            print()
-            if yn_question("would you like to open a web page to github to upload the key (yes/n)? "):
-                webbrowser.open_new("https://github.com/settings/keys")
-                if yn_question("Is the key missing (yes/n)? "):
-                    print ("Paste the key in the next window and submit.")
-                    webbrowser.open_new("https://github.com/settings/ssh/new")
-
-        except:
-            print(" you must have a key and upload it to github.")
-            print ("To generate the key use ssh-keygen")
-            print ("To avoid typing in the password all the time, usee ssh-add")
-
-
+        elif arguments["pull"]:
+            Git.pull(repos[bundle])
 
     elif arguments["install"]:
         if arguments["-e"]:
             result = Git.install(repos[bundle], dev=True)
         else:
             result = Git.install(repos[bundle])
-
-    elif arguments["pyenv"] and arguments["purge"]:
-
-        script(pyenv_purge)
-
 
 if __name__ == '__main__':
     main()
