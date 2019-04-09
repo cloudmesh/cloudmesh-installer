@@ -183,7 +183,7 @@ repos = dict({
 #git clone https://github.com/cloudmesh/get.git
 
 pyenv_purge = [
-    'rm ~/.pyenv/shims/cms',
+    'rm -f ~/.pyenv/shims/cms',
     'pyenv deactivate',
     'pyenv uninstall -f {env}',
     'pyenv virtualenv 3.7.2 {env}',
