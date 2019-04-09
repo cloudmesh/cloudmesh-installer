@@ -202,6 +202,11 @@ def banner(txt):
     print("#", txt)
     print("#" * 70)
 
+def remove(location):
+    try:
+        shutil.rmtree(location)
+    except Exception as e:
+        print(e)
 
 
 def main():
@@ -217,16 +222,13 @@ def main():
 
         eggs = list(Path(arguments["DIR"]).glob("**/cloudmesh*egg*"))
 
-
         if dryrun:
             for egg in eggs:
                 print(egg)
         else:
             for egg in eggs:
-                try:
-                    shutil.rmtree(egg)
-                except Exception as e:
-                    print (e)
+                if yn_quiestion("WARNING: Do you want to delete this egg. You can not und!?")
+                    remove(egg)
 
     elif arguments["list"]:
         print("list")
