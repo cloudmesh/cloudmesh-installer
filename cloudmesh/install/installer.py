@@ -292,19 +292,18 @@ def main():
             print(line)
 
     elif arguments["info"]:
-        print("info")
+        #print("info")
         #packages = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
         packages = repos[bundle]
         for package in packages:
-            print ("\nVersion info for package <{package}>".format(
+            print ("\nVersion -> {package}".format(
                 package=package))
             try:
                 installed = run("pip freeze | grep {package}".format(
                 package=package)).strip()
             except:
                 installed = "!CANNOT FIND INSTALLED VERSION"
-            print ("\t---Installed---")
-            print(installed)
+            print("...Installed Version ->", installed)
             try:
                 v = requests.get("https://raw.githubusercontent.com/cloudmesh"
                              "/{package}/master/VERSION".format(
@@ -314,8 +313,7 @@ def main():
             finally:
                 if '404' in v:
                     v = "!CANNOT FIND GIT VERSION INFO"
-            print ("\t---In git---")
-            print (v)
+            print("...Github Version ->", v)
             try:
                 v = requests.get("https://pypi.org/project/{package}/".format(
                 package=package)).text
@@ -326,8 +324,7 @@ def main():
                 v = (groups.group(2)).strip().split(package)[1].strip()
             except:
                 v = "!CANNOT FIND PYPI VERSION INFO"
-            print ("\t---In pypi---")
-            print (v)
+            print("...Pypi Version ->", v)
 
     elif arguments["git"]:
 
