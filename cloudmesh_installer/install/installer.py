@@ -346,8 +346,16 @@ def remove(location):
     print("delete", location)
     try:
         shutil.rmtree(location)
+        print("removing:", location)
     except Exception as e:
+        print("Removing faild, tring file removal")
+    try:
+        os.remove(location)
+        print("removing:", location)
+    except Exception as e:
+        print("Removing faild, not shure what to do next")
         print(e)
+
 
 
 def main():
