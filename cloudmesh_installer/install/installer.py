@@ -353,7 +353,7 @@ def remove(location):
         os.remove(location)
         print("removing:", location)
     except Exception as e:
-        print("Removing faild, not shure what to do next")
+        print("Removing faild, not sure what to do next")
         print(e)
 
 
