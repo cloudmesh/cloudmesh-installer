@@ -229,6 +229,7 @@ pyenv_purge = [
 
 
 def run(command):
+    print(command)
     try:
         output = subprocess.check_output(command,
                                          shell=True,
@@ -251,7 +252,8 @@ class Git(object):
 
     @staticmethod
     def url(repo):
-        if repo in repos['community', 'spring19']:
+        global repos
+        if repo in repos['community'] or repo in repos['spring19']:
             return f"https://github.com/cloudmesh-community/{repo}"
         else:
             return f"https://github.com/cloudmesh/{repo}"
@@ -259,11 +261,13 @@ class Git(object):
     @staticmethod
     def clone(repos):
         for repo in repos:
-            print(f"clone -> {repo}")
-            if not os.path.isdir(repo):
+            print(f"clone -> {repo}", os.path.isdir(Path(f"./{repo}")))
+
+            if not os.path.isdir(Path(f"./{repo}")):
                 try:
                     location = Git.url(repo)
-                    r = run(f"git clone {location}.git")
+                    command = f"git clone {location}.git"
+                    r = run(command)
                     print(f"         {r}")
                 except Exception as e:
                     print(e)
