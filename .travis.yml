@@ -11,9 +11,9 @@ python:
 
 install:
   - pwd
-  - pip install --user -r requirements.txt
-  - pip install --user -r requirements-dev.txt
-  - pip install --user .
+  - pip install -r requirements.txt
+  - pip install -r requirements-dev.txt
+  - pip install .
   - ls
   - pwd
   - python --version
