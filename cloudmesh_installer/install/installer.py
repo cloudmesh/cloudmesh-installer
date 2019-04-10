@@ -238,24 +238,6 @@ pyenv_purge = [
 ]
 
 
-def run(command, cwd=None):
-    if cwd is None:
-        cwd = os.getcwd()
-    process = subprocess.Popen(shlex.split(command), cwd=cwd,
-                               stdout=subprocess.PIPE)
-    result = b''
-    while True:
-        output = process.stdout.read(1)
-        if output == b'' and process.poll() is not None:
-            break
-        if output:
-            result = result + output
-            sys.stdout.write(output.decode("utf-8"))
-            sys.stdout.flush()
-    rc = process.poll()
-    return output.decode("utf-8")
-
-"""
 def run(command):
     print(command)
     try:
@@ -268,7 +250,7 @@ def run(command):
         sys.exit(1)
 
     return output.decode('utf-8')
-"""
+
 
 def script(commands, environment):
     for command in commands:
@@ -326,10 +308,10 @@ class Git(object):
             print("install ->", repo)
             if dev:
                 os.chdir(repo)
-                print(run("pip install -e ."))
+                os.system("pip install -e .")
                 os.chdir("../")
             else:
-                print(run("pip install {repo}".format(repo=repo)))
+                os.system("pip install {repo}".format(repo=repo))
 
 
 # git clone https://github.com/cloudmesh/get.git
