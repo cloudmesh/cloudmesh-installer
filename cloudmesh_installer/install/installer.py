@@ -271,7 +271,7 @@ class Git(object):
     @staticmethod
     def clone(repos):
         for repo in repos:
-            print(f"clone -> {repo}", os.path.isdir(Path(f"./{repo}")))
+            print(f"clone -> {repo}")
 
             if not os.path.isdir(Path(f"./{repo}")):
                 try:
