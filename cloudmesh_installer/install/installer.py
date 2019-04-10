@@ -4,7 +4,7 @@ Usage:
   cloudmesh-installer git key [LOCATION]
   cloudmesh-installer git [clone|pull|status] [BUNDLE]
   cloudmesh-installer install [BUNDLE] [-e]
-  cloudmesh-installer list
+  cloudmesh-installer list [git [BUNDLE]]
   cloudmesh-installer info
   cloudmesh-installer local purge DIR [--force]
   cloudmesh-installer pyenv purge ENV [--force]
@@ -20,7 +20,7 @@ Arguments:
 
 Options:
   -h --help
-  --force   test
+  --force   force the execution of the command. This command could delete files.
 
 Description:
 
@@ -31,6 +31,11 @@ Description:
         Cloudmesh has a number of bundels. Bundels are simple a number of git
         repositories. You can list the bundels with the list command. and see
         their names in the top level.
+
+    cloudmesh-installer list git [BUNDLE]
+
+        Shows the location of the repositories in a bundle. if bundle is left
+        off all are printed.
 
     cloudmesh-installer info
 
@@ -104,10 +109,15 @@ import textwrap
 import webbrowser
 from pathlib import Path
 from pprint import pprint
+from tabulate import tabulate
 
 import oyaml as yaml
 import requests
 from docopt import docopt
+import colorama
+from colorama import Fore, Style
+
+debug = False
 
 repos = dict({
 
@@ -236,7 +246,7 @@ def run(command):
                                          stderr=subprocess.STDOUT,
                                          )
     except subprocess.CalledProcessError as err:
-        print('ERROR:', err)
+        print(Fore.red + f"ERROR: {err}")
         sys.exit(1)
 
     return output.decode('utf-8')
@@ -272,7 +282,7 @@ class Git(object):
                 except Exception as e:
                     print(e)
             else:
-                print("         ERROR: not downlaoded as repo already exists.")
+                print(Fore.RED + "         ERROR: not downlaoded as repo already exists.")
 
     @staticmethod
     def status(repos):
@@ -308,7 +318,7 @@ class Git(object):
 
 def yn_question(msg):
     while True:
-        query = input(msg)
+        query = input(Fore.RED + msg)
         answer = query.lower().strip()
         if query == '' or answer not in ['yes', 'n']:
             print('Please answer with yes/n!')
@@ -317,7 +327,7 @@ def yn_question(msg):
     return answer == 'yes'
 
 
-def banner(txt):
+def banner(txt, c=Fore.BLUE):
     """prints a banner of the form with a frame of # around the txt::
 
       ############################
@@ -327,9 +337,10 @@ def banner(txt):
     :param txt: a text message to be printed
     :type txt: string
     """
-    print("#" * 70)
-    print("#", txt)
-    print("#" * 70)
+    print(c + "#" * 70)
+    print(c + f"#{txt}")
+    print(c + "#" * 70)
+
 
 
 def remove(location):
@@ -349,9 +360,14 @@ def main():
         os.path.expandvars(os.path.expanduser(
             arguments.get("LOCATION") or '~/.ssh/id_rsa.pub'))
 
-    # banner("BEGIN ARGUMENTS")
-    # pprint(arguments)
-    # banner("END")
+    colorama.init(autoreset=True)
+
+    if debug:
+        banner("BEGIN ARGUMENTS")
+        pprint(arguments)
+        banner("END ARGUMENTS")
+
+    WARNING = "WARNNING WARNNING WARNNING WARNNING WARNNING"
 
     if arguments["purge"] and arguments["local"]:
         dryrun = not arguments['--force']
@@ -365,9 +381,9 @@ def main():
         else:
 
             print()
-            banner("WARNING WARNING WARNING WARNING WARNING WARNING WARNING ")
+            banner(WARNING, c=Fore.RED)
 
-            print(textwrap.dedent("""
+            print(textwrap.dedent(Fore.RED + """
                 Please notice that executing this command can do harm to your
                 instalation. If you delete files with this command it is on your
                 own risk. The deletion may have bad effects on your python
@@ -375,14 +391,24 @@ def main():
                 """))
             print()
             if not yn_question(
-                f"WARNING: Do you realy want to continue. This is DANGEROUS (yes/n)? "):
+                Fore.RED + f"WARNING: Do you realy want to continue. This is DANGEROUS (yes/n)? "):
                 sys.exit(1)
 
             for egg in eggs:
                 print()
                 if yn_question(
-                    f"WARNING: Do you want to delete the egg '{egg}' (yes/n)? "):
+                    Fore.RED + f"WARNING: Do you want to delete the egg '{egg}' (yes/n)? "):
                     remove(egg)
+
+
+    elif arguments["list"] and arguments["git"]:
+        print("list")
+        for bundle_name, bundle in repos.items():
+            banner(bundle_name)
+            for entry in bundle:
+                location = Git.url(entry)
+                print (f"{location}.git")
+
 
     elif arguments["list"]:
         print("list")
@@ -396,9 +422,9 @@ def main():
 
         executable = sys.executable
         if "pyenv" not in executable:
-            banner("WARNING WARNING WARNING WARNING WARNING")
+            banner(WARNING, c=Fore.RED)
             print()
-            print("You are likely not running pyenv, please remember that for "
+            print(Fore.RED + "You are likely not running pyenv, please remember that for "
                   "development purpuses we recommend you run in a virtual env. "
                   "Please consult with our handbook on how to set one up")
         print()
@@ -410,26 +436,41 @@ def main():
 
         # print("info")
         # packages = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
+
+        data = [["Package", "Git", "Pypi", "Installed"]]
         packages = repos[bundle]
+
         for package in packages:
+
+            undefined = Fore.RED + "not found" + Style.RESET_ALL
+            entry = [
+                package,
+                undefined, # "git":
+                undefined, # "PYPI"
+                undefined,  # "installed"
+            ]
             print("\nVersion -> {package}".format(
                 package=package))
-            try:
-                installed = run("pip freeze | grep {package}".format(
-                    package=package)).strip()
-            except:
-                installed = "!CANNOT FIND INSTALLED VERSION"
-            print("...Installed Version ->", installed)
+
+
+            #
+            # GIT
+            #
             try:
                 v = requests.get("https://raw.githubusercontent.com/cloudmesh"
                                  "/{package}/master/VERSION".format(
                     package=package)).text
+                entry[1] = v
             except:
                 v = "!CANNOT FIND GIT VERSION INFO"
             finally:
                 if '404' in v:
                     v = "!CANNOT FIND GIT VERSION INFO"
             print("...Github Version ->", v)
+
+            #
+            # PYPI
+            #
             try:
                 v = requests.get("https://pypi.org/project/{package}/".format(
                     package=package)).text
@@ -438,9 +479,30 @@ def main():
                 groups = re.match(pattern, v)
                 # print (groups)
                 v = (groups.group(2)).strip().split(package)[1].strip()
+                entry[2] = v
             except:
                 v = "!CANNOT FIND PYPI VERSION INFO"
             print("...Pypi Version ->", v)
+            data.append(entry)
+
+            #
+            # INSTALLED
+            #
+            try:
+                installed = run("pip freeze | grep {package}".format(
+                    package=package)).strip()
+                entry[3] = installed
+            except:
+                installed = "!CANNOT FIND INSTALLED VERSION"
+            print("...Installed Version ->", installed)
+
+
+        print (70 * "-")
+        print()
+        print(tabulate(data, headers="firstrow"))
+        print()
+
+
 
     if arguments["status"] and arguments["git"]:
         # repos = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
@@ -458,7 +520,7 @@ def main():
             location = arguments["LOCATION"]
             print("Key location:", location)
             if not location.endswith(".pub"):
-                print("ERROR: make sure you specify a public key")
+                print(Fore.RED + "ERROR: make sure you specify a public key")
                 sys.exit(1)
             key_contents = open(location).read()
             print()
@@ -491,9 +553,9 @@ def main():
         environment = arguments["ENV"]
 
         print()
-        banner("WARNING WARNING WARNING WARNING WARNING WARNING WARNING ")
+        banner(WARNING, c=Fore.RED)
 
-        print(textwrap.dedent("""
+        print(Fore.RED + textwrap.dedent("""
         Please notice that executing this command can do harm to your
         instalation. This command also does not work if you are not setting up
         the pyenv as we discussed in our handbook. YOu must make sure that your

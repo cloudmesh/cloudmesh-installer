@@ -1,3 +1,5 @@
 oyaml
 docopt
 requests
+colorama
+tabulate
