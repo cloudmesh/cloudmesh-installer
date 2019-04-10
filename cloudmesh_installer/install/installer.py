@@ -251,7 +251,7 @@ class Git(object):
 
     @staticmethod
     def url(repo):
-        if repo in repos['community']:
+        if repo in repos['community', 'spring19']:
             return f"https://github.com/cloudmesh-community/{repo}"
         else:
             return f"https://github.com/cloudmesh/{repo}"
