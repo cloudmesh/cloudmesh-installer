@@ -1,11 +1,13 @@
-"""Usage:
+"""cloudmesh-installer -- a helper to install cloudmesh from source for developers.
+
+Usage:
   cloudmesh-installer git key [LOCATION]
   cloudmesh-installer git [clone|pull|status] [BUNDLE]
   cloudmesh-installer install [BUNDLE] [-e]
   cloudmesh-installer list
   cloudmesh-installer info
-  cloudmesh-installer local purge [--force] DIR
-  cloudmesh-installer pyenv purge [--force] ENV
+  cloudmesh-installer local purge DIR [--force]
+  cloudmesh-installer pyenv purge ENV [--force]
 
 A convenient program called `cloudmesh-installer` to ownload and install cloudmesh
 from sources published in github.
@@ -16,13 +18,11 @@ Arguments:
   ENV         the name of the pyenv
   DIR         the directory form where to start the search
 
-
 Options:
   -h --help
-  --force    if used, will execute some commands that erase files
+  --force   test
 
 Description:
-
 
     cloudmesh-installer list
 
@@ -69,11 +69,11 @@ Description:
         This command should not be used in general. It is for the most
         experienced user and allows to identify eggs in your directory
         recursively. The --force option allows to delete the egg, but it may be a
-        better strategy to just list the egs without th --force and than delete the
+        better strategy to just list the egs without the --force and than delete the
         files you do not want.
 
         One test that you may want to do is to just call the command without the
-        --force option as to see possible eggs that you forgot and may need to be
+        force option as to see possible eggs that you forgot and may need to be
         deleted.
 
     cloudmesh-installer pyenv purge ENV [--force]
@@ -103,6 +103,7 @@ import sys
 import textwrap
 import webbrowser
 from pathlib import Path
+from pprint import pprint
 
 import oyaml as yaml
 import requests
@@ -344,7 +345,9 @@ def main():
         os.path.expandvars(os.path.expanduser(
             arguments.get("LOCATION") or '~/.ssh/id_rsa.pub'))
 
-    # pprint(arguments)
+    banner("BEGIN ARGUMENTS")
+    pprint(arguments)
+    banner("END")
 
     if arguments["purge"] and arguments["local"]:
         dryrun = not arguments['--force']
@@ -399,7 +402,7 @@ def main():
         print(executable)
         print()
         print (70 * '-')
-        print
+        print ()
 
         # print("info")
         # packages = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
