@@ -345,9 +345,9 @@ def main():
         os.path.expandvars(os.path.expanduser(
             arguments.get("LOCATION") or '~/.ssh/id_rsa.pub'))
 
-    banner("BEGIN ARGUMENTS")
-    pprint(arguments)
-    banner("END")
+    # banner("BEGIN ARGUMENTS")
+    # pprint(arguments)
+    # banner("END")
 
     if arguments["purge"] and arguments["local"]:
         dryrun = not arguments['--force']
