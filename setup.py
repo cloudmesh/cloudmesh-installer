@@ -99,6 +99,11 @@ setup(
     tests_require=[
         "flake8",
         "coverage",
+        "bump2version",
+        "wheel",
+        "twine",
+        "invoke",
+        "pytest"
     ],
     zip_safe=False,
     entry_points={
