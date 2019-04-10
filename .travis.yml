@@ -16,5 +16,6 @@ install:
   - pip install --user .
   - ls
   - pwd
+  - python --version
 
 script: pytest -v tests/test_installer.py
