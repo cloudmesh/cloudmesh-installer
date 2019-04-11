@@ -55,11 +55,24 @@ class Test_configdict:
         print(result)
         assert os.path.isdir("tmp/cloudmesh-cmd5/cloudmesh_cmd5.egg-info")
 
-    def test_cms(self):
+    def test_cms_help(self):
         cmd = "cms help"
         result = run(cmd)
         print(result)
         assert "quit" in result
+
+    def test_cms_info(self):
+        cmd = "cms info"
+        result = run(cmd)
+        print(result)
+        assert "cloudmesh.common" in result
+
+    def test_cms_verion(self):
+        cmd = "cms version"
+        result = run(cmd)
+        print(result)
+        assert "cloudmesh.common" in result
+
 
 
 class other:
