@@ -30,7 +30,7 @@ A dependency is not yet met. You may be able to fix it with
 In case it does not, please use the `cloudmesh-installer` approach wich is more
 or less the same, but with much more advanced features.
 
-## I folloed the one line installer but it did not work
+## I followed the one line installer but it still did not work
 
 There may be a dependency issue between older installs. You could try to uninstall 
 all cloudmesh packages including the eggs you find. the egs you can find with 
