@@ -5,11 +5,18 @@
 ###############################################################
 
 from __future__ import print_function
-from invoke import run
+import subprocess
 import shutil
 
 import os
 import pytest
+
+
+def run(command):
+    result = subprocess.check_output("wc --lines /var/log/syslog",
+                                     shell=True)
+    return result.decode("utf-8")
+
 
 @pytest.mark.incremental
 class Test_configdict:
@@ -27,40 +34,41 @@ class Test_configdict:
 
     def test_info(self):
         cmd = "cloudmesh-installer info"
-        result = run(cmd, hide=True, warn=True)
-        print ("status:", result.ok)
+        result = run(cmd)
+        print("status:", result.ok)
         print(result)
         assert result.ok
         assert "Package" in str(result)
 
     def test_non_existing(self):
         cmd = "cd tmp; cloudmesh-installer git clone WRONG"
-        result = run(cmd, hide=True, warn=True)
+        result = run(cmd)
         assert not result.ok
 
     def test_clone_community(self):
         cmd = "cd tmp; cloudmesh-installer git clone community"
-        result = run(cmd, hide=True, warn=True)
-        print ("status:", result.ok)
+        result = run(cmd)
+        print("status:", result.ok)
         print(result)
         assert result.ok
         assert os.path.isdir("tmp/cloudmesh-community.github.io")
 
     def test_clone_cms(self):
         cmd = "cd tmp; cloudmesh-installer git clone cms"
-        result = run(cmd, hide=True, warn=True)
-        print ("status:", result.ok)
+        result = run(cmd)
+        print("status:", result.ok)
         print(result)
         assert result.ok
         assert os.path.isdir("tmp/cloudmesh-cmd5")
 
     def test_clone_install(self):
         cmd = "cd tmp; cloudmesh-installer install cms -e"
-        result = run(cmd, hide=True, warn=True)
-        print ("status:", result.ok)
+        result = run(cmd)
+        print("status:", result.ok)
         print(result)
         assert result.ok
         assert os.path.isdir("tmp/cloudmesh-cmd5/cloudmesh_cmd5.egg-info")
+
 
 class other:
     def test_delete_dir(self):
