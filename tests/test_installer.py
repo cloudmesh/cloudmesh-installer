@@ -13,7 +13,7 @@ import pytest
 
 
 def run(command):
-    result = subprocess.check_output("wc --lines /var/log/syslog",
+    result = subprocess.check_output(command,
                                      shell=True)
     return result.decode("utf-8")
 
