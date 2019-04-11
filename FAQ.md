@@ -164,7 +164,7 @@ Follow the advice above if you need to repair. If you have a vanilla system you 
     
 start a new terminal if you installed it in pyenv
 
-   cms help vm
+    cms help vm
 
 ## I used anaconda
 
