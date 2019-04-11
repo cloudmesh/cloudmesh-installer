@@ -49,11 +49,17 @@ class Test_configdict:
         print(result)
         assert os.path.isdir("tmp/cloudmesh-cmd5")
 
-    def test_clone_install(self):
+    def test_install_cms(self):
         cmd = "cd tmp; cloudmesh-installer install cms -e"
         result = run(cmd)
         print(result)
         assert os.path.isdir("tmp/cloudmesh-cmd5/cloudmesh_cmd5.egg-info")
+
+    def test_cms(self):
+        cmd = "cms help"
+        result = run(cmd)
+        print(result)
+        assert "quit" in result
 
 
 class other:
