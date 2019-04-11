@@ -1,17 +1,5 @@
 # FAQ
 
-## I folloed the one line installer but it did not work
-
-There may be a dependency issue between older installs. You could try to uninstall 
-all cloudmesh packages including the eggs you find. the egs you can find with 
-
-    pip install cloudmesh-installer
-    cloudmesh-installer local purge ~
-    
-Just delete them and do the install via the cloudmesh-installer instead. However
-the curl install should work after you purge the old versions. If not, let us know.
-
-
 ## Haw to report an issue to us in piazza
 
 Assume you have an issue with the cloudmesh install. 
@@ -26,6 +14,20 @@ b) It is not sufficinent to just send the ASCII text, but you must
    
 The reason is that dependent on the answer we will ask you to simply restarts as 
 this is the easiest.
+
+## I folloed the one line installer but it did not work
+
+There may be a dependency issue between older installs. You could try to uninstall 
+all cloudmesh packages including the eggs you find. the egs you can find with 
+
+    pip install cloudmesh-installer
+    cloudmesh-installer local purge ~
+    
+Just delete them and do the install via the cloudmesh-installer instead. However
+the curl install should work after you purge the old versions. If not, let us know.
+
+See `Install on a bare machine`
+
 
 ## Install on a bare machine 
 
