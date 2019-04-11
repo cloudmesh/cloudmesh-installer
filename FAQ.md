@@ -149,12 +149,12 @@ can give instructions.
 
 ## Something is different and I can not figure it out
 
-Get in contact with Greor, he is not available THursday and Friday morning, but
-otherwise he is there if not in other meetings. We ran the instalation on
+Get in contact with Gregor, he is not available Thursday and Friday morning, but
+otherwise he is there if not in other meetings. We ran the installation on
 multiple students and TA's computers and if something does not work, please let
 us know. so we can help.
 
-## The anaconda cloud modules take a long tiem to install
+## TheAzure cloud modules take a long tiem to install
 
 Yes it takes up to five minutes, On older machines may be longer. 
 
