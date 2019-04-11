@@ -5,19 +5,11 @@
 ###############################################################
 
 from __future__ import print_function
-import subprocess
 import shutil
 
 import os
 import pytest
-
-
-def run(command):
-    #result = subprocess.check_output(command, shell=True)
-
-    result = subprocess.check_output(command)
-
-    return result.decode("utf-8")
+from cloudmesh_installer.test import readfile, run
 
 
 @pytest.mark.incremental
