@@ -15,6 +15,21 @@ b) It is not sufficinent to just send the ASCII text, but you must
 The reason is that dependent on the answer we will ask you to simply restarts as 
 this is the easiest.
 
+## I used the curl install and get an issue
+
+I get 
+
+    ModuleNotFoundError: No module named 'cloudmesh.management'
+    (ENV3) xxxx-MacBook-Pro:cm xxxx$ 
+ 
+A dependency is not yet met. You may be able to fix it with 
+
+    cd cloudmesh-cloud
+    pip install -e .
+    
+In case it does not, please use the `cloudmesh-installer` approach wich is more
+or less the same, but with much more advanced features.
+
 ## I folloed the one line installer but it did not work
 
 There may be a dependency issue between older installs. You could try to uninstall 
