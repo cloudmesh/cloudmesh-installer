@@ -13,8 +13,10 @@ import pytest
 
 
 def run(command):
-    result = subprocess.check_output(command,
-                                     shell=True)
+    #result = subprocess.check_output(command, shell=True)
+
+    result = subprocess.check_output(command)
+
     return result.decode("utf-8")
 
 
