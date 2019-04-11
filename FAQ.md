@@ -139,7 +139,32 @@ Now that it is uninstalled, you can follow the steps as outlined in
 
 the FAQ `Install on a bare machine`
 
+## I am working on virtual machines cloud package
 
+Follow the advice above if you need to repair. If you have a vanilla system you can say
+
+    mkdir cm
+    cd cm
+    pip install cloudmesh-installer
+    cloudmesh-installer git clone cloud
+    cloudmesh-installer install cloud -e
+    
+start a new terminal if you installed it in pyenv
+
+   cms help vm
+## I am working on virtual machines storage package
+
+Follow the advice above if you need to repair. If you have a vanilla system you can say
+
+    mkdir cm
+    cd cm
+    pip install cloudmesh-installer
+    cloudmesh-installer git clone storage
+    cloudmesh-installer install storage -e
+    
+start a new terminal if you installed it in pyenv
+
+   cms help vm
 
 ## I used anaconda
 
