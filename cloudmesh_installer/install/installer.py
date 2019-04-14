@@ -238,15 +238,17 @@ pyenv_purge = [
 ]
 
 
-def run(command):
-    print(command)
+def run(command, verbose=True):
+    if verbose:
+        print(command)
     try:
         output = subprocess.check_output(command,
                                          shell=True,
                                          stderr=subprocess.STDOUT,
                                          )
     except subprocess.CalledProcessError as err:
-        print(Fore.red + f"ERROR: {err}")
+        print()
+        print(Fore.RED + f"ERROR: {err}")
         sys.exit(1)
 
     return output.decode('utf-8')
@@ -285,22 +287,30 @@ class Git(object):
                 print(Fore.RED + "         ERROR: not downlaoded as repo already exists.")
 
     @staticmethod
-    def status(repos):
+    def command(repos, name, ok_msg="nothing to commit, working tree clean"):
         for repo in repos:
-            print("status ->", repo)
-            os.chdir(repo)
-            print(run("git status"))
+            print("status ->", f"{repo:25}", end=" ")
+
+            try:
+                os.chdir(repo)
+            except FileNotFoundError:
+                print(Fore.RED + "ERROR:", repo, "not found")
+
+            result = run(f"git {name}", verbose=False)
+            if ok_msg in result:
+                print(Fore.GREEN + f"... ok")
+            else:
+                print ()
+                print(Fore.RED + result)
             os.chdir("../")
 
-    # git clone https://github.com/cloudmesh/get.git
+    @staticmethod
+    def status(repos):
+        Git.command(repos, "status", ok_msg="nothing to commit, working tree clean")
 
     @staticmethod
     def pull(repos):
-        for repo in repos:
-            print("pull ->", repo)
-            os.chdir(repo)
-            print(run("git pull"))
-            os.chdir("../")
+        Git.command(repos, "pull", ok_msg="Already up to date.")
 
     @staticmethod
     def install(repos, dev=False):
@@ -492,6 +502,8 @@ def main():
                 v = "!CANNOT FIND PYPI VERSION INFO"
             print("...Pypi Version ->", v)
             data.append(entry)
+
+
 
             #
             # INSTALLED
