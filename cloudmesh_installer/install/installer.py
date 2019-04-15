@@ -134,6 +134,7 @@ repos = dict({
         'cloudmesh-sys',
         'cloudmesh-cloud',
         'cloudmesh-inventory'
+        'cloudmesh-azure'
     ],
 
     'storage': [
@@ -143,6 +144,7 @@ repos = dict({
         'cloudmesh-cloud',
         'cloudmesh-storage',
         'cloudmesh-inventory'
+        'cloudmesh-objstorage'
     ],
 
     'source': [
@@ -158,6 +160,8 @@ repos = dict({
         'cloudmesh-nn',
         'cloudmesh-nist',
         'cloudmesh-conda',
+        'cloudmesh-azure',
+        'cloudmesh-objstorage'
     ],
 
     'web': [
