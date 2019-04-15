@@ -1,4 +1,3 @@
-
 # Cloudmehs Installer 
 
 [![Version](https://img.shields.io/pypi/v/cloudmesh-installer.svg)](https://pypi.python.org/pypi/cloudmesh-installer)
@@ -7,7 +6,6 @@
 [![Format](https://img.shields.io/pypi/format/cloudmesh-installer.svg)](https://pypi.python.org/pypi/cloudmesh-installer)
 [![Status](https://img.shields.io/pypi/status/cloudmesh-installer.svg)](https://pypi.python.org/pypi/cloudmesh-installer)
 [![Travis](https://travis-ci.com/cloudmesh/cloudmesh-installer.svg?branch=master)](https://travis-ci.com/cloudmesh/cloudmesh-installer)
-
 
 This is an experimental installer that is most usefull during the development of
 cloudmesh components form source. Once cloudmehs is released, you can use the
@@ -21,13 +19,37 @@ $ pip install cloudmesh-installer
 
 ## Usage
 ```
+
+## Appendix
+
+```
+Timings
+
+pip install cloudmesh-installer
+real	0m4.558s
+
+
+time cloudmesh-installer install cms
+0m18.288s
+
+
+time cloudmesh-installer git clone storage
+real	0m4.926s
+
+time cloudmesh-installer install storage
+
+
+
+
+```
+
 cloudmesh-installer -- a helper to install cloudmesh from source for developers.
 
 Usage:
   cloudmesh-installer git key [LOCATION]
   cloudmesh-installer git [clone|pull|status] [BUNDLE]
   cloudmesh-installer install [BUNDLE] [-e]
-  cloudmesh-installer list
+  cloudmesh-installer list [git [BUNDLE]]
   cloudmesh-installer info
   cloudmesh-installer local purge DIR [--force]
   cloudmesh-installer pyenv purge ENV [--force]
@@ -43,7 +65,7 @@ Arguments:
 
 Options:
   -h --help
-  --force   test
+  --force   force the execution of the command. This command could delete files.
 
 Description:
 
@@ -54,6 +76,11 @@ Description:
         Cloudmesh has a number of bundels. Bundels are simple a number of git
         repositories. You can list the bundels with the list command. and see
         their names in the top level.
+
+    cloudmesh-installer list git [BUNDLE]
+
+        Shows the location of the repositories in a bundle. if bundle is left
+        off all are printed.
 
     cloudmesh-installer info
 
@@ -117,3 +144,27 @@ Description:
             cloudmesh-installer install storage -e
             cloudmesh-installer info
 ```
+
+## Appendix
+
+```
+Timings
+
+pip install cloudmesh-installer
+real	0m4.558s
+
+
+time cloudmesh-installer install cms
+0m18.288s
+
+
+time cloudmesh-installer git clone storage
+real	0m4.926s
+
+time cloudmesh-installer install storage
+
+
+
+
+```
+
