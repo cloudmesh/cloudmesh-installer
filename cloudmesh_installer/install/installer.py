@@ -133,7 +133,7 @@ repos = dict({
         'cloudmesh-cmd5',
         'cloudmesh-sys',
         'cloudmesh-cloud',
-        'cloudmesh-inventory'
+        'cloudmesh-inventory',
         'cloudmesh-azure'
     ],
 
@@ -143,7 +143,7 @@ repos = dict({
         'cloudmesh-sys',
         'cloudmesh-cloud',
         'cloudmesh-storage',
-        'cloudmesh-inventory'
+        'cloudmesh-inventory',
         'cloudmesh-objstorage'
     ],
 
