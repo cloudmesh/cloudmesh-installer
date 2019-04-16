@@ -120,6 +120,9 @@ from colorama import Fore, Style
 
 debug = False
 
+# 'cloudmesh-azure',
+# 'cloudmesh-aws'
+
 repos = dict({
 
     'cms': [
@@ -134,8 +137,14 @@ repos = dict({
         'cloudmesh-sys',
         'cloudmesh-cloud',
         'cloudmesh-inventory',
-        'cloudmesh-azure',
-        'cloudmesh-aws'
+    ],
+
+    'batch': [
+        'cloudmesh-common',
+        'cloudmesh-cmd5',
+        'cloudmesh-sys',
+        'cloudmesh-cloud',
+        'cloudmesh-inventory',
     ],
 
     'storage': [
@@ -147,7 +156,6 @@ repos = dict({
         'cloudmesh-inventory',
         'cloudmesh-objstorage',
         'cloudmesh-box',
-        'cloudmesh-aws'
     ],
 
     'source': [
