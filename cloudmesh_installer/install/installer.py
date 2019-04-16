@@ -5,9 +5,11 @@ Usage:
   cloudmesh-installer git [clone|pull|status] [BUNDLE]
   cloudmesh-installer install [BUNDLE] [-e]
   cloudmesh-installer list [git [BUNDLE]]
+  cloudmesh-installer version
   cloudmesh-installer info
   cloudmesh-installer local purge DIR [--force]
   cloudmesh-installer pyenv purge ENV [--force]
+
 
 A convenient program called `cloudmesh-installer` to ownload and install cloudmesh
 from sources published in github.
@@ -118,6 +120,7 @@ from docopt import docopt
 import colorama
 from colorama import Fore, Style
 
+from cloudmesh_installer.install.__version__ import version as insatller_version
 debug = False
 
 # 'cloudmesh-azure',
@@ -452,6 +455,10 @@ def main():
             if ":" in line:
                 print()
             print(line)
+
+    elif arguments["version"]:
+
+        print (insatller_version)
 
     elif arguments["info"]:
 
