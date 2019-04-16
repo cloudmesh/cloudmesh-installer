@@ -145,6 +145,7 @@ repos = dict({
         'cloudmesh-sys',
         'cloudmesh-cloud',
         'cloudmesh-inventory',
+        'cloudmesh-batch',
     ],
 
     'storage': [
