@@ -4,7 +4,9 @@ Usage:
   cloudmesh-installer git key [LOCATION]
   cloudmesh-installer git [clone|pull|status] [BUNDLE]
   cloudmesh-installer install [BUNDLE] [-e]
-  cloudmesh-installer list [git [BUNDLE]]
+  cloudmesh-installer list [BUNDLE] [--short]
+  cloudmesh-installer git list BUNDLE
+  cloudmesh-installer bundles
   cloudmesh-installer version
   cloudmesh-installer info
   cloudmesh-installer local purge DIR [--force]
@@ -26,18 +28,21 @@ Options:
 
 Description:
 
-    cloudmesh-installer list
-
-        Bundles
+    cloudmesh-installer bundles
 
         Cloudmesh has a number of bundels. Bundels are simple a number of git
         repositories. You can list the bundels with the list command. and see
         their names in the top level.
 
-    cloudmesh-installer list git [BUNDLE]
+        This command lists all available bundles
 
-        Shows the location of the repositories in a bundle. if bundle is left
-        off all are printed.
+    cloudmesh-installer list bundle
+
+        list sthe information about a particular bundle.
+
+    cloudmesh-installer git list [BUNDLE]
+
+        Shows the location of the repositories in a bundle.
 
     cloudmesh-installer info
 
@@ -372,7 +377,6 @@ def banner(txt, c=Fore.BLUE):
     print(c + "#" * 70)
 
 
-
 def remove(location):
     print("delete", location)
     try:
@@ -387,11 +391,24 @@ def remove(location):
         print("Removing faild, not sure what to do next")
         print(e)
 
+def gett_all_repos():
+    path = Path(".").resolve()
+    gits = list(path.glob("*/.git"))
+    names = []
+    for repo in gits:
+        names.append(os.path.basename(os.path.dirname(repo.resolve())))
+    return names
 
+def check_for_bundle(bundle):
+    if not ((bundle in repos)  or (bundle in ["cloudmesh", "all"])):
+        print(Fore.RED + f"ERROR: The `bundle` {bundle} does not exist" + Fore.RESET)
+        sys.exit(1)
 
 def main():
     arguments = docopt(__doc__)
     bundle = arguments["BUNDLE"] = arguments.get("BUNDLE") or 'cms'
+    check_for_bundle(bundle)
+
     arguments["DIR"] = \
         os.path.expandvars(os.path.expanduser(arguments.get("DIR") or '.'))
     arguments["LOCATION"] = \
@@ -406,6 +423,21 @@ def main():
         banner("END ARGUMENTS")
 
     WARNING = "WARNNING WARNNING WARNNING WARNNING WARNNING"
+
+
+    #
+    # FIND ALL GIT REPOS IN cwd
+    #
+    repos["all"] = gett_all_repos()
+
+    #
+    # FIND ALL GIT REPOS that start with cloudmes-
+    #
+    repos["cloudmesh"] = []
+    for repo in repos["all"]:
+        if repo.startswith("cloudmesh-"):
+            repos["cloudmesh"].append(repo)
+
 
     if arguments["purge"] and arguments["local"]:
         dryrun = not arguments['--force']
@@ -439,22 +471,30 @@ def main():
                     remove(egg)
 
 
+    elif arguments["bundles"]:
+
+        for bundle in repos:
+            print(Fore.BLUE + f"{bundle}:" + Fore.RESET)
+            elements = ' '.join(repos[bundle])
+            block = textwrap.fill(elements, 70, break_on_hyphens=False)
+
+            print(textwrap.indent(block, "        "))
+
     elif arguments["list"] and arguments["git"]:
-        print("list")
-        for bundle_name, bundle in repos.items():
-            banner(bundle_name)
-            for entry in bundle:
-                location = Git.url(entry)
-                print (f"{location}.git")
+        print (bundle)
+        banner(f" {bundle}")
+        for entry in repos[bundle]:
+            location = Git.url(entry)
+            print (f"{location}.git")
 
 
     elif arguments["list"]:
-        print("list")
-        lines = yaml.dump(repos, default_flow_style=False).split("\n")
-        for line in lines:
-            if ":" in line:
-                print()
-            print(line)
+        banner(f" {bundle}")
+
+        if not arguments["--short"]:
+            print('\n'.join(repos[bundle]))
+        else:
+            print (' '.join(repos[bundle]))
 
     elif arguments["version"]:
 
@@ -527,8 +567,6 @@ def main():
             print("...Pypi Version ->", v)
             data.append(entry)
 
-
-
             #
             # INSTALLED
             #
@@ -556,6 +594,7 @@ def main():
         result = Git.clone(repos[bundle])
 
     elif arguments["pull"] and arguments["git"]:
+
         Git.pull(repos[bundle])
 
     elif arguments["key"] and arguments["git"]:
