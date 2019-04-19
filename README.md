@@ -18,6 +18,7 @@ $ pip install cloudmesh-installer
 ```
 
 ## Usage
+```
 cloudmesh-installer -- a helper to install cloudmesh from source for developers.
 
 Usage:
@@ -125,6 +126,7 @@ Description:
             cloudmesh-installer git clone storage
             cloudmesh-installer install storage -e
             cloudmesh-installer info
+```
 ## Appendix
 
 Timings
