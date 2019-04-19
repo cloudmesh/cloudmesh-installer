@@ -187,7 +187,7 @@ repos = dict({
         'cloudmesh-azure',
         'cloudmesh-aws',
         'cloudmesh-box',
-        'cloudmesh-objstorage'
+        'cloudmesh-objstorage',
         'cloudmesh-manual'
     ],
 
