@@ -1,10 +1,10 @@
 # FAQ
 
-## Haw to report an issue to us in piazza
+## (Only for class students) How to report an issue to us in piazza
 
 Assume you have an issue with the cloudmesh install. 
 
-a) IT is not sufficient to send us a screenshot, send the ASCII text
+a) It is not sufficient to send us a screenshot, send the ASCII text
 b) It is not sufficinent to just send the ASCII text, but you must 
 
    1) mention the OS
