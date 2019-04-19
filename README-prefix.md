@@ -17,4 +17,8 @@ This command can be installed with
 $ pip install cloudmesh-installer
 ```
 
+an FAQ is available at
+
+* <https://github.com/cloudmesh/cloudmesh-installer/blob/master/FAQ.md>
+
 ## Usage
