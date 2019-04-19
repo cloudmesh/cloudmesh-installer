@@ -136,7 +136,8 @@ repos = dict({
     'cms': [
         'cloudmesh-common',
         'cloudmesh-cmd5',
-        'cloudmesh-sys'
+        'cloudmesh-sys',
+        'cloudmesh-manual'
     ],
 
     'cloud': [
@@ -145,6 +146,7 @@ repos = dict({
         'cloudmesh-sys',
         'cloudmesh-cloud',
         'cloudmesh-inventory',
+        'cloudmesh-manual'
     ],
 
     'batch': [
@@ -154,6 +156,7 @@ repos = dict({
         'cloudmesh-cloud',
         'cloudmesh-inventory',
         'cloudmesh-batch',
+        'cloudmesh-manual'
     ],
 
     'storage': [
@@ -165,6 +168,7 @@ repos = dict({
         'cloudmesh-inventory',
         'cloudmesh-objstorage',
         'cloudmesh-box',
+        'cloudmesh-manual'
     ],
 
     'source': [
@@ -184,12 +188,14 @@ repos = dict({
         'cloudmesh-aws',
         'cloudmesh-box',
         'cloudmesh-objstorage'
+        'cloudmesh-manual'
     ],
 
     'web': [
         'about',
         'get',
-        'cloudmesh-github.io'
+        'cloudmesh-github.io',
+        'cloudmesh-manual'
     ],
 
     'community': [
