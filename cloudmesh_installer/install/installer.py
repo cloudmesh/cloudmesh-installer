@@ -202,6 +202,10 @@ repos = dict({
         'cloudmesh-community.github.io'
     ],
 
+    'conda': [
+        'cloudmesh-conda'
+    ],
+
     'spring19': [
         'fa18-516-22',
         'fa18-516-26',
