@@ -49,10 +49,14 @@ Usage:
   cloudmesh-installer git key [LOCATION]
   cloudmesh-installer git [clone|pull|status] [BUNDLE]
   cloudmesh-installer install [BUNDLE] [-e]
-  cloudmesh-installer list [git [BUNDLE]]
+  cloudmesh-installer list [BUNDLE] [--short]
+  cloudmesh-installer git list BUNDLE
+  cloudmesh-installer bundles
+  cloudmesh-installer version
   cloudmesh-installer info
   cloudmesh-installer local purge DIR [--force]
   cloudmesh-installer pyenv purge ENV [--force]
+
 
 A convenient program called `cloudmesh-installer` to ownload and install cloudmesh
 from sources published in github.
@@ -69,18 +73,21 @@ Options:
 
 Description:
 
-    cloudmesh-installer list
-
-        Bundles
+    cloudmesh-installer bundles
 
         Cloudmesh has a number of bundels. Bundels are simple a number of git
         repositories. You can list the bundels with the list command. and see
         their names in the top level.
 
-    cloudmesh-installer list git [BUNDLE]
+        This command lists all available bundles
 
-        Shows the location of the repositories in a bundle. if bundle is left
-        off all are printed.
+    cloudmesh-installer list bundle
+
+        list sthe information about a particular bundle.
+
+    cloudmesh-installer git list [BUNDLE]
+
+        Shows the location of the repositories in a bundle.
 
     cloudmesh-installer info
 
