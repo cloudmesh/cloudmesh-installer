@@ -202,6 +202,10 @@ repos = dict({
         'cloudmesh-community.github.io'
     ],
 
+    'flow': [
+        'cloudmesh-flow'
+    ],
+
     'conda': [
         'cloudmesh-conda'
     ],
