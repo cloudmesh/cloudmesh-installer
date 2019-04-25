@@ -203,7 +203,13 @@ repos = dict({
     ],
 
     'flow': [
-        'cloudmesh-flow'
+        'cloudmesh-common',
+        'cloudmesh-cmd5',
+        'cloudmesh-sys',
+        'cloudmesh-cloud',
+        'cloudmesh-inventory',
+        'cloudmesh-flow',
+        'cloudmesh-manual'
     ],
 
     'conda': [
