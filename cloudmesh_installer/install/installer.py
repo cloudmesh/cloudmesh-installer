@@ -213,6 +213,16 @@ repos = dict({
         'cloudmesh-manual'
     ],
 
+    'emr': [
+        'cloudmesh-common',
+        'cloudmesh-cmd5',
+        'cloudmesh-sys',
+        'cloudmesh-cloud',
+        'cloudmesh-inventory',
+        'cloudmesh-emr',
+        'cloudmesh-manual'
+    ],
+
     'conda': [
         'cloudmesh-conda'
     ],
