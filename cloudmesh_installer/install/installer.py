@@ -512,12 +512,6 @@ def main():
         if force and name.startswith("ENV") and yn_question(f"Would you like reinstall the venv {name} (yes/n)? "):
             os.system(f"rm -rf  ~/{name}")
             os.system(f"python3 -m venv  ~/{name}")
-            # venv_dir = os.path.join(os.path.expanduser("~"), name)
-            # EnvBuilder().create(venv_dir)
-            # execfile(os.path.join(venv_dir, "bin", "activate"))
-
-            # pip.main(["install", "--prefix", venv_dir, "cloudmesh-installer"])
-
             os.system("source ~/ENV3/bin/activate; pip install -U pip ; pip install cloudmesh-installer")
 
             print()
