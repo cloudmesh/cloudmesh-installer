@@ -11,7 +11,7 @@ Usage:
   cloudmesh-installer info
   cloudmesh-installer local purge DIR [--force]
   cloudmesh-installer pyenv purge ENV [--force]
-  cloudmesh-installer venv install ENV [--force]
+  cloudmesh-installer venv purge ENV [--force]
 
 
 
@@ -126,6 +126,9 @@ import requests
 from docopt import docopt
 import colorama
 from colorama import Fore, Style
+from venv import EnvBuilder
+import pip
+import os
 
 from cloudmesh_installer.install.__version__ import version as insatller_version
 debug = False
@@ -390,6 +393,7 @@ def yn_question(msg):
             print('Please answer with yes/n!')
         else:
             break
+    print(Fore.RESET)
     return answer == 'yes'
 
 
@@ -501,7 +505,7 @@ def main():
                     Fore.RED + f"WARNING: Do you want to delete the egg '{egg}' (yes/n)? "):
                     remove(egg)
 
-    elif arguments["venv"] and arguments["install"]:
+    elif arguments["venv"] and arguments["purge"]:
 
         pprint (arguments)
         name = arguments["ENV"]
@@ -509,6 +513,19 @@ def main():
         if force and name.startswith("ENV") and yn_question("Would you like reinstall the venv {name} (yes/n)? "):
             os.system(f"rm -rf  ~/{name}")
             os.system(f"python3 -m venv  ~/{name}")
+            # venv_dir = os.path.join(os.path.expanduser("~"), name)
+            # EnvBuilder().create(venv_dir)
+            # execfile(os.path.join(venv_dir, "bin", "activate"))
+
+            # pip.main(["install", "--prefix", venv_dir, "cloudmesh-installer"])
+
+            os.system("source ~/ENV3/bin/activate; pip install -U pip ; pip install cloudmesh-installer")
+
+            print()
+            print ("You can add the following to your .bashrc or .bash_profile")
+            print ()
+            print ("    source ~/ENV3/bin/activate")
+            print ()
 
     elif arguments["bundles"]:
 
