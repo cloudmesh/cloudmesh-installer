@@ -507,7 +507,6 @@ def main():
 
     elif arguments["venv"] and arguments["purge"]:
 
-        pprint (arguments)
         name = arguments["ENV"]
         force = arguments["--force"]
         if force and name.startswith("ENV") and yn_question("Would you like reinstall the venv {name} (yes/n)? "):
