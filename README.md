@@ -118,7 +118,7 @@ Description:
         THIS IS A DANGEROUS COMMAND AND YOU SHOULD PROBABLY NOT USE IT
 
         THis command removes the specified virtual envireonment and reinstalls
-        it with python 3.7.2. It will erase it entirely, thus make sure you know
+        it with python 3.7.3. It will erase it entirely, thus make sure you know
         what this command does. YOu will have to reinstall all packages.
 
     Example:

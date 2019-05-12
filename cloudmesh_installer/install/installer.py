@@ -11,6 +11,8 @@ Usage:
   cloudmesh-installer info
   cloudmesh-installer local purge DIR [--force]
   cloudmesh-installer pyenv purge ENV [--force]
+  cloudmesh-installer venv install ENV [--force]
+
 
 
 A convenient program called `cloudmesh-installer` to ownload and install cloudmesh
@@ -93,7 +95,7 @@ Description:
         THIS IS A DANGEROUS COMMAND AND YOU SHOULD PROBABLY NOT USE IT
 
         THis command removes the specified virtual envireonment and reinstalls
-        it with python 3.7.2. It will erase it entirely, thus make sure you know
+        it with python 3.7.3. It will erase it entirely, thus make sure you know
         what this command does. YOu will have to reinstall all packages.
 
     Example:
@@ -286,7 +288,7 @@ pyenv_purge = [
     'rm -f ~/.pyenv/shims/cms',
     'pyenv deactivate',
     'pyenv uninstall -f {env}',
-    'pyenv virtualenv 3.7.2 {env}',
+    'pyenv virtualenv 3.7.3 {env}',
     'pyenv activate {env}',
     "pip install pip -U"
 ]
@@ -499,6 +501,14 @@ def main():
                     Fore.RED + f"WARNING: Do you want to delete the egg '{egg}' (yes/n)? "):
                     remove(egg)
 
+    elif arguments["venv"] and arguments["install"]:
+
+        pprint (arguments)
+        name = arguments["ENV"]
+        force = arguments["--force"]
+        if force and name.startswith("ENV") and yn_question("Would you like reinstall the venv {name} (yes/n)? "):
+            os.system(f"rm -rf  ~/{name}")
+            os.system(f"python3 -m venv  ~/{name}")
 
     elif arguments["bundles"]:
 
@@ -704,6 +714,7 @@ def main():
                 os.system(command)
             print(70 * '-')
             print()
+
 
 
 if __name__ == '__main__':
