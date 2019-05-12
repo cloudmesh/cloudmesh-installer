@@ -509,7 +509,7 @@ def main():
 
         name = arguments["ENV"]
         force = arguments["--force"]
-        if force and name.startswith("ENV") and yn_question("Would you like reinstall the venv {name} (yes/n)? "):
+        if force and name.startswith("ENV") and yn_question(f"Would you like reinstall the venv {name} (yes/n)? "):
             os.system(f"rm -rf  ~/{name}")
             os.system(f"python3 -m venv  ~/{name}")
             # venv_dir = os.path.join(os.path.expanduser("~"), name)
