@@ -15,8 +15,8 @@ Usage:
 
 
 
-A convenient program called `cloudmesh-installer` to ownload and install cloudmesh
-from sources published in github.
+A convenient program called `cloudmesh-installer` to download and install
+cloudmesh from sources published in github.
 
 Arguments:
   BUNDLE      the bundle [default: cms]
@@ -32,7 +32,7 @@ Description:
 
     cloudmesh-installer bundles
 
-        Cloudmesh has a number of bundels. Bundels are simple a number of git
+        Cloudmesh has a number of bundles. Bundles are simple a number of git
         repositories. You can list the bundels with the list command. and see
         their names in the top level.
 
@@ -59,7 +59,7 @@ Description:
         This command only works if you use ssh keys to authenticate with github.
         This command makes uploading the key easy as it checks for your key and
         provides via the web browser automatic pageloads to github for the
-        keyupload. YOu do not have tou use this command. It is intenden for
+        key upload. You do not have tou use this command. It is intenden for
         novice users.
 
     cloudmesh-installer git [clone|pull|status] [BUNDLE]
@@ -94,7 +94,7 @@ Description:
 
         THIS IS A DANGEROUS COMMAND AND YOU SHOULD PROBABLY NOT USE IT
 
-        THis command removes the specified virtual envireonment and reinstalls
+        THis command removes the specified virtual environment and re-installs
         it with python 3.7.3. It will erase it entirely, thus make sure you know
         what this command does. YOu will have to reinstall all packages.
 
@@ -343,7 +343,8 @@ class Git(object):
                 except Exception as e:
                     print(e)
             else:
-                print(Fore.RED + "         ERROR: not downlaoded as repo already exists.")
+                print(Fore.RED + "         ERROR: not downloaded as repo "
+                                 "already exists.")
 
     @staticmethod
     def command(repos, name, ok_msg="nothing to commit, working tree clean"):
@@ -418,15 +419,15 @@ def remove(location):
         shutil.rmtree(location)
         print("removing:", location)
     except Exception as e:
-        print("Removing faild, tring file removal")
+        print("Removing failed, file removal")
     try:
         os.remove(location)
         print("removing:", location)
     except Exception as e:
-        print("Removing faild, not sure what to do next")
+        print("Removing failed, not sure what to do next")
         print(e)
 
-def gett_all_repos():
+def get_all_repos():
     path = Path(".").resolve()
     gits = list(path.glob("*/.git"))
     names = []
@@ -457,16 +458,16 @@ def main():
         pprint(arguments)
         banner("END ARGUMENTS")
 
-    WARNING = "WARNNING WARNNING WARNNING WARNNING WARNNING"
+    WARNING = "WARNING WARNING WARNING WARNING WARNING"
 
 
     #
     # FIND ALL GIT REPOS IN cwd
     #
-    repos["all"] = gett_all_repos()
+    repos["all"] = get_all_repos()
 
     #
-    # FIND ALL GIT REPOS that start with cloudmes-
+    # FIND ALL GIT REPOS that start with cloudmesh
     #
     repos["cloudmesh"] = []
     for repo in repos["all"]:
@@ -490,13 +491,13 @@ def main():
 
             print(textwrap.dedent(Fore.RED + """
                 Please notice that executing this command can do harm to your
-                instalation. If you delete files with this command it is on your
+                installation. If you delete files with this command it is on your
                 own risk. The deletion may have bad effects on your python
                 environment. So please only use it if you know what it effects.
                 """))
             print()
             if not yn_question(
-                Fore.RED + f"WARNING: Do you realy want to continue. This is DANGEROUS (yes/n)? "):
+                Fore.RED + f"WARNING: Do you really want to continue. This is DANGEROUS (yes/n)? "):
                 sys.exit(1)
 
             for egg in eggs:
@@ -556,7 +557,7 @@ def main():
             banner(WARNING, c=Fore.RED)
             print()
             print(Fore.RED + "You are likely not running pyenv, please remember that for "
-                  "development purpuses we recommend you run in a virtual env. "
+                  "development purposes we recommend you run in a virtual env. "
                   "Please consult with our handbook on how to set one up")
         print()
         print ("We found your executable in:")
@@ -673,7 +674,7 @@ def main():
         except:
             print(" you must have a key and upload it to github.")
             print("To generate the key use ssh-keygen")
-            print("To avoid typing in the password all the time, usee ssh-add")
+            print("To avoid typing in the password all the time, use ssh-add")
 
     elif arguments["install"]:
         if arguments["-e"]:
@@ -689,14 +690,14 @@ def main():
 
         print(Fore.RED + textwrap.dedent("""
         Please notice that executing this command can do harm to your
-        instalation. This command also does not work if you are not setting up
+        installation. This command also does not work if you are not setting up
         the pyenv as we discussed in our handbook. YOu must make sure that your
         .bashrc or .bash_profile files are properly configured for pyenv
         
         If you use venv please do not use this command.
         
         If you do not use pyenv or do not know what it is, you for sure do not
-        want to executethis command.
+        want to execute this command.
         
         """))
         print()
@@ -712,9 +713,9 @@ def main():
         if arguments["--force"] and \
             yn_question("Would you like us to execute them (yes/n)? ") and \
             yn_question(
-                "Last warning, do you realy want to do it (yes/n)? ") and \
+                "Last warning, do you really want to do it (yes/n)? ") and \
             yn_question(
-                "Now the real last warning, do you realy want to do it (yes/n)? "):
+                "Now the real last warning, do you really want to do it (yes/n)? "):
 
             print(70 * '-')
             for line in pyenv_purge:
