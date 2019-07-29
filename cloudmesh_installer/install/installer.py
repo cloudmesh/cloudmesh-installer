@@ -1,9 +1,9 @@
 """cloudmesh-installer -- a helper to install cloudmesh from source for developers.
 
 Usage:
-  cloudmesh-installer git key [LOCATION]
-  cloudmesh-installer git [clone|pull|status] [BUNDLE]
-  cloudmesh-installer install [BUNDLE] [-e]
+  cloudmesh-installer git key [LOCATION] [--benchmark]
+  cloudmesh-installer git [clone|pull|status] [BUNDLE] [--benchmark]
+  cloudmesh-installer install [BUNDLE] [-e] [--benchmark]
   cloudmesh-installer list [BUNDLE] [--short]
   cloudmesh-installer git list BUNDLE
   cloudmesh-installer bundles
@@ -130,8 +130,11 @@ from venv import EnvBuilder
 import pip
 import os
 
+from cloudmesh.common.StopWatch import StopWatch
+
 from cloudmesh_installer.install.__version__ import version as insatller_version
 debug = False
+benchmark = False
 
 # 'cloudmesh-azure',
 # 'cloudmesh-aws'
@@ -298,13 +301,16 @@ pyenv_purge = [
 
 
 def run(command, verbose=True):
+    global benchmark
     if verbose:
         print(command)
     try:
+        StopWatch.start(command)
         output = subprocess.check_output(command,
                                          shell=True,
                                          stderr=subprocess.STDOUT,
                                          )
+        StopWatch.stop(command)
     except subprocess.CalledProcessError as err:
         print()
         print(Fore.RED + f"ERROR: {err}")
@@ -375,6 +381,7 @@ class Git(object):
     @staticmethod
     def install(repos, dev=False):
         for repo in repos:
+            StopWatch.start("install " + repo)
             print("install ->", repo)
             if dev:
                 os.chdir(repo)
@@ -382,6 +389,7 @@ class Git(object):
                 os.chdir("../")
             else:
                 os.system("pip install {repo}".format(repo=repo))
+            StopWatch.stop("install " + repo)
 
 
 # git clone https://github.com/cloudmesh/get.git
@@ -441,8 +449,10 @@ def check_for_bundle(bundle):
         sys.exit(1)
 
 def main():
+
     arguments = docopt(__doc__)
     bundle = arguments["BUNDLE"] = arguments.get("BUNDLE") or 'cms'
+    benchmark = arguments["--benchmark"]
     check_for_bundle(bundle)
 
     arguments["DIR"] = \
@@ -639,13 +649,21 @@ def main():
     if arguments["status"] and arguments["git"]:
         # repos = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
         Git.status(repos[bundle])
+        if benchmark:
+            StopWatch.benchmark(sysinfo=True)
 
     elif arguments["clone"] and arguments["git"]:
         result = Git.clone(repos[bundle])
+        if benchmark:
+            StopWatch.benchmark(sysinfo=True)
+
 
     elif arguments["pull"] and arguments["git"]:
 
         Git.pull(repos[bundle])
+        if benchmark:
+            StopWatch.benchmark(sysinfo=True)
+
 
     elif arguments["key"] and arguments["git"]:
 
@@ -681,6 +699,9 @@ def main():
             result = Git.install(repos[bundle], dev=True)
         else:
             result = Git.install(repos[bundle])
+        if benchmark:
+            StopWatch.benchmark(sysinfo=True)
+
 
     elif arguments["pyenv"] and arguments["purge"]:
         environment = arguments["ENV"]
