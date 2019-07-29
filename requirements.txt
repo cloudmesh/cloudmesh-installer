@@ -3,4 +3,4 @@ docopt
 requests
 colorama
 tabulate
-cloudmesh-common
+# cloudmesh-common

@@ -38,8 +38,9 @@ docopt
 requests
 colorama
 tabulate
-cloudmesh-common
 """.split("\n")
+
+# cloudmesh-common
 
 # dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
 
