@@ -130,9 +130,10 @@ from venv import EnvBuilder
 import pip
 import os
 
-from cloudmesh.common.StopWatch import StopWatch
+# from cloudmesh.common.StopWatch import StopWatch
 
 from cloudmesh_installer.install.__version__ import version as insatller_version
+
 debug = False
 benchmark = False
 
@@ -305,12 +306,12 @@ def run(command, verbose=True):
     if verbose:
         print(command)
     try:
-        StopWatch.start(command)
+        # StopWatch.start(command)
         output = subprocess.check_output(command,
                                          shell=True,
                                          stderr=subprocess.STDOUT,
                                          )
-        StopWatch.stop(command)
+        # StopWatch.stop(command)
     except subprocess.CalledProcessError as err:
         print()
         print(Fore.RED + f"ERROR: {err}")
@@ -381,7 +382,7 @@ class Git(object):
     @staticmethod
     def install(repos, dev=False):
         for repo in repos:
-            StopWatch.start("install " + repo)
+            # StopWatch.start("install " + repo)
             print("install ->", repo)
             if dev:
                 os.chdir(repo)
@@ -389,7 +390,7 @@ class Git(object):
                 os.chdir("../")
             else:
                 os.system("pip install {repo}".format(repo=repo))
-            StopWatch.stop("install " + repo)
+            # StopWatch.stop("install " + repo)
 
 
 # git clone https://github.com/cloudmesh/get.git
@@ -649,20 +650,20 @@ def main():
     if arguments["status"] and arguments["git"]:
         # repos = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
         Git.status(repos[bundle])
-        if benchmark:
-            StopWatch.benchmark(sysinfo=True)
+        #if benchmark:
+        #    StopWatch.benchmark(sysinfo=True)
 
     elif arguments["clone"] and arguments["git"]:
         result = Git.clone(repos[bundle])
-        if benchmark:
-            StopWatch.benchmark(sysinfo=True)
+        #if benchmark:
+        #    StopWatch.benchmark(sysinfo=True)
 
 
     elif arguments["pull"] and arguments["git"]:
 
         Git.pull(repos[bundle])
-        if benchmark:
-            StopWatch.benchmark(sysinfo=True)
+        #if benchmark:
+        #    StopWatch.benchmark(sysinfo=True)
 
 
     elif arguments["key"] and arguments["git"]:
@@ -699,8 +700,8 @@ def main():
             result = Git.install(repos[bundle], dev=True)
         else:
             result = Git.install(repos[bundle])
-        if benchmark:
-            StopWatch.benchmark(sysinfo=True)
+        #if benchmark:
+        #    StopWatch.benchmark(sysinfo=True)
 
 
     elif arguments["pyenv"] and arguments["purge"]:
