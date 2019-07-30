@@ -13,7 +13,7 @@ from cloudmesh_installer.install.test import readfile, run
 
 
 @pytest.mark.incremental
-class Test_configdict:
+class Test_installer:
 
     def test_create_dir(self):
         path = "tmp"
