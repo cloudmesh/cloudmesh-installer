@@ -48,7 +48,7 @@ See `Install on a bare machine`
 
 We assume that may or may not have pyenv installed. We prefer you to use pyenv
 
-Place your cloudmesh4.yaml file in ~/.cloudmesh/cloudmesh4.yaml
+Place your cloudmesh.yaml file in ~/.cloudmesh/cloudmesh.yaml
     
     mkdir cm
     cd cm
