@@ -3,4 +3,5 @@ docopt
 requests
 colorama
 tabulate
+python-hostlist
 # cloudmesh-common

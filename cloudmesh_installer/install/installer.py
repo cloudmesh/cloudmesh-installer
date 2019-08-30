@@ -120,6 +120,7 @@ from pathlib import Path
 from pprint import pprint
 from tabulate import tabulate
 import shlex
+import hostlist
 
 import oyaml as yaml
 import requests
@@ -241,6 +242,8 @@ repos = dict({
         'cloudmesh-conda'
     ],
 
+    'fall2019': hostlist.expand_hostlist("fa19-516-[140-158]"),
+
     'spring19': [
         'fa18-516-22',
         'fa18-516-26',
@@ -338,7 +341,9 @@ class Git(object):
     @staticmethod
     def url(repo):
         global repos
-        if repo in repos['community'] or repo in repos['spring19']:
+        if repo in repos['community'] or \
+            repo in repos['spring19'] or \
+            repo in repos['fall2019']:
             return f"https://github.com/cloudmesh-community/{repo}"
         else:
             return f"https://github.com/cloudmesh/{repo}"

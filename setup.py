@@ -38,6 +38,7 @@ docopt
 requests
 colorama
 tabulate
+python-hostlist
 """.split("\n")
 
 # cloudmesh-common
