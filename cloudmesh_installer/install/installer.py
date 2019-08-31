@@ -242,7 +242,7 @@ repos = dict({
         'cloudmesh-conda'
     ],
 
-    'fall2019': hostlist.expand_hostlist("fa19-516-[140-158]"),
+    '516': hostlist.expand_hostlist("fa19-516-[140-169]"),
 
     'spring19': [
         'fa18-516-22',
@@ -343,7 +343,7 @@ class Git(object):
         global repos
         if repo in repos['community'] or \
             repo in repos['spring19'] or \
-            repo in repos['fall2019']:
+            repo in repos['516']:
             return f"https://github.com/cloudmesh-community/{repo}"
         else:
             return f"https://github.com/cloudmesh/{repo}"
