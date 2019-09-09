@@ -161,6 +161,17 @@ repos = dict({
         'cloudmesh-manual'
     ],
 
+    'iu': [
+        'cloudmesh-common',
+        'cloudmesh-cmd5',
+        'cloudmesh-sys',
+        'cloudmesh-configuration',
+        'cloudmesh-cloud',
+        'cloudmesh-inventory',
+        'cloudmesh-manual',
+        'cloudmesh-iu'
+    ],
+
     'batch': [
         'cloudmesh-common',
         'cloudmesh-cmd5',
@@ -242,7 +253,7 @@ repos = dict({
         'cloudmesh-conda'
     ],
 
-    '516': hostlist.expand_hostlist("fa19-516-[140-170]"),
+    '516': hostlist.expand_hostlist("fa19-516-[140-171]"),
 
     '523': hostlist.expand_hostlist("fa19-523-[180-196,198-212]"),
 
