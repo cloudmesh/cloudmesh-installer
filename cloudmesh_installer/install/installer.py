@@ -553,7 +553,7 @@ def main():
             os.system("source ~/ENV3/bin/activate; pip install -U pip ; pip install cloudmesh-installer")
 
             print()
-            print ("You can add the following to your .bashrc or .bash_profile")
+            print ("You can add the following to your .bashrc or .bash_profile" or ".zprofile")
             print ()
             print ("    source ~/ENV3/bin/activate")
             print ()
@@ -739,8 +739,9 @@ def main():
         print(Fore.RED + textwrap.dedent("""
         Please notice that executing this command can do harm to your
         installation. This command also does not work if you are not setting up
-        the pyenv as we discussed in our handbook. YOu must make sure that your
-        .bashrc or .bash_profile files are properly configured for pyenv
+        the pyenv as we discussed in our handbook. You must make sure that your
+        .bashrc or .bash_profile or .zprofile files are properly configured 
+        for pyenv
         
         If you use venv please do not use this command.
         
