@@ -489,7 +489,7 @@ def main():
         # packages = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
 
         bundle = arguments["BUNDLE"] or "cms"
-        
+
         data = [["Package", "Git", "Pypi", "Installed"]]
         packages = repos[bundle]
 
