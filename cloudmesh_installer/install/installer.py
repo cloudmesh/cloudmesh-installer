@@ -6,7 +6,7 @@ Usage:
   cloudmesh-installer install [BUNDLE] [--venv=ENV | -e] [--benchmark]
   cloudmesh-installer list [BUNDLE] [--short | --git]
   cloudmesh-installer version
-  cloudmesh-installer info [--verbose]
+  cloudmesh-installer info [BUNDLE] [--verbose]
   cloudmesh-installer clean --dir=DIR [--force]
   cloudmesh-installer clean --venv=ENV [--force]
 
@@ -488,6 +488,8 @@ def main():
         # print("info")
         # packages = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
 
+        bundle = arguments["BUNDLE"] or "cms"
+        
         data = [["Package", "Git", "Pypi", "Installed"]]
         packages = repos[bundle]
 
