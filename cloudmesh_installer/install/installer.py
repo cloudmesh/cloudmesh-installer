@@ -3,15 +3,12 @@
 Usage:
   cloudmesh-installer git key [LOCATION] [--benchmark]
   cloudmesh-installer git [clone|pull|status] [BUNDLE] [--benchmark]
-  cloudmesh-installer install [BUNDLE] [-e] [--benchmark]
-  cloudmesh-installer list [BUNDLE] [--short]
-  cloudmesh-installer git list BUNDLE
-  cloudmesh-installer bundles
+  cloudmesh-installer install [BUNDLE] [--venv=ENV | -e] [--benchmark]
+  cloudmesh-installer list [BUNDLE] [--short | --git]
   cloudmesh-installer version
-  cloudmesh-installer info
-  cloudmesh-installer local purge DIR [--force]
-  cloudmesh-installer pyenv purge ENV [--force]
-  cloudmesh-installer venv purge ENV [--force]
+  cloudmesh-installer info [--verbose]
+  cloudmesh-installer clean --dir=DIR [--force]
+  cloudmesh-installer clean --venv=ENV [--force]
 
 
 
@@ -21,7 +18,7 @@ cloudmesh from sources published in github.
 Arguments:
   BUNDLE      the bundle [default: cms]
   REPOS       list of git repos
-  ENV         the name of the pyenv
+  ENV         the name of the venv
   DIR         the directory form where to start the search
 
 Options:
@@ -30,7 +27,7 @@ Options:
 
 Description:
 
-    cloudmesh-installer bundles
+    cloudmesh-installer list
 
         Cloudmesh has a number of bundles. Bundles are simple a number of git
         repositories. You can list the bundels with the list command. and see
@@ -40,9 +37,9 @@ Description:
 
     cloudmesh-installer list bundle
 
-        list sthe information about a particular bundle.
+        lists the information about a particular bundle.
 
-    cloudmesh-installer git list [BUNDLE]
+    cloudmesh-installer list [BUNDLE] --git
 
         Shows the location of the repositories in a bundle.
 
@@ -52,7 +49,7 @@ Description:
         numbers of cloudmesh on your system, github, and pypi. THis helps
         identifying if you may run an odlder version.
 
-        In addition we try to check if you do use pyenv
+        In addition we try to check if you do use venv
 
     cloudmesh-installer git key [LOCATION]
 
@@ -75,37 +72,22 @@ Description:
         This command is very useful to list the version of the installed
         package, the version n git, and the version on pypi
 
-    cloudmesh-installer local purge [DIR] [--force]
+    cloudmesh-installer clean --dir=. --force
 
-        THIS IS A DANGEROUS COMMAND AND YOU SHOULD PROBABLY NOT USE IT
+       removes the egs in the current directory tree
 
+    cloudmesh-installer clean --venv=ENV --force
 
-        This command should not be used in general. It is for the most
-        experienced user and allows to identify eggs in your directory
-        recursively. The --force option allows to delete the egg, but it may be a
-        better strategy to just list the egs without the --force and than delete the
-        files you do not want.
+        removes the venv in ~/ENV
 
-        One test that you may want to do is to just call the command without the
-        force option as to see possible eggs that you forgot and may need to be
-        deleted.
-
-    cloudmesh-installer pyenv purge ENV [--force]
-
-        THIS IS A DANGEROUS COMMAND AND YOU SHOULD PROBABLY NOT USE IT
-
-        THis command removes the specified virtual environment and re-installs
-        it with python 3.7.3. It will erase it entirely, thus make sure you know
-        what this command does. YOu will have to reinstall all packages.
-
-    Example:
+    Examples:
 
         let us assume you like to work on storage, than you need to do the following
 
             mkdir cm
             cd cm
             cloudmesh-installer git clone storage
-            cloudmesh-installer install storage -e
+            cloudmesh-installer install storage
             cloudmesh-installer info
 
 """
@@ -130,8 +112,9 @@ from colorama import Fore, Style
 from venv import EnvBuilder
 import pip
 import os
+from cloudmesh_installer.install.util import banner
 
-# from cloudmesh.common.StopWatch import StopWatch
+from cloudmesh_installer.install.StopWatch import StopWatch
 
 from cloudmesh_installer.install.__version__ import version as insatller_version
 
@@ -141,79 +124,65 @@ benchmark = False
 # 'cloudmesh-azure',
 # 'cloudmesh-aws'
 
+cms = [
+    'cloudmesh-common',
+    'cloudmesh-cmd5',
+    'cloudmesh-sys',
+    'cloudmesh-configuration',
+    'cloudmesh-manual'
+]
+
+cloud = cms + [
+    'cloudmesh-cloud',
+    'cloudmesh-inventory',
+]
+
 repos = dict({
 
-    'cms': [
-        'cloudmesh-common',
-        'cloudmesh-cmd5',
-        'cloudmesh-sys',
-        'cloudmesh-configuration',
-        'cloudmesh-manual'
-    ],
+    'cms': cms,
 
-    'cloud': [
-        'cloudmesh-common',
-        'cloudmesh-cmd5',
-        'cloudmesh-sys',
-        'cloudmesh-configuration',
-        'cloudmesh-cloud',
-        'cloudmesh-inventory',
-        'cloudmesh-manual'
-    ],
+    'cloud': cloud,
 
-    'iu': [
-        'cloudmesh-common',
-        'cloudmesh-cmd5',
-        'cloudmesh-sys',
-        'cloudmesh-configuration',
-        'cloudmesh-cloud',
-        'cloudmesh-inventory',
-        'cloudmesh-manual',
+    'iu': cloud + [
         'cloudmesh-iu'
     ],
 
-    'batch': [
-        'cloudmesh-common',
-        'cloudmesh-cmd5',
-        'cloudmesh-sys',
-        'cloudmesh-configuration',
-        'cloudmesh-cloud',
-        'cloudmesh-inventory',
+    'batch': cloud + [
         'cloudmesh-batch',
-        'cloudmesh-manual'
     ],
 
-    'storage': [
-        'cloudmesh-common',
-        'cloudmesh-cmd5',
-        'cloudmesh-sys',
-        'cloudmesh-configuration',
-        'cloudmesh-cloud',
+    'storage': cloud + [
         'cloudmesh-storage',
-        'cloudmesh-inventory',
         'cloudmesh-box',
-        'cloudmesh-manual'
     ],
 
-    'source': [
-        'cloudmesh-common',
-        'cloudmesh-cmd5',
-        'cloudmesh-sys',
-        'cloudmesh-configuration',
-        'cloudmesh-cloud',
-        'cloudmesh-storage',
-        'cloudmesh-inventory',
-        'cloudmesh-emr',
-        'cloudmesh-comet',
-        'cloudmesh-openapi',
-        'cloudmesh-nn',
-        'cloudmesh-nist',
-        'cloudmesh-conda',
-        'cloudmesh-azure',
+    'source': cloud + [
+        'cloudmesh-analytics',
         'cloudmesh-aws',
+        'cloudmesh-azure',
+        'cloudmesh-bar',
+        'cloudmesh-batch',
         'cloudmesh-box',
+        'cloudmesh-cmsd',
+        'cloudmesh-comet',
+        'cloudmesh-conda',
+        'cloudmesh-docker',
+        'cloudmesh-emr',
+        'cloudmesh-flow',
+        'cloudmesh-flow2',
+        'cloudmesh-git',
+        'cloudmesh-google',
+        'cloudmesh-gui',
+        'cloudmesh-iu',
+        'cloudmesh-nist',
+        'cloudmesh-nn',
+        'cloudmesh-notebooks',
+        'cloudmesh-openapi',
+        'cloudmesh-oracle',
         'cloudmesh-redshift',
-        'cloudmesh-manual'
+        'cloudmesh-stopwatch',
+        'cloudmesh-storage',
+        'cloudmesh-workflow',
     ],
 
     'web': [
@@ -227,26 +196,12 @@ repos = dict({
         'cloudmesh-community.github.io'
     ],
 
-    'flow': [
-        'cloudmesh-common',
-        'cloudmesh-cmd5',
-        'cloudmesh-sys',
-        'cloudmesh-configuration',
-        'cloudmesh-cloud',
-        'cloudmesh-inventory',
+    'flow': cloud + [
         'cloudmesh-flow',
-        'cloudmesh-manual'
     ],
 
-    'emr': [
-        'cloudmesh-common',
-        'cloudmesh-cmd5',
-        'cloudmesh-sys',
-        'cloudmesh-configuration',
-        'cloudmesh-cloud',
-        'cloudmesh-inventory',
+    'emr': cloud + [
         'cloudmesh-emr',
-        'cloudmesh-manual'
     ],
 
     'conda': [
@@ -258,70 +213,24 @@ repos = dict({
     '523': hostlist.expand_hostlist("fa19-523-[180-196,198-212]"),
 
     'spring19': [
-        'fa18-516-22',
-        'fa18-516-26',
-        'fa18-516-29',
-        'hid-sample',
-        'hid-sp18-407',
-        'hid-sp18-512',
-        'hid-sp18-519',
-        'hid-sp18-520',
-        'hid-sp18-522',
-        'hid-sp18-523',
-        'hid-sp18-602',
-        'hid-sp18-701',
-        'hid-sp18-704',
-        'hid-sp18-709',
-        'hid-sp18-710',
-        'sp19-222-100',
-        'sp19-222-101',
-        'sp19-222-102',
-        'sp19-222-89',
-        'sp19-222-90',
-        'sp19-222-91',
-        'sp19-222-92',
-        'sp19-222-93',
-        'sp19-222-94',
-        'sp19-222-96',
-        'sp19-222-97',
-        'sp19-222-98',
-        'sp19-222-99',
-        'sp19-516-121',
-        'sp19-516-122',
-        'sp19-516-123',
-        'sp19-516-124',
-        'sp19-516-125',
-        'sp19-516-127',
-        'sp19-516-128',
-        'sp19-516-129',
-        'sp19-516-130',
-        'sp19-516-131',
-        'sp19-516-132',
-        'sp19-516-133',
-        'sp19-516-134',
-        'sp19-516-135',
-        'sp19-516-136',
-        'sp19-516-137',
-        'sp19-516-138',
-        'sp19-516-139',
-        'sp19-616-111',
-        'sp19-616-112'
-    ]
+                    'hid-sample',
+                    'hid-sp18-407',
+                    'hid-sp18-512',
+                    'hid-sp18-519',
+                    'hid-sp18-520',
+                    'hid-sp18-522',
+                    'hid-sp18-523',
+                    'hid-sp18-602',
+                    'hid-sp18-701',
+                    'hid-sp18-704',
+                    'hid-sp18-709',
+                    'hid-sp18-710',
+                    'sp19-616-111',
+                    'sp19-616-112'
+                ] + hostlist.expand_hostlist(
+        "sp19-516-[22,26,29,121-125,127-139]")
+                + hostlist.expand_hostlist("sp19-222-[89-94,96-102]")
 })
-
-# git clone git@github.com:cloudmesh-community/$f.git
-
-
-# git clone https://github.com/cloudmesh/get.git
-
-pyenv_purge = [
-    'rm -f ~/.pyenv/shims/cms',
-    'pyenv deactivate',
-    'pyenv uninstall -f {env}',
-    'pyenv virtualenv 3.7.3 {env}',
-    'pyenv activate {env}',
-    "pip install pip -U"
-]
 
 
 def run(command, verbose=True):
@@ -329,15 +238,16 @@ def run(command, verbose=True):
     if verbose:
         print(command)
     try:
-        # StopWatch.start(command)
+        StopWatch.start(command)
         output = subprocess.check_output(command,
                                          shell=True,
                                          stderr=subprocess.STDOUT,
                                          )
-        # StopWatch.stop(command)
+        StopWatch.stop(command)
     except subprocess.CalledProcessError as err:
-        print()
-        print(Fore.RED + f"ERROR: {err}")
+        if verbose:
+            print()
+            print(Fore.RED + f"ERROR: {err}")
         sys.exit(1)
 
     return output.decode('utf-8')
@@ -393,13 +303,14 @@ class Git(object):
             if ok_msg in result:
                 print(Fore.GREEN + f"... ok")
             else:
-                print ()
+                print()
                 print(Fore.RED + result)
             os.chdir("../")
 
     @staticmethod
     def status(repos):
-        Git.command(repos, "status", ok_msg="nothing to commit, working tree clean")
+        Git.command(repos, "status",
+                    ok_msg="nothing to commit, working tree clean")
 
     @staticmethod
     def pull(repos):
@@ -408,7 +319,7 @@ class Git(object):
     @staticmethod
     def install(repos, dev=False):
         for repo in repos:
-            # StopWatch.start("install " + repo)
+            StopWatch.start("install " + repo)
             print("install ->", repo)
             if dev:
                 os.chdir(repo)
@@ -416,7 +327,7 @@ class Git(object):
                 os.chdir("../")
             else:
                 os.system("pip install {repo}".format(repo=repo))
-            # StopWatch.stop("install " + repo)
+            StopWatch.stop("install " + repo)
 
 
 # git clone https://github.com/cloudmesh/get.git
@@ -433,19 +344,18 @@ def yn_question(msg):
     return answer == 'yes'
 
 
-def banner(txt, c=Fore.BLUE):
-    """prints a banner of the form with a frame of # around the txt::
+def RED(msg):
+    print(Fore.RED + msg + Fore.RESET)
 
-      ############################
-      # txt
-      ############################
 
-    :param txt: a text message to be printed
-    :type txt: string
-    """
-    print(c + "#" * 70)
-    print(c + f"#{txt}")
-    print(c + "#" * 70)
+def ERROR(msg):
+    RED("ERROR: " + msg)
+
+
+def WARNING(msg):
+    RED("WARNING: " + msg)
+
+
 
 
 def remove(location):
@@ -462,6 +372,7 @@ def remove(location):
         print("Removing failed, not sure what to do next")
         print(e)
 
+
 def get_all_repos():
     path = Path(".").resolve()
     gits = list(path.glob("*/.git"))
@@ -470,17 +381,35 @@ def get_all_repos():
         names.append(os.path.basename(os.path.dirname(repo.resolve())))
     return names
 
+
 def check_for_bundle(bundle):
-    if not ((bundle in repos)  or (bundle in ["cloudmesh", "all"])):
-        print(Fore.RED + f"ERROR: The `bundle` {bundle} does not exist" + Fore.RESET)
+    if bundle is None:
+        ERROR(f"No  bundle specified.")
+        sys.exit(1)
+    elif not ((bundle in repos) or (bundle in ["cloudmesh", "all"])):
+        ERROR(f"The bundle `{bundle}` does not exist")
         sys.exit(1)
 
-def main():
+def bundle_list(repos):
+    names = []
+    for bundle in repos:
+        names.append(f'"{bundle}"')
+    result = "[" + ", ".join(names) + "]"
+    return result
 
+def bundle_elements(bundle):
+    block = Fore.BLUE + f"\n{bundle}:\n" + Fore.RESET
+    elements = ' '.join(repos[bundle])
+    block = block + \
+        textwrap.indent(
+            textwrap.fill(elements , 70, break_on_hyphens=False),"    ")
+    return block
+
+def main():
     arguments = docopt(__doc__)
-    bundle = arguments["BUNDLE"] = arguments.get("BUNDLE") or 'cms'
+
+    bundle = arguments["BUNDLE"]
     benchmark = arguments["--benchmark"]
-    check_for_bundle(bundle)
 
     arguments["DIR"] = \
         os.path.expandvars(os.path.expanduser(arguments.get("DIR") or '.'))
@@ -497,7 +426,6 @@ def main():
 
     WARNING = "WARNING WARNING WARNING WARNING WARNING"
 
-
     #
     # FIND ALL GIT REPOS IN cwd
     #
@@ -511,97 +439,51 @@ def main():
         if repo.startswith("cloudmesh-"):
             repos["cloudmesh"].append(repo)
 
+    if arguments["version"]:
 
-    if arguments["purge"] and arguments["local"]:
-        dryrun = not arguments['--force']
+        print(insatller_version)
 
-        eggs = list(Path(arguments["DIR"]).glob("**/cloudmesh*egg*"))
+    elif arguments["list"] and not arguments["BUNDLE"] and not arguments["--git"]:
 
-        if dryrun:
-            banner("Dryrun purge")
-            for egg in eggs:
-                print(f" found -> {egg}")
+        if not arguments["--short"]:
+            banner("Cloudmesh Bundles")
+            block = ""
+            for bundle in repos:
+                block = block + bundle_elements(bundle)
+
+            print(block)
         else:
+            print(bundle_list(repos))
 
-            print()
-            banner(WARNING, c=Fore.RED)
 
-            print(textwrap.dedent(Fore.RED + """
-                Please notice that executing this command can do harm to your
-                installation. If you delete files with this command it is on your
-                own risk. The deletion may have bad effects on your python
-                environment. So please only use it if you know what it effects.
-                """))
-            print()
-            if not yn_question(
-                Fore.RED + f"WARNING: Do you really want to continue. This is DANGEROUS (yes/n)? "):
-                sys.exit(1)
-
-            for egg in eggs:
-                print()
-                if yn_question(
-                    Fore.RED + f"WARNING: Do you want to delete the egg '{egg}' (yes/n)? "):
-                    remove(egg)
-
-    elif arguments["venv"] and arguments["purge"]:
-
-        name = arguments["ENV"]
-        force = arguments["--force"]
-        if force and name.startswith("ENV") and yn_question(f"Would you like reinstall the venv {name} (yes/n)? "):
-            os.system(f"rm -rf  ~/{name}")
-            os.system(f"python3 -m venv  ~/{name}")
-            os.system("source ~/ENV3/bin/activate; pip install -U pip ; pip install cloudmesh-installer")
-
-            print()
-            print ("You can add the following to your .bashrc or .bash_profile" or ".zprofile")
-            print ()
-            print ("    source ~/ENV3/bin/activate")
-            print ()
-
-    elif arguments["bundles"]:
-
-        for bundle in repos:
-            print(Fore.BLUE + f"{bundle}:" + Fore.RESET)
-            elements = ' '.join(repos[bundle])
-            block = textwrap.fill(elements, 70, break_on_hyphens=False)
-
-            print(textwrap.indent(block, "        "))
-
-    elif arguments["list"] and arguments["git"]:
-        print (bundle)
+    elif arguments["list"] and arguments["--git"]:
+        check_for_bundle(bundle)
+        print(bundle)
         banner(f" {bundle}")
         for entry in repos[bundle]:
             location = Git.url(entry)
-            print (f"{location}.git")
+            print(f"{location}.git")
 
-
-    elif arguments["list"]:
-        banner(f" {bundle}")
-
-        if not arguments["--short"]:
-            print('\n'.join(repos[bundle]))
-        else:
-            print (' '.join(repos[bundle]))
-
-    elif arguments["version"]:
-
-        print (insatller_version)
 
     elif arguments["info"]:
 
+        verbose = arguments["--verbose"]
+        native = hasattr(sys, 'real_prefix')
         executable = sys.executable
-        if "pyenv" not in executable:
+        if native:
             banner(WARNING, c=Fore.RED)
             print()
-            print(Fore.RED + "You are likely not running pyenv, please remember that for "
-                  "development purposes we recommend you run in a virtual env. "
-                  "Please consult with our handbook on how to set one up")
+            RED("You are likely not running in a venv. "
+                "Please remember that for "
+                "development purposes we recommend you run in a venv. "
+                "Please consult with our handbook on how to set one up")
+
         print()
-        print ("We found your executable in:")
+        print("We found python in:")
         print(executable)
         print()
-        print (70 * '-')
-        print ()
+        print(70 * '-')
+        print()
 
         # print("info")
         # packages = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
@@ -614,13 +496,12 @@ def main():
             undefined = Fore.RED + "not found" + Style.RESET_ALL
             entry = [
                 package,
-                undefined, # "git":
-                undefined, # "PYPI"
+                undefined,  # "git":
+                undefined,  # "PYPI"
                 undefined,  # "installed"
             ]
-            print("\nVersion -> {package}".format(
-                package=package))
-
+            if verbose:
+                print(f"\nVersion -> {package}")
 
             #
             # GIT
@@ -631,11 +512,12 @@ def main():
                     package=package)).text
                 entry[1] = v
             except:
-                v = "!CANNOT FIND GIT VERSION INFO"
+                v = "ERROR: can not find git version"
             finally:
                 if '404' in v:
-                    v = "!CANNOT FIND GIT VERSION INFO"
-            print("...Github Version ->", v)
+                    v = "ERROR: can not find git version"
+            if verbose:
+                print("... Github Version ->", v)
 
             #
             # PYPI
@@ -650,45 +532,48 @@ def main():
                 v = (groups.group(2)).strip().split(package)[1].strip()
                 entry[2] = v
             except:
-                v = "!CANNOT FIND PYPI VERSION INFO"
-            print("...Pypi Version ->", v)
+                v = "ERROR: can not find pypi version"
             data.append(entry)
+            if verbose:
+                print("... Pypi Version ->", v)
 
             #
             # INSTALLED
             #
             try:
-                installed = run("pip freeze | grep {package}".format(
-                    package=package)).strip()
+                installed = run(f"pip freeze | grep {package}",
+                                verbose=False).strip()
                 entry[3] = installed
             except:
-                installed = "!CANNOT FIND INSTALLED VERSION"
-            print("...Installed Version ->", installed)
+                installed = "ERROR: can not find installed version"
+            if verbose:
+                print("... Installed Version ->", installed)
 
+        if verbose:
+            print(70 * "-")
+            print()
 
-        print (70 * "-")
-        print()
         print(tabulate(data, headers="firstrow"))
         print()
 
-
-
-    if arguments["status"] and arguments["git"]:
+    elif arguments["status"] and arguments["git"]:
+        check_for_bundle(bundle)
         # repos = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
         Git.status(repos[bundle])
-        #if benchmark:
+        # if benchmark:
         #    StopWatch.benchmark(sysinfo=True)
 
     elif arguments["clone"] and arguments["git"]:
+        check_for_bundle(bundle)
         result = Git.clone(repos[bundle])
-        #if benchmark:
+        # if benchmark:
         #    StopWatch.benchmark(sysinfo=True)
 
 
     elif arguments["pull"] and arguments["git"]:
-
+        check_for_bundle(bundle)
         Git.pull(repos[bundle])
-        #if benchmark:
+        # if benchmark:
         #    StopWatch.benchmark(sysinfo=True)
 
 
@@ -698,7 +583,7 @@ def main():
             location = arguments["LOCATION"]
             print("Key location:", location)
             if not location.endswith(".pub"):
-                print(Fore.RED + "ERROR: make sure you specify a public key")
+                ERROR("make sure you specify a public key")
                 sys.exit(1)
             key_contents = open(location).read()
             print()
@@ -722,59 +607,108 @@ def main():
             print("To avoid typing in the password all the time, use ssh-add")
 
     elif arguments["install"]:
-        if arguments["-e"]:
-            result = Git.install(repos[bundle], dev=True)
-        else:
+        banner(f"Installing bundle {bundle}")
+        print ('\n'.join(repos[bundle]))
+        print()
+        if arguments["--venv"]:
             result = Git.install(repos[bundle])
-        #if benchmark:
-        #    StopWatch.benchmark(sysinfo=True)
+        else:
+            result = Git.install(repos[bundle], dev=True)
+
+        StopWatch.benchmark(sysinfo=True)
 
 
-    elif arguments["pyenv"] and arguments["purge"]:
-        environment = arguments["ENV"]
+    elif arguments["--venv"] and arguments["clean"]:
+        environment = arguments["--venv"]
 
         print()
         banner(WARNING, c=Fore.RED)
 
-        print(Fore.RED + textwrap.dedent("""
-        Please notice that executing this command can do harm to your
-        installation. This command also does not work if you are not setting up
-        the pyenv as we discussed in our handbook. You must make sure that your
-        .bashrc or .bash_profile or .zprofile files are properly configured 
-        for pyenv
-        
-        If you use venv please do not use this command.
-        
-        If you do not use pyenv or do not know what it is, you for sure do not
-        want to execute this command.
-        
-        """))
-        print()
-        print(
-            "next you need to activate your pyenv, use the following commands")
+        RED(textwrap.dedent("""
+            Please notice that executing this command can do harm to your
+            installation. 
+            
+            Make sure that you also check your 
+            .bashrc, .bash_profile or .zprofile files as appropriately to remove 
+            aliasses or path variables pointing to your venv."""))
+
         print()
 
         print(70 * '-')
-        for line in pyenv_purge:
-            print(line.format(env=environment))
+        banner(f"Removing {environment}")
         print(70 * '-')
         print()
+
+        commands = [f'rm -rf "~/{environment}"']
+        print("\n".join(commands))
+        print()
+
         if arguments["--force"] and \
-            yn_question("Would you like us to execute them (yes/n)? ") and \
-            yn_question(
-                "Last warning, do you really want to do it (yes/n)? ") and \
-            yn_question(
-                "Now the real last warning, do you really want to do it (yes/n)? "):
+            yn_question("Would you like us to execute them (yes/n)? "):
 
             print(70 * '-')
-            for line in pyenv_purge:
-                command = line.format(env=environment)
+            for command in commands:
                 print("Executing:", command)
                 print()
                 os.system(command)
             print(70 * '-')
             print()
 
+    elif arguments["clean"] and arguments["--dir"]:
+        dryrun = not arguments['--force']
+
+        directory = arguments["--dir"]
+
+        eggs = list(Path(directory).glob("**/cloudmesh*egg*"))
+
+        if dryrun:
+            banner("Dryrun directory clean")
+            for egg in eggs:
+                print(f" found -> {egg}")
+        else:
+
+            print()
+            banner(WARNING, c=Fore.RED)
+
+            RED(textwrap.dedent("""
+                Please notice that executing this command can do harm to your
+                installation. If you delete files with this command it is on your
+                own risk. The deletion may have bad effects on your python
+                environment. So please only use it if you know what it effects.
+                """))
+            print()
+
+            for egg in eggs:
+                print(f" found -> {egg}")
+            print()
+
+            if not yn_question(
+                Fore.RED + f"WARNING: Removing listed files. Do you really want to continue. yes/n)? "):
+                sys.exit(1)
+
+            for egg in eggs:
+                remove(egg)
+
+    elif arguments["venv"] and arguments["purge"]:
+
+        is_venv = sys.hasattr(sys, 'real_prefix')
+        python_path = sys.executable
+
+        name = arguments["ENV"]
+        force = arguments["--force"]
+        if force and name.startswith("ENV") and yn_question(
+            f"Would you like reinstall the venv {name} (yes/n)? "):
+            os.system(f"rm -rf  ~/{name}")
+            os.system(f"python3 -m venv  ~/{name}")
+            os.system(
+                "source ~/ENV3/bin/activate; pip install -U pip ; pip install cloudmesh-installer")
+
+            print()
+            print(
+                "You can add the following to your .bashrc or .bash_profile" or ".zprofile")
+            print()
+            print("    source ~/ENV3/bin/activate")
+            print()
 
 
 if __name__ == '__main__':

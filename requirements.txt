@@ -4,4 +4,6 @@ requests
 colorama
 tabulate
 python-hostlist
+psutil
+humanize
 # cloudmesh-common

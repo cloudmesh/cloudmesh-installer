@@ -39,6 +39,8 @@ requests
 colorama
 tabulate
 python-hostlist
+psutil
+humanize
 """.split("\n")
 
 # cloudmesh-common
