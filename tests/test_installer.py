@@ -9,7 +9,7 @@ import shutil
 
 import os
 import pytest
-from cloudmesh_installer.install.test import readfile, run
+from cloudmesh_installer.install.util import readfile, run
 
 
 @pytest.mark.incremental
@@ -32,7 +32,7 @@ class Test_installer:
         cmd = "cloudmesh-installer info"
         result = run(cmd)
         print(result)
-        assert "Package" in str(result)
+        assert "We found python in" in str(result)
 
     def test_non_existing(self):
         print("PWD:", os.getcwd())
