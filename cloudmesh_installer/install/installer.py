@@ -143,6 +143,10 @@ repos = dict({
 
     'cloud': cloud,
 
+    'cmsd': 'cloudmesh-cmsd',
+
+    'docker': 'cloudmesh-cmsd',
+
     'iu': cloud + [
         'cloudmesh-iu'
     ],
