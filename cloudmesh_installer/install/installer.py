@@ -164,6 +164,10 @@ repos = dict({
         'cloudmesh-box',
     ],
 
+    'analytics': cms + [
+        'cloudmesh-analytics'
+    ],
+
     'source': cloud + [
         'cloudmesh-analytics',
         'cloudmesh-aws',
