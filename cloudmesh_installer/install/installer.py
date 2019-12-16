@@ -174,6 +174,10 @@ repos = dict({
         'cloudmesh-google',
     ],
 
+    'frugal': cloud + [
+        'cloudmesh-frugal',
+    ],
+
     'analytics': cms + [
         'cloudmesh-analytics'
     ],
