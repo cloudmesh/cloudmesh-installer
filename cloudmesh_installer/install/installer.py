@@ -164,6 +164,11 @@ repos = dict({
         'cloudmesh-box',
     ],
 
+    'google': cloud + [
+        'cloudmesh-storage',
+        'cloudmesh-google',
+    ],
+
     'analytics': cms + [
         'cloudmesh-analytics'
     ],
@@ -195,6 +200,10 @@ repos = dict({
         'cloudmesh-stopwatch',
         'cloudmesh-storage',
         'cloudmesh-workflow',
+        'cloudmesh-storagelifecycle',
+        'cloudmesh-oracle',
+        'cloudmesh-frugal',
+        'cloudmesh-analytics'
     ],
 
     'web': [
