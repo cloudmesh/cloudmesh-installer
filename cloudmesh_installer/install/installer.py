@@ -134,7 +134,7 @@ cms = [
 
 cloud = cms + [
     'cloudmesh-cloud',
-    'cloudmesh-openstack'
+    'cloudmesh-openstack',
     'cloudmesh-inventory',
 ]
 
