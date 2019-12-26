@@ -134,6 +134,7 @@ cms = [
 
 cloud = cms + [
     'cloudmesh-cloud',
+    'cloudmesh-openstack'
     'cloudmesh-inventory',
 ]
 
@@ -167,6 +168,10 @@ repos = dict({
     'oracle': cloud + [
         'cloudmesh-storage',
         'cloudmesh-oracle',
+    ],
+
+    'openstack': cloud + [
+        'cloudmesh-openstack',
     ],
 
     'google': cloud + [
@@ -238,7 +243,7 @@ repos = dict({
         'cloudmesh-conda'
     ],
 
-    '516': hostlist.expand_hostlist("fa19-516-[140-171]"),
+    '516': hostlist.expand_hostlist("fa19-516-[140-172,174]"),
 
     '523': hostlist.expand_hostlist("fa19-523-[180-196,198-212]"),
 
