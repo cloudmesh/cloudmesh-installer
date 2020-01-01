@@ -145,7 +145,7 @@ repos = dict({
     'cloud': cloud,
 
     'inventory': cms + [
-        'cloudmesh-inventory',
+        'cloudmesh-inventory'
     ],
 
     'cmsd': ['cloudmesh-cmsd'],
@@ -191,17 +191,17 @@ repos = dict({
         'cloudmesh-aws',
         'cloudmesh-azure',
         'cloudmesh-apoenstack',
-        'cloudmesh-google',
+        'cloudmesh-google'
     ],
 
     'provider': cloud + [
         'cloudmesh-aws',
         'cloudmesh-azure',
         'cloudmesh-apoenstack',
-        'cloudmesh-google',
+        'cloudmesh-google'
     ],
     'frugal': cloud + [
-        'cloudmesh-frugal',
+        'cloudmesh-frugal'
     ],
 
     'analytics': cms + [
