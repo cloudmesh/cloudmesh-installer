@@ -157,28 +157,49 @@ repos = dict({
     ],
 
     'batch': cloud + [
-        'cloudmesh-batch',
+        'cloudmesh-batch'
     ],
 
     'storage': cloud + [
         'cloudmesh-storage',
-        'cloudmesh-box',
+        'cloudmesh-box'
     ],
 
     'oracle': cloud + [
         'cloudmesh-storage',
-        'cloudmesh-oracle',
+        'cloudmesh-oracle'
+    ],
+
+    'aws': cloud + [
+        'cloudmesh-aws'
+    ],
+
+    'azure': cloud + [
+        'cloudmesh-azure'
     ],
 
     'openstack': cloud + [
-        'cloudmesh-openstack',
+        'cloudmesh-openstack'
     ],
 
     'google': cloud + [
         'cloudmesh-storage',
+        'cloudmesh-google'
+    ],
+
+    'compute': cloud + [
+        'cloudmesh-aws',
+        'cloudmesh-azure',
+        'cloudmesh-apoenstack',
         'cloudmesh-google',
     ],
 
+    'provider': cloud + [
+        'cloudmesh-aws',
+        'cloudmesh-azure',
+        'cloudmesh-apoenstack',
+        'cloudmesh-google',
+    ],
     'frugal': cloud + [
         'cloudmesh-frugal',
     ],
@@ -243,11 +264,13 @@ repos = dict({
         'cloudmesh-conda'
     ],
 
-    '516': hostlist.expand_hostlist("fa19-516-[140-172,174]"),
+    'fa19-516': hostlist.expand_hostlist("fa19-516-[140-172,174]"),
 
-    '523': hostlist.expand_hostlist("fa19-523-[180-196,198-212]"),
+    'fa19-523': hostlist.expand_hostlist("fa19-523-[180-196,198-212]"),
 
-    'spring19': [
+    'sp20-516': hostlist.expand_hostlist("fa19-516-[153,141,148,158,172,169,174,168]"),
+
+    'sp19': [
                     'hid-sample',
                     'hid-sp18-407',
                     'hid-sp18-512',
