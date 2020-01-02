@@ -268,26 +268,28 @@ repos = dict({
 
     'fa19-523': hostlist.expand_hostlist("fa19-523-[180-196,198-212]"),
 
-    'sp20-516': hostlist.expand_hostlist("fa19-516-[153,141,148,158,172,169,174,168]"),
+    'sp20-516': hostlist.expand_hostlist(
+        "fa19-516-[153,141,148,158,172,169,174,168]"),
 
-    'sp19': [
-                    'hid-sample',
-                    'hid-sp18-407',
-                    'hid-sp18-512',
-                    'hid-sp18-519',
-                    'hid-sp18-520',
-                    'hid-sp18-522',
-                    'hid-sp18-523',
-                    'hid-sp18-602',
-                    'hid-sp18-701',
-                    'hid-sp18-704',
-                    'hid-sp18-709',
-                    'hid-sp18-710',
-                    'sp19-616-111',
-                    'sp19-616-112'
-                ] + hostlist.expand_hostlist(
-        "sp19-516-[22,26,29,121-125,127-139]")
-                + hostlist.expand_hostlist("sp19-222-[89-94,96-102]")
+    'sp19':
+        [
+            'hid-sample',
+            'hid-sp18-407',
+            'hid-sp18-512',
+            'hid-sp18-519',
+            'hid-sp18-520',
+            'hid-sp18-522',
+            'hid-sp18-523',
+            'hid-sp18-602',
+            'hid-sp18-701',
+            'hid-sp18-704',
+            'hid-sp18-709',
+            'hid-sp18-710',
+            'sp19-616-111',
+            'sp19-616-112'
+        ] \
+        + hostlist.expand_hostlist("sp19-516-[22,26,29,121-125,127-139]") \
+        + hostlist.expand_hostlist("sp19-222-[89-94,96-102]")
 })
 
 
@@ -414,8 +416,6 @@ def WARNING(msg):
     RED("WARNING: " + msg)
 
 
-
-
 def remove(location):
     print("delete", location)
     try:
@@ -448,6 +448,7 @@ def check_for_bundle(bundle):
         ERROR(f"The bundle `{bundle}` does not exist")
         sys.exit(1)
 
+
 def bundle_list(repos):
     names = []
     for bundle in repos:
@@ -455,13 +456,15 @@ def bundle_list(repos):
     result = "[" + ", ".join(names) + "]"
     return result
 
+
 def bundle_elements(bundle):
     block = Fore.BLUE + f"\n{bundle}:\n" + Fore.RESET
     elements = ' '.join(repos[bundle])
     block = block + \
-        textwrap.indent(
-            textwrap.fill(elements , 70, break_on_hyphens=False),"    ")
+            textwrap.indent(
+                textwrap.fill(elements, 70, break_on_hyphens=False), "    ")
     return block
+
 
 def main():
     arguments = docopt(__doc__)
@@ -501,7 +504,8 @@ def main():
 
         print(insatller_version)
 
-    elif arguments["list"] and not arguments["BUNDLE"] and not arguments["--git"]:
+    elif arguments["list"] and not arguments["BUNDLE"] and not arguments[
+        "--git"]:
 
         if not arguments["--short"]:
             banner("Cloudmesh Bundles")
@@ -513,7 +517,6 @@ def main():
         else:
             print(bundle_list(repos))
 
-
     elif arguments["list"] and arguments["--git"]:
         check_for_bundle(bundle)
         print(bundle)
@@ -521,7 +524,6 @@ def main():
         for entry in repos[bundle]:
             location = Git.url(entry)
             print(f"{location}.git")
-
 
     elif arguments["info"]:
 
@@ -636,7 +638,6 @@ def main():
         # if benchmark:
         #    StopWatch.benchmark(sysinfo=True)
 
-
     elif arguments["key"] and arguments["git"]:
 
         try:
@@ -668,7 +669,7 @@ def main():
 
     elif arguments["install"]:
         banner(f"Installing bundle {bundle}")
-        print ('\n'.join(repos[bundle]))
+        print('\n'.join(repos[bundle]))
         print()
         if arguments["--venv"]:
             result = Git.install(repos[bundle])
@@ -676,7 +677,6 @@ def main():
             result = Git.install(repos[bundle], dev=True)
 
         StopWatch.benchmark(sysinfo=True)
-
 
     elif arguments["--venv"] and arguments["clean"]:
         environment = arguments["--venv"]

@@ -61,9 +61,9 @@ def systeminfo():
         data['processor'] = ''
 
     try:
-        data['user']= os.environ['USER']
+        data['user'] = os.environ['USER']
     except:
-        data['user']= ''
+        data['user'] = ''
     try:
         data['mac_version'] = platform.mac_ver()[0]
         if data['mac_version'] == ('', '', '', ''):
@@ -88,7 +88,6 @@ def systeminfo():
                     data[attribute] = value
     except:
         pass
-
 
     return dict(data)
 
