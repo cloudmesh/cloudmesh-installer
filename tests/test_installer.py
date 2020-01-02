@@ -38,6 +38,22 @@ class Test_installer:
         print(result)
         assert "We found python in" in str(result)
 
+    def test_help(self):
+        banner("help")
+
+        cmd = "cloudmesh-installer help"
+        result = run(cmd)
+        print(result)
+        assert "version" in result
+
+    def test_list(self):
+        banner("list")
+
+        cmd = "cloudmesh-installer list"
+        result = run(cmd)
+        print(result)
+        assert "cloudmesh-common" in result
+
     def test_non_existing(self):
         banner("test_non_existing")
         print("PWD:", os.getcwd())
