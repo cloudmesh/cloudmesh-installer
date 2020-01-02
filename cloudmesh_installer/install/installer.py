@@ -325,7 +325,10 @@ class Git(object):
     def url(repo):
         global repos
         if repo in repos['community'] or \
-            repo in repos['spring19'] or \
+            repo in repos['sp19'] or \
+            repo in repos['sp20'] or \
+            repo in repos['fa19'] or \
+            repo in repos['fa20'] or \
             repo in repos['523'] or \
             repo in repos['516']:
             return f"https://github.com/cloudmesh-community/{repo}"

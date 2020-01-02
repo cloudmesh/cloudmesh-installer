@@ -62,13 +62,19 @@ class Test_installer:
         cmd = "cloudmesh-installer git clone cms"
         result = run(cmd)
         print(result)
+
+        banner("ls")
+        cmd = "ls"
+        result = run(cmd)
+        print(result)
+
         assert os.path.isdir("cloudmesh-cmd5")
 
     def test_install_cms(self):
         banner("test_install_cms")
         print("PWD:", os.getcwd())
 
-        cmd = "cloudmesh-installer install cms -e"
+        cmd = "cloudmesh-installer install cms"
         result = run(cmd)
         print(result)
         assert os.path.isdir("cloudmesh-cmd5/cloudmesh_cmd5.egg-info")
