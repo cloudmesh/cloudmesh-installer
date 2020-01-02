@@ -36,6 +36,7 @@ class Test_installer:
         cmd = "cloudmesh-installer info"
         result = run(cmd)
         print(result)
+        print()
         assert "We found python in" in str(result)
 
     def test_help(self):
