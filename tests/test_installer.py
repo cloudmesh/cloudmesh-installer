@@ -41,7 +41,7 @@ class Test_installer:
     def test_help(self):
         banner("help")
 
-        cmd = "cloudmesh-installer help"
+        cmd = "cloudmesh-installer"
         result = run(cmd)
         print(result)
         assert "version" in result
