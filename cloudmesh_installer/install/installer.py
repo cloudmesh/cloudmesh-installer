@@ -290,6 +290,7 @@ repos = dict({
         ] \
         + hostlist.expand_hostlist("sp19-516-[22,26,29,121-125,127-139]") \
         + hostlist.expand_hostlist("sp19-222-[89-94,96-102]")
+
 })
 
 
@@ -323,14 +324,13 @@ class Git(object):
 
     @staticmethod
     def url(repo):
+        print(repo)
         global repos
         if repo in repos['community'] or \
-            repo in repos['sp19'] or \
-            repo in repos['sp20'] or \
-            repo in repos['fa19'] or \
-            repo in repos['fa20'] or \
-            repo in repos['523'] or \
-            repo in repos['516']:
+            'sp19' in repo  or \
+            'fa19' in repo  or \
+            'sp20' in repo  or \
+            'fa20' in repo:
             return f"https://github.com/cloudmesh-community/{repo}"
         else:
             return f"https://github.com/cloudmesh/{repo}"

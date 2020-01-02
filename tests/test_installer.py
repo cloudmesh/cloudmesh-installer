@@ -89,12 +89,17 @@ class Test_installer:
         result = run(cmd)
         print("RESULT:", result)
 
+        assert os.path.isdir("cloudmesh-cmd5")
+
+    def test_clone_ls(self):
+        banner("test_clone_ls")
+        print("PWD:", os.getcwd())
         banner("ls")
+
         cmd = "ls"
         result = run(cmd)
         print(result)
 
-        assert os.path.isdir("cloudmesh-cmd5")
 
     def test_install_cms(self):
         banner("test_install_cms")

@@ -13,6 +13,7 @@ def banner(txt, c=Fore.BLUE):
     :param txt: a text message to be printed
     :type txt: string
     """
+    print()
     print(c + "#" * 70)
     print(c + f"# {txt}")
     print(c + "#" * 70)
