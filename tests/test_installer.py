@@ -29,6 +29,15 @@ class Test_installer:
         os.chdir(path)
         assert True
 
+    def test_version(self):
+        banner("test_version")
+
+        cmd = "cloudmesh-installer version"
+        result = run(cmd)
+        print(result)
+        print()
+        assert True
+
     def test_info(self):
         banner("test_info")
         print("PWD:", os.getcwd())
@@ -78,7 +87,7 @@ class Test_installer:
 
         cmd = "cloudmesh-installer git clone cms"
         result = run(cmd)
-        print(result)
+        print("RESULT:", result)
 
         banner("ls")
         cmd = "ls"
@@ -93,7 +102,7 @@ class Test_installer:
 
         cmd = "cloudmesh-installer install cms"
         result = run(cmd)
-        print(result)
+        print("RESULT:", result)
         assert os.path.isdir("cloudmesh-cmd5/cloudmesh_cmd5.egg-info")
 
     def test_cms_help(self):
