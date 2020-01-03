@@ -48,14 +48,6 @@ class Test_installer:
         print()
         assert "We found python in" in str(result)
 
-    def test_help(self):
-        banner("help")
-
-        cmd = "cloudmesh-installer help"
-        result = run(cmd)
-        print(result)
-        assert "version" in result
-
     def test_list(self):
         banner("list")
 
