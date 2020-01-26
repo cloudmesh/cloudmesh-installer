@@ -148,6 +148,10 @@ repos = dict({
         'cloudmesh-inventory'
     ],
 
+    'multipass': cms + [
+        'cloudmesh-multipass'
+    ],
+
     'cmsd': ['cloudmesh-cmsd'],
 
     'docker': ['cloudmesh-cmsd'],
