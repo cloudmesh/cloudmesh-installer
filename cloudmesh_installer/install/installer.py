@@ -268,8 +268,9 @@ repos = dict({
 
     'fa19-523': hostlist.expand_hostlist("fa19-523-[180-196,198-212]"),
 
-    'sp20-516': hostlist.expand_hostlist(
-        "fa19-516-[153,141,148,158,172,169,174,168]"),
+    'sp20': hostlist.expand_hostlist(
+        "fa19-516-[153,141,148,158,172,169,174,168]") \
+        + hostlist.expand_hostlist("sp20-516-[220-252]"),
 
     'sp19':
         [
@@ -527,6 +528,20 @@ def main():
         for entry in repos[bundle]:
             location = Git.url(entry)
             print(f"{location}.git")
+
+    elif arguments["list"] and arguments["BUNDLE"]:
+
+        bundle = arguments["BUNDLE"]
+        if bundle in repos:
+            print (bundle_elements(bundle))
+        else:
+            print (f"ERROR: could not find bundle {bundle}")
+            print ("Available bundles: ")
+            print (" ".join(repos.keys()))
+
+
+        return ""
+
 
     elif arguments["info"]:
 
