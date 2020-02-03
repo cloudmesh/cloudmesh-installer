@@ -274,7 +274,7 @@ repos = dict({
 
     'sp20': hostlist.expand_hostlist(
         "fa19-516-[153,141,148,158,172,169,174,168]") \
-        + hostlist.expand_hostlist("sp20-516-[220-252]"),
+        + hostlist.expand_hostlist("sp20-516-[220,222-224,226,227,229-241,243-248,250-255]"),
 
     'sp19':
         [
@@ -297,6 +297,7 @@ repos = dict({
         + hostlist.expand_hostlist("sp19-222-[89-94,96-102]")
 
 })
+
 
 
 def run(command, verbose=True):
