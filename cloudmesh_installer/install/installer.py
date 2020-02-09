@@ -129,7 +129,6 @@ cms = [
     'cloudmesh-cmd5',
     'cloudmesh-sys',
     'cloudmesh-configuration',
-    'cloudmesh-manual'
 ]
 
 cloud = cms + [
@@ -141,6 +140,18 @@ cloud = cms + [
 repos = dict({
 
     'cms': cms,
+
+    'manual': cloud + [
+        'cloudmesh-azure',
+        'cloudmesh-aws',
+        'cloudmesh-openstack',
+        'cloudmesh-google',
+        'cloudmesh-orscle',
+        'cloudmesh-storage',
+        'cloudmesh-cmsd',
+        'cloudmesh-multipass',
+        'cloudmesh-manual'
+    ],
 
     'cloud': cloud,
 
