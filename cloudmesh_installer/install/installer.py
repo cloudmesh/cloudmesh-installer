@@ -146,11 +146,14 @@ repos = dict({
         'cloudmesh-aws',
         'cloudmesh-openstack',
         'cloudmesh-google',
-        'cloudmesh-orscle',
+        'cloudmesh-oracle',
         'cloudmesh-storage',
         'cloudmesh-cmsd',
         'cloudmesh-multipass',
+        'cloudmesh-gui',
+        'cloudmesh-inventory',
         'cloudmesh-manual'
+
     ],
 
     'cloud': cloud,
