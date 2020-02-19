@@ -243,7 +243,7 @@ repos = dict({
     'provider': cloud + [
         'cloudmesh-aws',
         'cloudmesh-azure',
-        'cloudmesh-apoenstack',
+        'cloudmesh-openstack',
         'cloudmesh-google'
     ],
     'frugal': cloud + [
