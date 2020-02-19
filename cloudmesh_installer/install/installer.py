@@ -129,6 +129,7 @@ cms = [
     'cloudmesh-cmd5',
     'cloudmesh-sys',
     'cloudmesh-configuration',
+    'cloudmesh-test'
 ]
 
 cloud = cms + [
