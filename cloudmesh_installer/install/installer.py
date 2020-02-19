@@ -141,6 +141,7 @@ repos = dict({
 
     'cms': cms,
 
+
     'manual': cloud + [
         'cloudmesh-azure',
         'cloudmesh-aws',
@@ -174,7 +175,26 @@ repos = dict({
         'cloudmesh-multipass'
     ],
 
-    'cmsd': ['cloudmesh-cmsd'],
+    'cmsd': cms + [
+        'cloudmesh-gui',
+        'cloudmesh-cmsd'
+    ],
+
+    'cmsdcontainer': [
+        'cloudmesh-common',
+        'cloudmesh-cmd5',
+        'cloudmesh-sys',
+        'cloudmesh-configuration',
+        'cloudmesh-inventory',
+        'cloudmesh-cmsd',
+        'cloudmesh-azure',
+        'cloudmesh-aws',
+        'cloudmesh-openstack',
+        'cloudmesh-google',
+        'cloudmesh-oracle',
+        'cloudmesh-multipass'
+#        'cloudmesh-storage',
+    ],
 
     'docker': ['cloudmesh-cmsd'],
 
