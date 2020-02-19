@@ -167,8 +167,8 @@ repos = dict({
         'cloudmesh-inventory'
     ],
 
-    'windows': cms + [
-        'cloudmesh-windows'
+    'test': cms + [
+        'cloudmesh-test'
     ],
 
     'multipass': cms + cloud + [
