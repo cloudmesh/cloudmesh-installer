@@ -171,6 +171,10 @@ repos = dict({
         'cloudmesh-test'
     ],
 
+    'volume': cms + [
+        'cloudmesh-volume'
+    ],
+
     'multipass': cms + cloud + [
         'cloudmesh-multipass'
     ],
@@ -284,7 +288,8 @@ repos = dict({
         'cloudmesh-storagelifecycle',
         'cloudmesh-oracle',
         'cloudmesh-frugal',
-        'cloudmesh-analytics'
+        'cloudmesh-analytics',
+        'cloudmesh-volume'
     ],
 
     'web': [
