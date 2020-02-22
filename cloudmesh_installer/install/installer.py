@@ -171,7 +171,8 @@ repos = dict({
         'cloudmesh-test'
     ],
 
-    'volume': cms + [
+    'volume': cms + cloud [
+        'cloudmesh-gui',
         'cloudmesh-volume'
     ],
 
