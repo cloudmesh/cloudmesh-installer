@@ -129,7 +129,7 @@ cms = [
     'cloudmesh-cmd5',
     'cloudmesh-sys',
     'cloudmesh-configuration',
-    'cloudmesh-test'
+    'cloudmesh-test',
     'cloudmesh-gui',
 ]
 
