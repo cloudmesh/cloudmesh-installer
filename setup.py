@@ -41,6 +41,7 @@ tabulate
 python-hostlist
 psutil
 humanize
+ordered-set
 """.split("\n")
 
 # cloudmesh-common

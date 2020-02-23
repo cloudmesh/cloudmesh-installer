@@ -110,6 +110,7 @@ from pprint import pprint
 from tabulate import tabulate
 import shlex
 import hostlist
+from ordered_set import OrderedSet
 
 import oyaml as yaml
 import requests
@@ -405,6 +406,8 @@ class Git(object):
 
     @staticmethod
     def clone(repos, error="ERROR"):
+        repos = OrderedSet(repos)
+
         for repo in set(repos):
             print(f"clone -> {repo}")
 
@@ -429,8 +432,8 @@ class Git(object):
 
     @staticmethod
     def command(repos, name, ok_msg="nothing to commit, working tree clean"):
-        if name in ["pull", "status"]:
-            repos = set(repos)
+        repos = OrderedSet(repos)
+
         for repo in repos:
             print("status ->", f"{repo:25}", end=" ")
 
@@ -463,6 +466,9 @@ class Git(object):
 
     @staticmethod
     def install(repos, dev=False):
+
+        repos = OrderedSet(repos)
+
         for repo in repos:
             StopWatch.start("install " + repo)
             print("install ->", repo)
