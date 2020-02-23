@@ -3,6 +3,7 @@
 Usage:
   cloudmesh-installer git key [LOCATION] [--benchmark]
   cloudmesh-installer git [clone|pull|status] [BUNDLE] [--benchmark]
+  cloudmesh-installer get [BUNDLE] [--benchmark]
   cloudmesh-installer install [BUNDLE] [--venv=ENV | -e] [--benchmark]
   cloudmesh-installer list [BUNDLE] [--short | --git]
   cloudmesh-installer version
@@ -62,6 +63,12 @@ Description:
     cloudmesh-installer git [clone|pull|status] [BUNDLE]
 
         This command executes the given git command on the bundle
+
+    cloudmesh-installer get  [BUNDLE]
+
+        For each repository in the bundle it clones it and also pulls.
+        Thus the command can easly be used to get a new bundle element, but
+        also get the new code for already existing bundles elements.
 
     cloudmesh-installer install [BUNDLE]
 
@@ -143,7 +150,6 @@ repos = dict({
 
     'cms': cms,
 
-
     'manual': cms + cloud + [
         'cloudmesh-azure',
         'cloudmesh-aws',
@@ -161,6 +167,14 @@ repos = dict({
 
     'gui': cloud + [
         'cloudmesh-gui'
+    ],
+
+    'encrypt': [
+        'cloudmesh-encrypt'
+    ],
+
+    'libcloud': [
+        'cloudmesh-libcloud'
     ],
 
     'inventory': cms + [
@@ -390,8 +404,8 @@ class Git(object):
             return f"https://github.com/cloudmesh/{repo}"
 
     @staticmethod
-    def clone(repos):
-        for repo in repos:
+    def clone(repos, error="ERROR"):
+        for repo in set(repos):
             print(f"clone -> {repo}")
 
             if not os.path.isdir(Path(f"./{repo}")):
@@ -403,11 +417,20 @@ class Git(object):
                 except Exception as e:
                     print(e)
             else:
-                print(Fore.RED + "         ERROR: not downloaded as repo "
+                if error == "ERROR":
+                    color = Fore.RED
+                elif error == "WARNING":
+                    color = Fore.MAGENTA
+                else:
+                    color = ""
+
+                print(color + f"         {error}: not downloaded as repo "
                                  "already exists.")
 
     @staticmethod
     def command(repos, name, ok_msg="nothing to commit, working tree clean"):
+        if name in ["pull", "status"]:
+            repos = set(repos)
         for repo in repos:
             print("status ->", f"{repo:25}", end=" ")
 
@@ -432,6 +455,11 @@ class Git(object):
     @staticmethod
     def pull(repos):
         Git.command(repos, "pull", ok_msg="Already up to date.")
+
+    @staticmethod
+    def get(repos):
+        Git.clone(repos, error="WARNING")
+        Git.pull(repos)
 
     @staticmethod
     def install(repos, dev=False):
@@ -738,6 +766,12 @@ def main():
             print("To generate the key use ssh-keygen")
             print("To avoid typing in the password all the time, use ssh-add")
 
+    elif arguments["get"]:
+        check_for_bundle(bundle)
+        Git.get(repos[bundle])
+        # if benchmark:
+        #    StopWatch.benchmark(sysinfo=True)
+
     elif arguments["install"]:
         banner(f"Installing bundle {bundle}")
         print('\n'.join(repos[bundle]))
@@ -819,6 +853,7 @@ def main():
 
             for egg in eggs:
                 remove(egg)
+
 
     elif arguments["venv"] and arguments["purge"]:
 
