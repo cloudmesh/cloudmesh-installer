@@ -21,6 +21,7 @@ python:
 install:
   - python3.8 -m venv ~/ENV3
   - source ~/ENV3/bin/activate
+  - curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
   - python get-pip.py
   - pip --version
   - pwd
