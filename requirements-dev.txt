@@ -1,7 +1,9 @@
-bump2version
-wheel
-twine
-invoke
 pytest
+coverage
+flake8
+bump2version
 pytest-cov
+pip-tools
+pipdeptree
+wheel
 pip-tools
