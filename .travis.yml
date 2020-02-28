@@ -18,10 +18,13 @@ python:
 #  - "3.8-dev"  # 3.8 development branch
 #  - "nightly"  # nightly build
 
+virtualenv:
+  system_site_packages: true
+
 before_install:
+  - pip3.8 install --upgrade pip
   - python3.8 -m venv ~/ENV3
   - source ~/ENV3/bin/activate
-  - pip install --user pip -U
 
 install:
   - pwd
@@ -35,4 +38,5 @@ install:
   - ls
   - pwd
 
-script: pytest -v --capture=no tests/test_installer.py
+script:
+  - pytest -v --capture=no tests/test_installer.py
