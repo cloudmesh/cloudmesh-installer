@@ -25,13 +25,12 @@ before_install:
 
 install:
   - pwd
-  - pip --version
-  - which pip
+  - ~/ENV3/bin/pip --version
   - python --version
   - which python
-  - pip install -r requirements.txt
-  - pip install -r requirements-dev.txt
-  - pip install .
+  - ~/ENV3/bin/pip install -r requirements.txt
+  - ~/ENV3/bin/pip install -r requirements-dev.txt
+  - ~/ENV3/bin/pip install .
   - ls
   - pwd
 
