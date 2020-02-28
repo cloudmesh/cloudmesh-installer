@@ -23,6 +23,7 @@ install:
   - source ~/ENV3/bin/activate
   - curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
   - python get-pip.py
+  - export PATH=~/ENV3/bin:$PATH
   - pip --version
   - pwd
   - python --version
