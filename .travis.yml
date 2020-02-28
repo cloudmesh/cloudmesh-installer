@@ -19,6 +19,8 @@ python:
 #  - "nightly"  # nightly build
 
 install:
+  - python3.8 -m venv ~/ENV3
+  - source ENV3/bin/activate
   - pip install pip -U
   - pwd
   - pip install -r requirements.txt
