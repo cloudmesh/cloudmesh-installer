@@ -464,6 +464,7 @@ class Git(object):
     def get(repos):
         Git.clone(repos, error="WARNING")
         Git.pull(repos)
+        Git.install(repos)
 
     @staticmethod
     def install(repos, dev=False):
