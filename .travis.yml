@@ -21,17 +21,17 @@ python:
 before_install:
   - python3.8 -m venv ~/ENV3
   - source ~/ENV3/bin/activate
-  - pip install pip -U
+  - pip install --user pip -U
 
 install:
+  - pwd
   - pip --version
   - which pip
-  - pwd
   - python --version
   - which python
-  - pip user install -r requirements.txt
-  - pip install -r requirements-dev.txt
-  - pip install .
+  - pip install --user -r requirements.txt
+  - pip install --user -r requirements-dev.txt
+  - pip install --user .
   - ls
   - pwd
 
