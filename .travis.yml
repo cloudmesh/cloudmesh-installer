@@ -21,11 +21,9 @@ python:
 install:
   - python3.8 -m venv ~/ENV3
   - source ~/ENV3/bin/activate
-  - alias pip=~/ENV3/bin/pip
-  - pip install pip -U
-  - pwd
+  - python get-pip.py
   - pip --version
-  - which pip
+  - pwd
   - python --version
   - which python
   - pip install -r requirements.txt
@@ -33,6 +31,5 @@ install:
   - pip install .
   - ls
   - pwd
-  - python --version
 
 script: pytest -v --capture=no tests/test_installer.py
