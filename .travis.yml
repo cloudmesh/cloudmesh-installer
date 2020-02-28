@@ -21,7 +21,8 @@ python:
 install:
   - python3.8 -m venv ~/ENV3
   - source ~/ENV3/bin/activate
-  - pip install --user pip -U
+  - alias pip=~/ENV3/bin/pip
+  - pip install pip -U
   - pwd
   - pip --version
   - which pip
