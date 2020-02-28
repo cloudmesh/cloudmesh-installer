@@ -18,17 +18,18 @@ python:
 #  - "3.8-dev"  # 3.8 development branch
 #  - "nightly"  # nightly build
 
-install:
+before_install:
   - python3.8 -m venv ~/ENV3
   - source ~/ENV3/bin/activate
-  - curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-  - python get-pip.py
-  - export PATH=~/ENV3/bin:$PATH
+  - pip install pip -U
+
+install:
   - pip --version
+  - which pip
   - pwd
   - python --version
   - which python
-  - pip install -r requirements.txt
+  - pip user install -r requirements.txt
   - pip install -r requirements-dev.txt
   - pip install .
   - ls
