@@ -4,6 +4,7 @@ Usage:
   cloudmesh-installer git key [LOCATION] [--benchmark]
   cloudmesh-installer git [clone|pull|status] [BUNDLE] [--benchmark]
   cloudmesh-installer get [BUNDLE] [--benchmark]
+  cloudmesh-installer update [BUNDLE] [--benchmark]
   cloudmesh-installer install [BUNDLE] [--venv=ENV | -e] [--benchmark]
   cloudmesh-installer list [BUNDLE] [--short | --git]
   cloudmesh-installer version
@@ -64,7 +65,8 @@ Description:
 
         This command executes the given git command on the bundle
 
-    cloudmesh-installer get  [BUNDLE]
+    cloudmesh-installer update [BUNDLE]
+    cloudmesh-installer get [BUNDLE]
 
         For each repository in the bundle it clones it and also pulls.
         Thus the command can easly be used to get a new bundle element, but
@@ -774,7 +776,7 @@ def main():
             print("To generate the key use ssh-keygen")
             print("To avoid typing in the password all the time, use ssh-add")
 
-    elif arguments["get"]:
+    elif arguments["get"] or arguments["update"]:
         check_for_bundle(bundle)
         Git.get(repos[bundle])
         # if benchmark:
