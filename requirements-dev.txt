@@ -6,4 +6,4 @@ pytest-cov
 pip-tools
 pipdeptree
 wheel
-pip-tools
+twine
