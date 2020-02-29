@@ -277,6 +277,10 @@ repos = dict({
         'cloudmesh-openapi',
     ],
 
+    'openapi': cms + [
+        'cloudmesh-openapi',
+    ],
+
     'source': cloud + [
         'cloudmesh-analytics',
         'cloudmesh-aws',
