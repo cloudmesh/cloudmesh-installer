@@ -9,9 +9,9 @@ import shutil
 
 import os
 import pytest
-from cloudmesh_installer.install.util import readfile
-from cloudmesh_installer.install.util import run
-from cloudmesh_installer.install.util import banner
+from cloudmesh.common.util import readfile
+from cloudmesh.common.Shell import Shell
+from cloudmesh.common.util import banner
 
 
 @pytest.mark.incremental
@@ -33,7 +33,7 @@ class Test_installer:
         banner("test_version")
 
         cmd = "cloudmesh-installer version"
-        result = run(cmd)
+        result = Shell.run(cmd)
         print(result)
         print()
         assert True
@@ -43,7 +43,7 @@ class Test_installer:
         print("PWD:", os.getcwd())
 
         cmd = "cloudmesh-installer info"
-        result = run(cmd)
+        result = Shell.run(cmd)
         print(result)
         print()
         assert "We found python in" in str(result)
@@ -52,7 +52,7 @@ class Test_installer:
         banner("list")
 
         cmd = "cloudmesh-installer list"
-        result = run(cmd)
+        result = Shell.run(cmd)
         print(result)
         assert "cloudmesh-common" in result
 
@@ -61,7 +61,7 @@ class Test_installer:
         print("PWD:", os.getcwd())
 
         cmd = "cloudmesh-installer git clone WRONG"
-        result = run(cmd)
+        result = Shell.run(cmd)
         assert True
 
     def test_clone_community(self):
@@ -69,7 +69,7 @@ class Test_installer:
         print("PWD:", os.getcwd())
 
         cmd = "cloudmesh-installer git clone community"
-        result = run(cmd)
+        result = Shell.run(cmd)
         print(result)
         assert os.path.isdir("cloudmesh-community.github.io")
 
@@ -78,7 +78,7 @@ class Test_installer:
         print("PWD:", os.getcwd())
 
         cmd = "cloudmesh-installer git clone cms"
-        result = run(cmd)
+        result = Shell.run(cmd)
         print("RESULT:", result)
 
         assert os.path.isdir("cloudmesh-cmd5")
@@ -89,7 +89,7 @@ class Test_installer:
         banner("ls")
 
         cmd = "ls"
-        result = run(cmd)
+        result = Shell.run(cmd)
         print(result)
 
 
@@ -98,7 +98,7 @@ class Test_installer:
         print("PWD:", os.getcwd())
 
         cmd = "cloudmesh-installer install cms"
-        result = run(cmd)
+        result = Shell.run(cmd)
         print("RESULT:", result)
         assert os.path.isdir("cloudmesh-cmd5/cloudmesh_cmd5.egg-info")
 
@@ -107,7 +107,7 @@ class Test_installer:
         print("PWD:", os.getcwd())
 
         cmd = "cms help"
-        result = run(cmd)
+        result = Shell.run(cmd)
         print(result)
         assert "quit" in result
 
@@ -116,7 +116,7 @@ class Test_installer:
         print("PWD:", os.getcwd())
 
         cmd = "cms info"
-        result = run(cmd)
+        result = Shell.run(cmd)
         print(result)
         assert "cloudmesh.common" in result
 
@@ -125,7 +125,7 @@ class Test_installer:
         print("PWD:", os.getcwd())
 
         cmd = "cms version"
-        result = run(cmd)
+        result = Shell.run(cmd)
         print(result)
         assert "cloudmesh.common" in result
 
