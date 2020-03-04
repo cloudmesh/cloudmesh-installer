@@ -3,7 +3,7 @@
 Usage:
   cloudmesh-installer git key [LOCATION] [--benchmark]
   cloudmesh-installer git [clone|pull|status] [BUNDLE] [--benchmark]
-  cloudmesh-installer get [BUNDLE] [--benchmark]
+  cloudmesh-installer get [BUNDLES...] [--benchmark]
   cloudmesh-installer update [BUNDLE] [--benchmark]
   cloudmesh-installer install [BUNDLE] [--venv=ENV | -e] [--benchmark]
   cloudmesh-installer list [BUNDLE] [--short | --git]
@@ -781,8 +781,18 @@ def main():
             print("To avoid typing in the password all the time, use ssh-add")
 
     elif arguments["get"] or arguments["update"]:
-        check_for_bundle(bundle)
+
+        repositories = []
+
+        bundles = arguments["BUNDLES"]
+
+        for bundle in bundles:
+            check_for_bundle(bundle)
+            repositories += repos[bundle]
+
+
         Git.get(repos[bundle])
+
         # if benchmark:
         #    StopWatch.benchmark(sysinfo=True)
 
