@@ -122,9 +122,8 @@ from colorama import Fore, Style
 from venv import EnvBuilder
 import pip
 import os
-from cloudmesh_installer.install.util import banner
-
-from cloudmesh_installer.install.StopWatch import StopWatch
+from cloudmesh.common.util import banner
+from cloudmesh.common.StopWatch import StopWatch
 
 from cloudmesh_installer.install.__version__ import version as insatller_version
 

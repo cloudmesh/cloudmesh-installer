@@ -42,6 +42,7 @@ python-hostlist
 psutil
 humanize
 ordered-set
+cloudmesh-common
 """.splitlines()
 
 # cloudmesh-common
