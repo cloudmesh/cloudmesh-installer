@@ -2,10 +2,10 @@
 
 Usage:
   cloudmesh-installer git key [LOCATION] [--benchmark]
-  cloudmesh-installer git [clone|pull|status] [BUNDLE] [--benchmark]
+  cloudmesh-installer git [clone|pull|status] [BUNDLES...] [--benchmark]
   cloudmesh-installer get [BUNDLES...] [--benchmark]
-  cloudmesh-installer update [BUNDLE] [--benchmark]
-  cloudmesh-installer install [BUNDLE] [--venv=ENV | -e] [--benchmark]
+  cloudmesh-installer update [BUNDLELES...] [--benchmark]
+  cloudmesh-installer install [BUNDLES...] [--venv=ENV | -e] [--benchmark]
   cloudmesh-installer list [BUNDLE] [--short | --git]
   cloudmesh-installer version
   cloudmesh-installer info [BUNDLE] [--verbose]
@@ -151,6 +151,12 @@ cloud = cms + [
 repos = dict({
 
     'cms': cms,
+
+    'sys': cms,
+
+    'common': {
+        'cloudmesh-common'
+    },
 
     'manual': cms + cloud + [
         'cloudmesh-azure',
@@ -588,11 +594,26 @@ def main():
     #
     # FIND ALL GIT REPOS IN cwd
     #
+    global repos
     repos["all"] = get_all_repos()
 
     #
     # FIND ALL GIT REPOS that start with cloudmesh
     #
+
+    bundles = arguments["BUNDLES"]
+
+    def _get_bundles():
+        repositories = []
+
+        bundles = arguments["BUNDLES"]
+
+        for bundle in bundles:
+            check_for_bundle(bundle)
+            repositories += repos[bundle]
+
+        return repositories
+
     repos["cloudmesh"] = []
     for repo in repos["all"]:
         if repo.startswith("cloudmesh-"):
@@ -731,24 +752,17 @@ def main():
         print()
 
     elif arguments["status"] and arguments["git"]:
-        check_for_bundle(bundle)
-        # repos = ["cloudmesh-common", "cloudmesh-cmd5", "cloudmesh-cloud"]
-        Git.status(repos[bundle])
-        # if benchmark:
-        #    StopWatch.benchmark(sysinfo=True)
+        repositories = _get_bundles()
+        Git.status(repositories)
 
     elif arguments["clone"] and arguments["git"]:
-        check_for_bundle(bundle)
-        result = Git.clone(repos[bundle])
-        # if benchmark:
-        #    StopWatch.benchmark(sysinfo=True)
+        repositories = _get_bundles()
+        result = Git.clone(repositories)
 
 
     elif arguments["pull"] and arguments["git"]:
-        check_for_bundle(bundle)
-        Git.pull(repos[bundle])
-        # if benchmark:
-        #    StopWatch.benchmark(sysinfo=True)
+        repositories = _get_bundles()
+        Git.pull(repositories)
 
     elif arguments["key"] and arguments["git"]:
 
@@ -781,28 +795,22 @@ def main():
 
     elif arguments["get"] or arguments["update"]:
 
-        repositories = []
+        repositories = _get_bundles()
 
-        bundles = arguments["BUNDLES"]
-
-        for bundle in bundles:
-            check_for_bundle(bundle)
-            repositories += repos[bundle]
-
-
-        Git.get(repos[bundle])
+        Git.get(repositories)
 
         # if benchmark:
         #    StopWatch.benchmark(sysinfo=True)
 
     elif arguments["install"]:
-        banner(f"Installing bundle {bundle}")
-        print('\n'.join(repos[bundle]))
+        banner(f"Installing bundles: {bundles}")
+        repositories = _get_bundles()
+        print('\n'.join(repositories))
         print()
         if arguments["--venv"]:
-            result = Git.install(repos[bundle])
+            result = Git.install(repositories)
         else:
-            result = Git.install(repos[bundle], dev=True)
+            result = Git.install(repositories, dev=True)
 
         StopWatch.benchmark(sysinfo=True)
 
