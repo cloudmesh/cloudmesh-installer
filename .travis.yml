@@ -1,37 +1,40 @@
 os:
   - linux
-#  - windows
-
-#  - osx
 
 arch: arm64
 
-dist: bionic
-
 sudo: required
-
-language: python
-
 
 python:
   - "3.8.2"
 
+cache: false
+
+dist: bionic
+
+language: python
+
+services:
+  - docker
+
 before_install:
-  - pip3.8 install --upgrade pip
-  - python3.8 -m venv ~/ENV3
+  - sudo apt-get install build-essential libssl-dev libffi-dev
+  - sudo apt-get install python3-tk
+  - python --version
+  - python -m venv ~/ENV3
   - source ~/ENV3/bin/activate
+  - pip install pip -U
+  - pip --version
+  - which python
+  - which pip
+  - pwd
 
 install:
-  - pwd
-  - ~/ENV3/bin/pip --version
-  - python --version
-  - which python
-  - ~/ENV3/bin/pip install pytest
-  - ~/ENV3/bin/pip install -r requirements.txt
-  - ~/ENV3/bin/pip install .
-  - ls
-  - pwd
+  - sudo pip install cryptography --no-binary cryptography
+  - sudo pip install -r requirements.txt
+  - sudo pip install -r requirements-dev.txt
+  - sudo pip install .
 
-script:
+sscript:
   - ~/ENV3/bin/pip install cloudmesh-configuration
   - pytest -v --capture=no tests/test_installer.py
