@@ -14,9 +14,6 @@ dist: bionic
 
 language: python
 
-services:
-  - docker
-
 before_install:
   - sudo apt-get install build-essential libssl-dev libffi-dev
   - sudo apt-get install python3-tk
@@ -30,11 +27,11 @@ before_install:
   - pwd
 
 install:
-  - sudo pip install cryptography --no-binary cryptography
-  - sudo pip install -r requirements.txt
-  - sudo pip install -r requirements-dev.txt
-  - sudo pip install .
+  - pip install cryptography --no-binary cryptography
+  - pip install -r requirements.txt
+  - pip install -r requirements-dev.txt
+  - pip install .
 
 script:
-  - sudo pip install cloudmesh-configuration
+  - pip install cloudmesh-configuration
   - pytest -v --capture=no tests/test_installer.py
