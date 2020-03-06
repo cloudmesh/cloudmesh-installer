@@ -15,8 +15,6 @@ language: python
 
 python:
   - "3.8.2"
-#  - "3.8-dev"  # 3.8 development branch
-#  - "nightly"  # nightly build
 
 before_install:
   - pip3.8 install --upgrade pip
@@ -35,4 +33,5 @@ install:
   - pwd
 
 script:
+  - ~/ENV3/bin/pip install cloudmesh-configuration
   - pytest -v --capture=no tests/test_installer.py
