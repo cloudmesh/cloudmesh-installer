@@ -145,8 +145,8 @@ cms = [
 
 cloud = cms + [
     'cloudmesh-cloud',
-    'cloudmesh-openstack',
     'cloudmesh-inventory',
+    'cloudmesh-openstack',
 ]
 
 repos = dict({
