@@ -29,7 +29,8 @@ before_install:
 install:
 #  - sudo pip install cryptography --no-binary cryptography
   - pip install -r requirements.txt
-  - pip install -r requirements-dev.txt
+#  - pip install -r requirements-dev.txt
+  - pip install pytest
   - pip install .
 
 script:
