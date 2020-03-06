@@ -121,7 +121,7 @@ class Test_installer:
         assert "cloudmesh.common" in result
 
     def test_cms_verion(self):
-        banner("test_cms_verion")
+        banner("test_cms_version")
         print("PWD:", os.getcwd())
 
         cmd = "cms version"

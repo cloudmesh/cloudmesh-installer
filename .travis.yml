@@ -35,6 +35,6 @@ install:
   - sudo pip install -r requirements-dev.txt
   - sudo pip install .
 
-sscript:
+script:
   - sudo pip install cloudmesh-configuration
   - pytest -v --capture=no tests/test_installer.py
