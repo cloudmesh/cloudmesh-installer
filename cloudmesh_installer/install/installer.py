@@ -140,6 +140,7 @@ cms = [
     'cloudmesh-configuration',
     'cloudmesh-test',
     'cloudmesh-gui',
+    'cloudmesh-abstract'
 ]
 
 cloud = cms + [
