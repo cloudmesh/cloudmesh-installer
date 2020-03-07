@@ -124,6 +124,8 @@ import pip
 import os
 from cloudmesh.common.util import banner
 from cloudmesh.common.StopWatch import StopWatch
+from cloudmesh.common.console import Console
+from cloudmesh.common.util import banner
 
 from cloudmesh_installer.install.__version__ import version as insatller_version
 
@@ -473,10 +475,10 @@ class Git(object):
         Git.command(repos, "pull", ok_msg="Already up to date.")
 
     @staticmethod
-    def get(repos):
+    def get(repos, dev=True):
         Git.clone(repos, error="WARNING")
         Git.pull(repos)
-        Git.install(repos)
+        Git.install(repos, dev=dev)
 
     @staticmethod
     def install(repos, dev=False):
@@ -485,12 +487,18 @@ class Git(object):
 
         for repo in repos:
             StopWatch.start("install " + repo)
-            print("install ->", repo)
+            banner(f"install -> {repo}")
             if dev:
+                Console.info(f"pip install -e .: {repo}")
+                print()
+
                 os.chdir(repo)
                 os.system("pip install -e .")
                 os.chdir("../")
             else:
+                Console.info(f"pip install: {repo}")
+                print()
+
                 os.system("pip install {repo}".format(repo=repo))
             StopWatch.stop("install " + repo)
 
