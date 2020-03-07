@@ -1,4 +1,4 @@
-package=test
+package=installer
 UNAME=$(shell uname)
 VERSION=`head -1 VERSION`
 
