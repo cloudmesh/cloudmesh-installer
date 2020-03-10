@@ -43,6 +43,15 @@ psutil
 humanize
 ordered-set
 cloudmesh-common
+pytest
+coverage
+flake8
+bump2version
+pytest-cov
+pip-tools
+pipdeptree
+wheel
+pip-tools
 """.splitlines()
 
 # cloudmesh-common
