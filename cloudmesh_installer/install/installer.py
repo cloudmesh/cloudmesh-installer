@@ -11,6 +11,7 @@ Usage:
   cloudmesh-installer info [BUNDLE] [--verbose]
   cloudmesh-installer clean --dir=DIR [--force]
   cloudmesh-installer clean --venv=ENV [--force]
+  cloudmesh-installer new [--venv=ENV]
 
 
 
@@ -895,19 +896,32 @@ def main():
                 remove(egg)
 
 
-    elif arguments["venv"] and arguments["purge"]:
+    elif arguments["--venv"] and arguments["new"]:
 
-        is_venv = sys.hasattr(sys, 'real_prefix')
-        python_path = sys.executable
+        print ("LLL")
 
-        name = arguments["ENV"]
-        force = arguments["--force"]
-        if force and name.startswith("ENV") and yn_question(
-            f"Would you like reinstall the venv {name} (yes/n)? "):
-            os.system(f"rm -rf  ~/{name}")
-            os.system(f"python3 -m venv  ~/{name}")
-            os.system(
-                "source ~/ENV3/bin/activate; pip install -U pip ; pip install cloudmesh-installer")
+        venv = arguments["--venv"] or os.environ("VIRTUAL_ENV")
+
+
+        if venv.startswith("ENV") and yn_question(
+            f"Would you like reinstall the venv {venv} (yes/n)? "):
+
+            script = textwrap.dedent(f"""
+            rm -rf ~/{venv}
+            python3.8 -m venv ~/{venv}
+            source ~/{venv}/bin/activate
+            pip install pip -U
+            which python
+            which pip
+            python --version
+            pip --version
+            pip install cloudmesh-installer
+            """).strip()
+
+            script = "; ".join(script.splitlines())
+
+
+            os.system(script)
 
             print()
             print(
