@@ -814,7 +814,7 @@ def main():
 
     elif arguments["install"]:
         banner(f"Installing bundles: {bundles}")
-        repositories = _get_bundles()
+        repositories = OrderedSet(_get_bundles())
         print('\n'.join(repositories))
         print()
         if arguments["--venv"]:
