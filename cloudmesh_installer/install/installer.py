@@ -898,8 +898,6 @@ def main():
 
     elif arguments["--venv"] and arguments["new"]:
 
-        print ("LLL")
-
         venv = arguments["--venv"] or os.environ("VIRTUAL_ENV")
 
 
