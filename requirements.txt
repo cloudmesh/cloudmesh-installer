@@ -8,3 +8,15 @@ psutil
 humanize
 ordered-set
 cloudmesh-common
+#
+# DEV REQUIREMENTS
+#
+pytest
+coverage
+flake8
+bump2version
+pytest-cov
+pip-tools
+pipdeptree
+wheel
+pip-tools
