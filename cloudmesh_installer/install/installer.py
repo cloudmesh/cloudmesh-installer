@@ -898,8 +898,7 @@ def main():
 
     elif arguments["--venv"] and arguments["new"]:
 
-        venv = arguments["--venv"] or os.environ("VIRTUAL_ENV")
-
+        venv = arguments["--venv"] or os.path.basename(os.environ("VIRTUAL_ENV")) or "ENV3"
 
         if venv.startswith("ENV") and yn_question(
             f"Would you like reinstall the venv {venv} (yes/n)? "):
