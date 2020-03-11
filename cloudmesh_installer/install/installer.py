@@ -866,6 +866,9 @@ def main():
         StopWatch.benchmark(sysinfo=True)
 
     elif arguments["release"]:
+
+        os.system("pip install twine")
+
         repos = arguments["REPOS"]
 
         repositories = []
