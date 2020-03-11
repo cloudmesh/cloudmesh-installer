@@ -890,7 +890,7 @@ def main():
         StopWatch.benchmark(sysinfo=True)
 
         if testing:
-            os.environ["TESTING"] = 1
+            os.environ["TESTING"] = "1"
 
     elif arguments["--venv"] and arguments["clean"]:
         environment = arguments["--venv"]
