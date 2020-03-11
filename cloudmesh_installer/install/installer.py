@@ -867,6 +867,11 @@ def main():
 
     elif arguments["release"]:
 
+        testing = "TESTING" in os.environ
+
+        if testing:
+            del os.environ["TESTING"]
+
         os.system("pip install twine")
 
         repos = arguments["REPOS"]
@@ -883,6 +888,9 @@ def main():
         result = Git._command(repositories, "make release")
 
         StopWatch.benchmark(sysinfo=True)
+
+        if testing:
+            os.environ["TESTING"] = 1
 
     elif arguments["--venv"] and arguments["clean"]:
         environment = arguments["--venv"]
