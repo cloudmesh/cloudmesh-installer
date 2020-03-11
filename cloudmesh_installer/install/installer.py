@@ -475,7 +475,7 @@ class Git(object):
             os.chdir("../")
 
     @staticmethod
-    def _command(repos, command, ok_msg="nothing", verbose=False):
+    def _command(repos, command, ok_msg="Uploading", verbose=False):
         repos = OrderedSet(repos)
 
         for repo in repos:
@@ -487,6 +487,7 @@ class Git(object):
                 print(Fore.RED + "ERROR:", repo, "not found")
 
             result = run(f"{command}", verbose=False)
+
             if ok_msg in result:
                 print(Fore.GREEN + f"... ok")
             else:
