@@ -928,6 +928,7 @@ def main():
             python --version
             pip --version
             pip install cloudmesh-installer
+            pip install twine
             """).strip()
 
             script = "; ".join(script.splitlines())
