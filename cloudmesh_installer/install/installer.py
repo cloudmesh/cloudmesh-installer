@@ -162,6 +162,8 @@ repos = dict({
 
     'cms': cms,
 
+    'cmd5': cmd5,
+
     'sys': cms,
 
     'common': {
@@ -494,19 +496,26 @@ class Git(object):
 
         for repo in repos:
             StopWatch.start("install " + repo)
-            banner(f"install -> {repo}")
             if dev:
+                banner(f"dev install -> {repo}")
+
                 Console.info(f"pip install -e .: {repo}")
                 print()
 
                 os.chdir(repo)
                 os.system("pip install -e .")
                 os.chdir("../")
+                StopWatch.status("install " + repo, True)
+
             else:
+                banner(f"install -> {repo}")
+
                 Console.info(f"pip install: {repo}")
                 print()
 
                 os.system("pip install {repo}".format(repo=repo))
+                StopWatch.status("install " + repo, True)
+
             StopWatch.stop("install " + repo)
 
 
