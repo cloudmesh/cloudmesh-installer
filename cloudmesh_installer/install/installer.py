@@ -12,7 +12,7 @@ Usage:
   cloudmesh-installer clean --dir=DIR [--force]
   cloudmesh-installer clean --venv=ENV [--force]
   cloudmesh-installer new VENV
-
+  cloudmesh-installer release [REPOS...] [--benchmark]
 
 
 A convenient program called `cloudmesh-installer` to download and install
@@ -475,6 +475,32 @@ class Git(object):
             os.chdir("../")
 
     @staticmethod
+    def _command(repos, command, ok_msg="nothing", verbose=False):
+        repos = OrderedSet(repos)
+
+        for repo in repos:
+            print(f"{command} -> {repo:25}", end=" ")
+
+            try:
+                os.chdir(repo)
+            except FileNotFoundError:
+                print(Fore.RED + "ERROR:", repo, "not found")
+
+            result = run(f"{command}", verbose=False)
+            if ok_msg in result:
+                print(Fore.GREEN + f"... ok")
+            else:
+                print()
+                print(Fore.RED + result)
+
+            if verbose:
+                print()
+                print (textwrap.indent(result, "    "))
+                print()
+
+            os.chdir("../")
+
+    @staticmethod
     def status(repos):
         Git.command(repos, "status",
                     ok_msg="nothing to commit, working tree clean")
@@ -836,6 +862,22 @@ def main():
             result = Git.install(repositories)
         else:
             result = Git.install(repositories, dev=True)
+
+        StopWatch.benchmark(sysinfo=True)
+
+    elif arguments["release"]:
+        repos = arguments["REPOS"]
+
+        repositories = []
+        for repository in repos:
+            repositories.append(f"cloudmesh-{repository}")
+
+        banner(f"Releasing repositories: {repositories}")
+        print('\n'.join(repositories))
+        print()
+
+        result = Git._command(repositories, "make patch")
+        result = Git._command(repositories, "make release")
 
         StopWatch.benchmark(sysinfo=True)
 
