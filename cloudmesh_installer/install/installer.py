@@ -146,6 +146,12 @@ cms = [
     'cloudmesh-abstract'
 ]
 
+cmd5 = [
+    'cloudmesh-common',
+    'cloudmesh-cmd5',
+    'cloudmesh-sys',
+]
+
 cloud = cms + [
     'cloudmesh-cloud',
     'cloudmesh-inventory',
