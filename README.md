@@ -7,9 +7,9 @@
 [![Status](https://img.shields.io/pypi/status/cloudmesh-installer.svg)](https://pypi.python.org/pypi/cloudmesh-installer)
 [![Travis](https://travis-ci.com/cloudmesh/cloudmesh-installer.svg?branch=master)](https://travis-ci.com/cloudmesh/cloudmesh-installer)
 
-This is an experimental installer that is most usefull during the
-development of cloudmesh components form source. Once cloudmehs is
-released, you can use the packages hosted at pypi.
+This is an experimental installer that is most usefull during the development of
+cloudmesh components form source. Once cloudmehs is released, you can use the
+packages hosted at pypi.
 
 This command can be installed with 
 
@@ -22,18 +22,24 @@ an FAQ is available at
 * <https://github.com/cloudmesh/cloudmesh-installer/blob/master/FAQ.md>
 
 ## Usage
+
 ```
 cloudmesh-installer -- a helper to install cloudmesh from source for developers.
 
 Usage:
   cloudmesh-installer git key [LOCATION] [--benchmark]
-  cloudmesh-installer git [clone|pull|status] [BUNDLE] [--benchmark]
-  cloudmesh-installer install [BUNDLE] [--venv=ENV | -e] [--benchmark]
+  cloudmesh-installer git [clone|pull|status] [BUNDLES...] [--benchmark]
+  cloudmesh-installer get [BUNDLES...] [--benchmark]
+  cloudmesh-installer update [BUNDLELES...] [--benchmark]
+  cloudmesh-installer install [BUNDLES...] [--venv=ENV | -e] [--benchmark]
   cloudmesh-installer list [BUNDLE] [--short | --git]
   cloudmesh-installer version
   cloudmesh-installer info [BUNDLE] [--verbose]
   cloudmesh-installer clean --dir=DIR [--force]
   cloudmesh-installer clean --venv=ENV [--force]
+  cloudmesh-installer new VENV
+  cloudmesh-installer release [REPOS...] [--benchmark]
+
 
 A convenient program called `cloudmesh-installer` to download and install
 cloudmesh from sources published in github.
@@ -86,6 +92,13 @@ Description:
 
         This command executes the given git command on the bundle
 
+    cloudmesh-installer update [BUNDLE]
+    cloudmesh-installer get [BUNDLE]
+
+        For each repository in the bundle it clones it and also pulls.
+        Thus the command can easly be used to get a new bundle element, but
+        also get the new code for already existing bundles elements.
+
     cloudmesh-installer install [BUNDLE]
 
         This command executes an install on the given bundle
@@ -112,8 +125,8 @@ Description:
             cloudmesh-installer git clone storage
             cloudmesh-installer install storage
             cloudmesh-installer info
-
 ```
+
 ## Appendix
 
 Timings
