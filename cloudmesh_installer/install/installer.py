@@ -296,6 +296,7 @@ repos = dict({
     ],
 
     'openapi': cms + [
+        'cloudmesh-cloud',
         'cloudmesh-openapi',
     ],
 
