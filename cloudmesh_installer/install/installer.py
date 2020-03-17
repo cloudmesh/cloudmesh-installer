@@ -388,6 +388,12 @@ repos = dict({
     'bookmanager':
         [
             'bookmanager'
+            'bookmanager-service'
+        ],
+
+    'book':
+        [
+            'book'
         ]
 })
 
@@ -431,9 +437,10 @@ class Git(object):
             'sp20' in repo  or \
             'fa20' in repo:
             return f"https://github.com/cloudmesh-community/{repo}"
-        elif repo in repos['bookmanager'] or \
-            'bookmanager' in repo:
+        elif 'bookmanager' in repo:
             return f"https://github.com/cyberaide/{repo}"
+        elif 'book' == repo:
+            return f"https://github.com/cloudmesh-community/{repo}"
         else:
             return f"https://github.com/cloudmesh/{repo}"
 
