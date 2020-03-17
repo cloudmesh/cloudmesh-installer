@@ -383,8 +383,12 @@ repos = dict({
             'sp19-616-112'
         ] \
         + hostlist.expand_hostlist("sp19-516-[22,26,29,121-125,127-139]") \
-        + hostlist.expand_hostlist("sp19-222-[89-94,96-102]")
+        + hostlist.expand_hostlist("sp19-222-[89-94,96-102]"),
 
+    'bookmanager':
+        [
+            'bookmanager'
+        ]
 })
 
 
@@ -427,6 +431,9 @@ class Git(object):
             'sp20' in repo  or \
             'fa20' in repo:
             return f"https://github.com/cloudmesh-community/{repo}"
+        elif repo in repos['bookmanager'] or \
+            'bookmanager' in repo:
+            return f"https://github.com/cyberaide/{repo}"
         else:
             return f"https://github.com/cloudmesh/{repo}"
 
