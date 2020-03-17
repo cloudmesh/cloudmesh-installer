@@ -11,7 +11,7 @@ Usage:
   cloudmesh-installer info [BUNDLE] [--verbose]
   cloudmesh-installer clean --dir=DIR [--force]
   cloudmesh-installer clean --venv=ENV [--force]
-  cloudmesh-installer new VENV
+  cloudmesh-installer new VENV [BUNDLES...]
   cloudmesh-installer release [REPOS...] [--benchmark]
 
 
@@ -990,6 +990,15 @@ def main():
 
 
             os.system(script)
+
+
+            if bundles:
+
+                print()
+                print("Installing Bundles")
+                print()
+                repositories = _get_bundles()
+                Git.get(repositories)
 
             print()
             print(
