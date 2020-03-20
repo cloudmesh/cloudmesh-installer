@@ -469,6 +469,13 @@ class Git(object):
 
                 print(color + f"         {error}: not downloaded as repo "
                                  "already exists.")
+    @staticmethod
+    def version(repos):
+        for repo in repos:
+            with open(f"{repo}/VERSION") as f:
+                v = f.readlines()
+            print(f"version {repo:30}:", v)
+
 
     @staticmethod
     def command(repos, name, ok_msg="nothing to commit, working tree clean"):
@@ -908,6 +915,8 @@ def main():
         StopWatch.status("make release", "released")
 
         StopWatch.benchmark(sysinfo=True)
+
+        Git.version(repos)
 
         if testing:
             os.environ["TESTING"] = "1"
