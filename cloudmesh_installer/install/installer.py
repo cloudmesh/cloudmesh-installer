@@ -916,7 +916,7 @@ def main():
 
         StopWatch.benchmark(sysinfo=True)
 
-        Git.version(repos)
+        Git.version(repositories)
 
         if testing:
             os.environ["TESTING"] = "1"
