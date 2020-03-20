@@ -904,6 +904,9 @@ def main():
         result = Git._command(repositories, "make patch")
         result = Git._command(repositories, "make release")
 
+        StopWatch.status("make patch", "released")
+        StopWatch.status("make release", "released")
+
         StopWatch.benchmark(sysinfo=True)
 
         if testing:
