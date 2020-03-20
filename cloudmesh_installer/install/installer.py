@@ -473,7 +473,7 @@ class Git(object):
     def version(repos):
         for repo in repos:
             with open(f"{repo}/VERSION") as f:
-                v = f.readlines()
+                v = f.read().strip()
             print(f"version {repo:30}:", v)
 
 
