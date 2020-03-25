@@ -205,7 +205,8 @@ repos = dict({
         'cloudmesh-test'
     ],
 
-    'pi': cms + [
+    'pi': cms +[
+        'cloudmesh-inventory'
         'cloudmesh-pi-cluster'
     ],
 
