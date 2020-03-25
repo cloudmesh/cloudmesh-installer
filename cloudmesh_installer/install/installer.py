@@ -2,7 +2,7 @@
 
 Usage:
   cloudmesh-installer git key [LOCATION] [--benchmark]
-  cloudmesh-installer git [clone|pull|status] [BUNDLES...] [--benchmark]
+  cloudmesh-installer git [clone|pull|status|authors] [BUNDLES...] [--benchmark]
   cloudmesh-installer get [BUNDLES...] [--benchmark]
   cloudmesh-installer update [BUNDLELES...] [--benchmark]
   cloudmesh-installer install [BUNDLES...] [--venv=ENV | -e] [--benchmark]
@@ -203,6 +203,10 @@ repos = dict({
 
     'test': cms + [
         'cloudmesh-test'
+    ],
+
+    'pi': cms + [
+        'cloudmesh-pi-cluster'
     ],
 
     'volume': cms + cloud + [
@@ -469,6 +473,7 @@ class Git(object):
 
                 print(color + f"         {error}: not downloaded as repo "
                                  "already exists.")
+
     @staticmethod
     def version(repos):
         for repo in repos:
@@ -478,7 +483,7 @@ class Git(object):
 
 
     @staticmethod
-    def command(repos, name, ok_msg="nothing to commit, working tree clean"):
+    def command(repos, name, ok_msg="nothing to commit, working tree clean", r=False):
         repos = OrderedSet(repos)
 
         for repo in repos:
@@ -498,7 +503,7 @@ class Git(object):
             os.chdir("../")
 
     @staticmethod
-    def _command(repos, command, ok_msg="Uploading", verbose=False):
+    def _command(repos, command, ok_msg="Uploading", verbose=False, r=False):
         repos = OrderedSet(repos)
 
         for repo in repos:
@@ -528,6 +533,15 @@ class Git(object):
     def status(repos):
         Git.command(repos, "status",
                     ok_msg="nothing to commit, working tree clean")
+
+
+
+    @staticmethod
+    def authors(repos, error="ERROR"):
+
+        command = "shortlog -e -s -n"
+        Git.command(repos, command)
+
 
     @staticmethod
     def pull(repos):
@@ -838,6 +852,10 @@ def main():
     elif arguments["pull"] and arguments["git"]:
         repositories = _get_bundles()
         Git.pull(repositories)
+
+    elif arguments["authors"] and arguments["git"]:
+        repositories = _get_bundles()
+        Git.authors(repositories)
 
     elif arguments["key"] and arguments["git"]:
 
