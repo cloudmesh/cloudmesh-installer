@@ -210,6 +210,17 @@ repos = dict({
         'cloudmesh-pi-cluster'
     ],
 
+    'cluster': cms + [
+        'cloudmesh-inventory'
+        'cloudmesh-cluster'
+    ],
+
+    'kubernetes': cms + [
+        'cloudmesh-cloud'
+        'cloudmesh-inventory'
+        'cloudmesh-kubernetes'
+    ],
+
     'volume': cms + cloud + [
         'cloudmesh-gui',
         'cloudmesh-volume'
