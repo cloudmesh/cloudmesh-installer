@@ -11,7 +11,7 @@ Usage:
   cloudmesh-installer info [BUNDLE] [--verbose]
   cloudmesh-installer clean --dir=DIR [--force]
   cloudmesh-installer clean --venv=ENV [--force]
-  cloudmesh-installer new VENV [BUNDLES...]
+  cloudmesh-installer new VENV [BUNDLES...] [--python=PYTHON]
   cloudmesh-installer release [REPOS...] [--benchmark]
 
 
@@ -1025,6 +1025,7 @@ def main():
 
     elif arguments["new"]:
 
+        python= arguments["--python"] or "python3.8"
         venv = arguments["VENV"] or os.path.basename(os.environ("VIRTUAL_ENV")) or "~/ENV3"
 
         if os.path.basename(venv).startswith("ENV") and yn_question(
@@ -1032,7 +1033,7 @@ def main():
 
             script = textwrap.dedent(f"""
             rm -rf {venv}
-            python3.8 -m venv {venv}
+            {python} -m venv {venv}
             source {venv}/bin/activate
             pip install pip -U
             which python
