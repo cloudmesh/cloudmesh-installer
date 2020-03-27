@@ -273,7 +273,7 @@ repos = OrderedDict({
 
     'bookmanager':
         [
-            'bookmanager'
+            'bookmanager',
             'bookmanager-service'
         ],
 
