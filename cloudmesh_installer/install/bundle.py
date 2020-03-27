@@ -214,6 +214,10 @@ repos = OrderedDict({
         'cloudmesh-openapi',
     ],
 
+    'twitter': cms + [
+        'cloudmesh-twitter'
+    ],
+
     'source': cloud + [
         'cloudmesh-analytics',
         'cloudmesh-aws',
