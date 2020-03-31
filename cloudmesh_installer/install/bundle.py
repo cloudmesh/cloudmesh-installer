@@ -18,6 +18,7 @@ cmd5 = [
 ]
 
 cloud = cms + [
+    'cloudmesh-admin',
     'cloudmesh-cloud',
     'cloudmesh-inventory',
     'cloudmesh-openstack',
@@ -60,13 +61,17 @@ repos = OrderedDict({
 
     'cms': cms,
 
+    'admin': cms + [
+        'cloudmesh-admin',
+    ],
+
     'cmd5': cmd5,
 
     'sys': cms,
 
-    'common': {
+    'common': [
         'cloudmesh-common'
-    },
+    ],
 
     'manual': cms + cloud + [
         'cloudmesh-azure',
@@ -84,14 +89,17 @@ repos = OrderedDict({
     'cloud': cloud,
 
     'gui': cloud + [
+        'cloudmesh-admin',
         'cloudmesh-gui'
     ],
 
     'encrypt': [
+        'cloudmesh-admin',
         'cloudmesh-encrypt'
     ],
 
     'libcloud': [
+        'cloudmesh-admin',
         'cloudmesh-libcloud'
     ],
 
@@ -100,22 +108,26 @@ repos = OrderedDict({
     ],
 
     'test': cms + [
+        'cloudmesh-admin',
         'cloudmesh-test'
     ],
 
     'pi': cms +[
+        'cloudmesh-admin',
         'cloudmesh-inventory',
         'cloudmesh-pi-cluster'
     ],
 
     'cluster': cms + [
+        'cloudmesh-admin',
         'cloudmesh-inventory',
         'cloudmesh-cluster'
     ],
 
     'kubernetes': cms + [
-        'cloudmesh-cloud',
+        'cloudmesh-admin',
         'cloudmesh-inventory',
+        'cloudmesh-cloud',
         'cloudmesh-kubernetes'
     ],
 
@@ -129,6 +141,7 @@ repos = OrderedDict({
     ],
 
     'cmsd': cms + [
+        'cloudmesh-admin',
         'cloudmesh-gui',
         'cloudmesh-cmsd'
     ],
@@ -139,6 +152,7 @@ repos = OrderedDict({
         'cloudmesh-sys',
         'cloudmesh-configuration',
         'cloudmesh-inventory',
+        'cloudmesh-admin',
         'cloudmesh-cmsd',
         'cloudmesh-azure',
         'cloudmesh-aws',
@@ -203,22 +217,22 @@ repos = OrderedDict({
         'cloudmesh-frugal'
     ],
 
-    'analytics': cms + [
-        'cloudmesh-cloud',
+    'analytics': cms + cloud + [
         'cloudmesh-analytics',
         'cloudmesh-openapi',
     ],
 
-    'openapi': cms + [
-        'cloudmesh-cloud',
+    'openapi': cms + cloud + [
         'cloudmesh-openapi',
     ],
 
     'twitter': cms + [
+        'cloudmesh-admin',
         'cloudmesh-twitter'
     ],
 
     'source': cloud + [
+        'cloudmesh-admin',
         'cloudmesh-analytics',
         'cloudmesh-aws',
         'cloudmesh-azure',
