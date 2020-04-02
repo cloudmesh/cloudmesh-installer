@@ -1,5 +1,6 @@
-import hostlist
 from collections import OrderedDict
+
+import hostlist
 
 cms = [
     'cloudmesh-common',
@@ -132,6 +133,7 @@ repos = OrderedDict({
     ],
 
     'volume': cms + cloud + [
+        'cloudmesh-admin',
         'cloudmesh-gui',
         'cloudmesh-volume'
     ],
