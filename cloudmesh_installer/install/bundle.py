@@ -83,8 +83,7 @@ repos = OrderedDict({
         'cloudmesh-storage',
         'cloudmesh-cmsd',
         'cloudmesh-multipass',
-        'cloudmesh-manual'
-
+        'cloudmesh-manual',
     ],
 
     'cloud': cloud,
@@ -157,12 +156,7 @@ repos = OrderedDict({
         'cloudmesh-inventory',
         'cloudmesh-admin',
         'cloudmesh-cmsd',
-        'cloudmesh-azure',
-        'cloudmesh-aws',
-        'cloudmesh-openstack',
-        'cloudmesh-google',
-        'cloudmesh-oracle',
-        'cloudmesh-multipass'
+        'cloudmesh-compute',
 #        'cloudmesh-storage',
     ],
 
@@ -204,17 +198,21 @@ repos = OrderedDict({
     ],
 
     'compute': cloud + [
-        'cloudmesh-aws',
         'cloudmesh-azure',
-        'cloudmesh-apoenstack',
-        'cloudmesh-google'
+        'cloudmesh-aws',
+        'cloudmesh-openstack',
+        'cloudmesh-google',
+        'cloudmesh-oracle',
+        'cloudmesh-multipass'
     ],
 
     'provider': cloud + [
-        'cloudmesh-aws',
         'cloudmesh-azure',
+        'cloudmesh-aws',
         'cloudmesh-openstack',
-        'cloudmesh-google'
+        'cloudmesh-google',
+        'cloudmesh-oracle',
+        'cloudmesh-multipass'
     ],
     'frugal': cloud + [
         'cloudmesh-frugal'
