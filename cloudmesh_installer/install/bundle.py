@@ -257,7 +257,6 @@ repos = OrderedDict({
         'cloudmesh-openapi',
         'cloudmesh-oracle',
         'cloudmesh-redshift',
-        'cloudmesh-stopwatch',
         'cloudmesh-storage',
         'cloudmesh-workflow',
         'cloudmesh-storagelifecycle',
