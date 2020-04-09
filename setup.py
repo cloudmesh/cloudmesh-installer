@@ -60,7 +60,7 @@ pip-tools
 
 version = readfile("VERSION").strip()
 
-with open('README.md') as f:
+with open('README-old.md') as f:
     long_description = f.read()
 
 NAME = "cloudmesh-installer"
