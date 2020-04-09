@@ -17,12 +17,10 @@
 """
 Cloudmesh CMD5 setup.
 """
-import io
-
-from setuptools import find_packages, setup
 
 
 def readfile(filename):
+    """
     """
     Read a file
     :param filename: name of the file
@@ -60,7 +58,7 @@ pip-tools
 
 version = readfile("VERSION").strip()
 
-with open('README-old.md') as f:
+with open('README.md') as f:
     long_description = f.read()
 
 NAME = "cloudmesh-installer"
