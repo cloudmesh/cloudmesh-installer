@@ -18,15 +18,15 @@
 Cloudmesh CMD5 setup.
 """
 
+from setuptools import find_packages, setup
 
 def readfile(filename):
-    """
     """
     Read a file
     :param filename: name of the file
     :return: returns the content of the file as string
     """
-    with io.open(filename, encoding="utf-8") as stream:
+    with open(filename, encoding="utf-8") as stream:
         return stream.read()
 
 
