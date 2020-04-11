@@ -115,6 +115,7 @@ repos = OrderedDict({
     'pi': cms +[
         'cloudmesh-admin',
         'cloudmesh-inventory',
+        'cloudmesh-cloud',
         'cloudmesh-pi-cluster',
         'cloudmesh-pi-burn'
     ],
