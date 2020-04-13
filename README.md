@@ -1,11 +1,21 @@
 # Cloudmehs Installer 
 
-[![Version](https://img.shields.io/pypi/v/cloudmesh-installer.svg)](https://pypi.python.org/pypi/cloudmesh-installer)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/cloudmesh/cloudmesh-installer/blob/master/LICENSE)
+
+> **Note:** The README.md page is outomatically generated, do not edit it.
+> To modify  change the content in
+> <https://github.com/cloudmesh/cloudmesh-installer/blob/master/README-source.md>
+> Curley brackets must use two in README-source.md
+
+
+
+[![image](https://img.shields.io/pypi/v/cloudmesh-installer.svg)](https://pypi.org/project/cloudmesh-installer/)
 [![Python](https://img.shields.io/pypi/pyversions/cloudmesh-installer.svg)](https://pypi.python.org/pypi/cloudmesh-installer)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/cloudmesh/cloudmesh-installer/blob/master/LICENSE)
 [![Format](https://img.shields.io/pypi/format/cloudmesh-installer.svg)](https://pypi.python.org/pypi/cloudmesh-installer)
 [![Status](https://img.shields.io/pypi/status/cloudmesh-installer.svg)](https://pypi.python.org/pypi/cloudmesh-installer)
 [![Travis](https://travis-ci.com/cloudmesh/cloudmesh-installer.svg?branch=master)](https://travis-ci.com/cloudmesh/cloudmesh-installer)
+
+
 
 This is an experimental installer that is most usefull during the development of
 cloudmesh components form source. Once cloudmehs is released, you can use the
@@ -23,12 +33,10 @@ an FAQ is available at
 
 ## Usage
 
-```
-cloudmesh-installer -- a helper to install cloudmesh from source for developers.
-
+```bash
 Usage:
   cloudmesh-installer git key [LOCATION] [--benchmark]
-  cloudmesh-installer git [clone|pull|status] [BUNDLES...] [--benchmark]
+  cloudmesh-installer git [clone|pull|status|authors] [BUNDLES...] [--benchmark]
   cloudmesh-installer get [BUNDLES...] [--benchmark]
   cloudmesh-installer update [BUNDLELES...] [--benchmark]
   cloudmesh-installer install [BUNDLES...] [--venv=ENV | -e] [--benchmark]
@@ -37,7 +45,7 @@ Usage:
   cloudmesh-installer info [BUNDLE] [--verbose]
   cloudmesh-installer clean --dir=DIR [--force]
   cloudmesh-installer clean --venv=ENV [--force]
-  cloudmesh-installer new VENV
+  cloudmesh-installer new VENV [BUNDLES...] [--python=PYTHON]
   cloudmesh-installer release [REPOS...] [--benchmark]
 
 
@@ -127,6 +135,8 @@ Description:
             cloudmesh-installer info
 ```
 
+
+
 ## Appendix
 
 Timings
@@ -138,3 +148,6 @@ Timings
 | `time cloudmesh-installer git clone storage` | 	0m4.926s |
 
 
+Tests
+
+ * [test_installer](tests/test_installer.py)
