@@ -2,6 +2,10 @@ from collections import OrderedDict
 
 import hostlist
 
+javascript_repo = [
+    'cloudmesh-javascript'
+]
+
 cms = [
     'cloudmesh-common',
     'cloudmesh-cmd5',
@@ -87,6 +91,10 @@ repos = OrderedDict({
     ],
 
     'cloud': cloud,
+
+    'javascript': cloud + [
+        'cloudmesh-javascript'
+    ],
 
     'gui': cloud + [
         'cloudmesh-admin',
@@ -252,6 +260,7 @@ repos = OrderedDict({
         'cloudmesh-google',
         'cloudmesh-gui',
         'cloudmesh-iu',
+        'cloudmesh-javascript',
         'cloudmesh-nist',
         'cloudmesh-nn',
         'cloudmesh-notebooks',

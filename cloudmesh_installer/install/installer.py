@@ -291,9 +291,22 @@ class Git(object):
 
         repos = OrderedSet(repos)
 
+
         for repo in repos:
             StopWatch.start("install " + repo)
-            if dev:
+
+            if repo in javascript_repo:
+                banner(f"dev install -> {repo}")
+
+                Console.info(f"pip install -e .: {repo}")
+                print()
+
+                os.chdir(repo)
+                os.system("yarn")
+                os.chdir("../")
+                StopWatch.status("install " + repo, True)
+
+            elif dev:
                 banner(f"dev install -> {repo}")
 
                 Console.info(f"pip install -e .: {repo}")
