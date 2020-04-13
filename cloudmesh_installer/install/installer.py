@@ -295,18 +295,7 @@ class Git(object):
         for repo in repos:
             StopWatch.start("install " + repo)
 
-            if repo in javascript_repo:
-                banner(f"dev install -> {repo}")
-
-                Console.info(f"pip install -e .: {repo}")
-                print()
-
-                os.chdir(repo)
-                os.system("yarn")
-                os.chdir("../")
-                StopWatch.status("install " + repo, True)
-
-            elif dev:
+            if dev:
                 banner(f"dev install -> {repo}")
 
                 Console.info(f"pip install -e .: {repo}")
@@ -315,7 +304,6 @@ class Git(object):
                 os.chdir(repo)
                 os.system("pip install -e .")
                 os.chdir("../")
-                StopWatch.status("install " + repo, True)
 
             else:
                 banner(f"install -> {repo}")
@@ -324,9 +312,20 @@ class Git(object):
                 print()
 
                 os.system("pip install {repo}".format(repo=repo))
-                StopWatch.status("install " + repo, True)
+
+            if repo in javascript_repo:
+                banner(f"javascript install -> {repo}")
+
+                Console.info(f"pip install -e .: {repo}")
+                print()
+
+                os.chdir(repo)
+                os.system("yarn")
+                os.chdir("../")
+
 
             StopWatch.stop("install " + repo)
+            StopWatch.status("install " + repo, True)
 
 
 # git clone https://github.com/cloudmesh/get.git
