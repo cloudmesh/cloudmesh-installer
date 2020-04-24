@@ -1,5 +1,7 @@
 # Cloudmehs Installer 
 
+Alpha
+
 {warning}
 
 {icons}
