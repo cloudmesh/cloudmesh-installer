@@ -320,7 +320,7 @@ class Git(object):
                 print()
 
                 os.chdir(repo)
-                os.system("yarn")
+                os.system("yarnpkg install")
                 os.chdir("../")
 
 
