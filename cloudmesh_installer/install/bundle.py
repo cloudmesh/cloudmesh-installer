@@ -171,7 +171,7 @@ repos = OrderedDict({
 
     'docker': ['cloudmesh-cmsd'],
 
-    'iu': cloud + [
+    'iu': cmds + [
         'cloudmesh-iu'
     ],
 
