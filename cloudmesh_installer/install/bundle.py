@@ -273,7 +273,9 @@ repos = OrderedDict({
         'cloudmesh-oracle',
         'cloudmesh-frugal',
         'cloudmesh-analytics',
-        'cloudmesh-volume'
+        'cloudmesh-volume',
+        'cloudmesh-manual',
+        'cloudmesh-installer'
     ],
 
     'web': [
