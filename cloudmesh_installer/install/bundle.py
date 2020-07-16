@@ -172,7 +172,8 @@ repos = OrderedDict({
     'docker': ['cloudmesh-cmsd'],
 
     'iu': cms + cloud + [   # add cloud so the yaml file gets created
-        'cloudmesh-iu'
+        'cloudmesh-iu',
+        # cloudmesh-notebook
     ],
 
     'batch': cloud + [
@@ -263,7 +264,7 @@ repos = OrderedDict({
         'cloudmesh-javascript',
         'cloudmesh-nist',
         'cloudmesh-nn',
-        'cloudmesh-notebooks',
+        'cloudmesh-notebook',
         'cloudmesh-openapi',
         'cloudmesh-oracle',
         'cloudmesh-redshift',
