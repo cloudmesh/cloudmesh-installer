@@ -297,8 +297,6 @@ class Git(object):
 
             StopWatch.start("install " + repo)
 
-
-
             if dev:
                 banner(f"dev install -> {repo}")
 
