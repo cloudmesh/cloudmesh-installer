@@ -291,9 +291,13 @@ class Git(object):
 
         repos = OrderedSet(repos)
 
+        Git.clone(repos)
 
         for repo in repos:
+
             StopWatch.start("install " + repo)
+
+
 
             if dev:
                 banner(f"dev install -> {repo}")
