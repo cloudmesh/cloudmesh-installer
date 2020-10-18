@@ -169,7 +169,10 @@ repos = OrderedDict({
 #        'cloudmesh-storage',
     ],
 
-    'docker': ['cloudmesh-cmsd'],
+    'docker': [
+        'cloudmesh-cmsd',
+        'cloudmesh-docker'
+    ],
 
     'iu': cms + cloud + [   # add cloud so the yaml file gets created
         'cloudmesh-iu'
