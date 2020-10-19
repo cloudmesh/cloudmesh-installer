@@ -282,7 +282,8 @@ repos = OrderedDict({
     ],
 
     'deprecated': [
-        'cloudmesh-comet'
+        'cloudmesh-comet',
+        'cloudmesh-conda'
     ],
 
     'web': [
