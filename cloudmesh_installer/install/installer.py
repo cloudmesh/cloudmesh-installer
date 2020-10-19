@@ -2,8 +2,8 @@
 
 Usage:
   cloudmesh-installer git key [LOCATION] [--benchmark]
-  cloudmesh-installer git [clone|pull|status|authors] [BUNDLES...] [--benchmark]
-  cloudmesh-installer get [BUNDLES...] [--benchmark]
+  cloudmesh-installer git [--ssh] [clone|pull|status|authors] [BUNDLES...] [--benchmark]
+  cloudmesh-installer get [--ssh] [BUNDLES...] [--benchmark]
   cloudmesh-installer update [BUNDLELES...] [--benchmark]
   cloudmesh-installer install [BUNDLES...] [--venv=ENV | -e] [--benchmark]
   cloudmesh-installer list [BUNDLE] [--short | --git]
@@ -72,6 +72,16 @@ Description:
         For each repository in the bundle it clones it and also pulls.
         Thus the command can easly be used to get a new bundle element, but
         also get the new code for already existing bundles elements.
+
+        The code is checked out with https
+
+    cloudmesh-installer get -ssh [BUNDLE]
+
+        For each repository in the bundle it clones it and also pulls.
+        Thus the command can easly be used to get a new bundle element, but
+        also get the new code for already existing bundles elements.
+
+        The code is checked out with ssh
 
     cloudmesh-installer install [BUNDLE]
 
@@ -164,8 +174,15 @@ def script(commands, environment):
 
 class Git(object):
 
+    #"git@github.com:cloudmesh/cloudmesh-installer.git"
+
     @staticmethod
-    def url(repo):
+    def url(repo, protocol="https"):
+
+        if protocol == "https":
+            prefix = "https://github.com/"
+        else:
+            prefix = "git@github.com:"
         print(repo)
         global repos
         if repo in repos['community'] or \
@@ -173,16 +190,16 @@ class Git(object):
             'fa19' in repo  or \
             'sp20' in repo  or \
             'fa20' in repo:
-            return f"https://github.com/cloudmesh-community/{repo}"
+            return f"{prefix}cloudmesh-community/{repo}"
         elif 'bookmanager' in repo:
-            return f"https://github.com/cyberaide/{repo}"
+            return f"{prefix}cyberaide/{repo}"
         elif 'book' == repo:
-            return f"https://github.com/cloudmesh-community/{repo}"
+            return f"{prefix}cloudmesh-community/{repo}"
         else:
-            return f"https://github.com/cloudmesh/{repo}"
+            return f"{prefix}cloudmesh/{repo}"
 
     @staticmethod
-    def clone(repos, error="ERROR"):
+    def clone(repos, error="ERROR", protocol="https"):
         repos = OrderedSet(repos)
 
         for repo in set(repos):
@@ -190,7 +207,7 @@ class Git(object):
 
             if not os.path.isdir(Path(f"./{repo}")):
                 try:
-                    location = Git.url(repo)
+                    location = Git.url(repo, protocol=protocol)
                     command = f"git clone {location}.git"
                     r = run(command)
                     print(f"         {r}")
@@ -281,17 +298,17 @@ class Git(object):
         Git.command(repos, "pull", ok_msg="Already up to date.")
 
     @staticmethod
-    def get(repos, dev=True):
-        Git.clone(repos, error="WARNING")
+    def get(repos, dev=True, protocol="https"):
+        Git.clone(repos, error="WARNING", protocol=protocol)
         Git.pull(repos)
         Git.install(repos, dev=dev)
 
     @staticmethod
-    def install(repos, dev=False):
+    def install(repos, dev=False, protocol="https"):
 
         repos = OrderedSet(repos)
 
-        Git.clone(repos)
+        Git.clone(repos, protocol=protocol)
 
         for repo in repos:
 
@@ -418,6 +435,10 @@ def main():
         os.path.expandvars(os.path.expanduser(
             arguments.get("LOCATION") or '~/.ssh/id_rsa.pub'))
 
+    protocol = "https"
+    if arguments["--ssh"]:
+        protocol = "ssh"
+
     colorama.init(autoreset=True)
 
     if debug:
@@ -473,11 +494,12 @@ def main():
             print(bundle_list(repos))
 
     elif arguments["list"] and arguments["--git"]:
+        protocol = "https"
         check_for_bundle(bundle)
         print(bundle)
         banner(f" {bundle}")
         for entry in repos[bundle]:
-            location = Git.url(entry)
+            location = Git.url(entry, protocol=protocol)
             print(f"{location}.git")
 
     elif arguments["list"] and arguments["BUNDLE"]:
@@ -593,7 +615,7 @@ def main():
 
     elif arguments["clone"] and arguments["git"]:
         repositories = _get_bundles()
-        result = Git.clone(repositories)
+        result = Git.clone(repositories, protocol=protocol)
 
 
     elif arguments["pull"] and arguments["git"]:
@@ -637,7 +659,7 @@ def main():
 
         repositories = _get_bundles()
 
-        Git.get(repositories)
+        Git.get(repositories, protocol=protocol)
 
         # if benchmark:
         #    StopWatch.benchmark(sysinfo=True)

@@ -13,12 +13,6 @@ source:
 	$(call banner, "Install cloudmesh-common")
 	pip install -e . -U
 
-readme:
-	cms debug off
-	python ../cloudmesh-common/bin/readme.py cloudmesh-$(package) $(package)
-	-git commit -m "Upadte Readme" README.md README-source.md
-	-git push
-
 requirements:
 	echo "cloudmesh-common" > tmp.txt
 	pip-compile setup.py
@@ -42,8 +36,7 @@ clean:
 	rm -rf docs/build
 	rm -rf build
 	rm -rf dist
-	find . -type d -name __pycache__ -delete
-	find . -name '*.pyc' -delete
+	find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
 	rm -rf .tox
 	rm -f *.whl
 
