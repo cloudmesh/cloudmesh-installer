@@ -254,7 +254,6 @@ repos = OrderedDict({
         'cloudmesh-batch',
         'cloudmesh-box',
         'cloudmesh-cmsd',
-        'cloudmesh-conda',
         'cloudmesh-docker',
         'cloudmesh-emr',
         'cloudmesh-flow',
