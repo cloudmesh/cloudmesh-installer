@@ -254,7 +254,6 @@ repos = OrderedDict({
         'cloudmesh-batch',
         'cloudmesh-box',
         'cloudmesh-cmsd',
-        'cloudmesh-comet',
         'cloudmesh-conda',
         'cloudmesh-docker',
         'cloudmesh-emr',
@@ -280,6 +279,10 @@ repos = OrderedDict({
         'cloudmesh-volume',
         'cloudmesh-manual',
         'cloudmesh-installer'
+    ],
+
+    'deprecated': [
+        'cloudmesh-comet'
     ],
 
     'web': [
