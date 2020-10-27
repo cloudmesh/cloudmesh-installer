@@ -4,7 +4,6 @@
 # pytest -v  tests/test_installer.py
 ###############################################################
 
-from __future__ import print_function
 import shutil
 
 import os
