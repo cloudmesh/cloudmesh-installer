@@ -44,7 +44,7 @@ cloudmesh-common
 pytest
 coverage
 flake8
-bump2version
+bump2version==1.0.0
 pytest-cov
 pip-tools
 pipdeptree
