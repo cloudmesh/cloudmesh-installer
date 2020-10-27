@@ -2,8 +2,8 @@
 
 Usage:
   cloudmesh-installer git key [LOCATION] [--benchmark]
-  cloudmesh-installer git [--ssh] [clone|pull|status|authors] [BUNDLES...] [--benchmark]
-  cloudmesh-installer get [--ssh] [BUNDLES...] [--benchmark]
+  cloudmesh-installer [--ssh] git [clone|pull|status|authors] [BUNDLES...] [--benchmark]
+  cloudmesh-installer [--ssh] get [BUNDLES...] [--benchmark]
   cloudmesh-installer update [BUNDLELES...] [--benchmark]
   cloudmesh-installer install [BUNDLES...] [--venv=ENV | -e] [--benchmark]
   cloudmesh-installer list [BUNDLE] [--short | --git]
