@@ -3,10 +3,10 @@
 
 [![image](https://img.shields.io/pypi/v/cloudmesh-common.svg)](https://pypi.org/project/cloudmesh-common/)
 [![Python](https://img.shields.io/pypi/pyversions/cloudmesh-common.svg)](https://pypi.python.org/pypi/cloudmesh-common)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/cloudmesh/cloudmesh-common/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/cloudmesh/cloudmesh-common/blob/main/LICENSE)
 [![Format](https://img.shields.io/pypi/format/cloudmesh-common.svg)](https://pypi.python.org/pypi/cloudmesh-common)
 [![Status](https://img.shields.io/pypi/status/cloudmesh-common.svg)](https://pypi.python.org/pypi/cloudmesh-common)
-[![Travis](https://travis-ci.com/cloudmesh/cloudmesh-common.svg?branch=master)](https://travis-ci.com/cloudmesh/cloudmesh-common)
+[![Travis](https://travis-ci.com/cloudmesh/cloudmesh-common.svg?branch=main)](https://travis-ci.com/cloudmesh/cloudmesh-common)
 
 
 
@@ -22,7 +22,7 @@ $ pip install cloudmesh-installer
 
 an FAQ is available at
 
-* <https://github.com/cloudmesh/cloudmesh-installer/blob/master/FAQ.md>
+* <https://github.com/cloudmesh/cloudmesh-installer/blob/main/FAQ.md>
 
 ## Usage
 
