@@ -1,7 +1,5 @@
 # Cloudmehs Installer 
 
-Alpha
-
 
 > **Note:** The README.md page is outomatically generated, do not edit it.
 > To modify  change the content in
