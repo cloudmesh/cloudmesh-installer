@@ -539,7 +539,7 @@ def main():
             #
             try:
                 v = requests.get("https://raw.githubusercontent.com/cloudmesh"
-                                 "/{package}/master/VERSION".format(
+                                 "/{package}/main/VERSION".format(
                     package=package)).text
                 entry[1] = v
             except:
