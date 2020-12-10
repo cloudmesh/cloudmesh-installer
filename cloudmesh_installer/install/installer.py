@@ -157,7 +157,7 @@ def run(command, verbose=True):
                                          stderr=subprocess.STDOUT,
                                          )
         StopWatch.stop(command)
-        StopWatch.status(command, True)
+        StopWatch.status(command, "error" not in str(output).lower())
 
     except subprocess.CalledProcessError as err:
         if verbose:
