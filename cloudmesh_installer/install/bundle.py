@@ -97,6 +97,10 @@ repos = OrderedDict({
         'cloudmesh-javascript'
     ],
 
+    'job': cloud + [
+        'cloudmesh-job'
+    ],
+
     'gui': cloud + [
         'cloudmesh-admin',
         'cloudmesh-gui'
