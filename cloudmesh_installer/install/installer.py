@@ -4,7 +4,7 @@ Usage:
   cloudmesh-installer git key [LOCATION] [--benchmark]
   cloudmesh-installer [--ssh] git [clone|pull|status|authors] [BUNDLES...] [--benchmark]
   cloudmesh-installer [--ssh] get [BUNDLES...] [--benchmark]
-  cloudmesh-installer update [BUNDLELES...] [--benchmark]
+  cloudmesh-installer update [BUNDLES...] [--benchmark]
   cloudmesh-installer install [BUNDLES...] [--venv=ENV | -e] [--benchmark]
   cloudmesh-installer list [BUNDLE] [--short | --git]
   cloudmesh-installer version
@@ -140,7 +140,7 @@ from cloudmesh.common.util import banner
 
 from cloudmesh_installer.install.bundle import *
 
-from cloudmesh_installer.install.__version__ import version as insatller_version
+from cloudmesh_installer.install.__version__ import version as installer_version
 
 debug = False
 benchmark = False
@@ -188,9 +188,9 @@ class Git(object):
         print(repo)
         global repos
         if repo in repos['community'] or \
-            'sp19' in repo  or \
-            'fa19' in repo  or \
-            'sp20' in repo  or \
+            'sp19' in repo or \
+            'fa19' in repo or \
+            'sp20' in repo or \
             'fa20' in repo:
             return f"{prefix}cloudmesh-community/{repo}"
         elif 'bookmanager' in repo:
@@ -480,7 +480,7 @@ def main():
 
     if arguments["version"]:
 
-        print(insatller_version)
+        print(installer_version)
 
     elif arguments["list"] and not arguments["BUNDLE"] and not arguments[
         "--git"]:
