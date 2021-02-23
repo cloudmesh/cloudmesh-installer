@@ -13,6 +13,10 @@ source:
 	$(call banner, "Install cloudmesh-common")
 	pip install -e . -U
 
+flake8:
+	cd ..; flake8 --max-line-length 124 --ignore=E722 cloudmesh-installer/cloudmesh_installer
+	cd ..; flake8 --max-line-length 124 --ignore=E722 cloudmesh-installer/tests
+
 requirements:
 	echo "cloudmesh-common" > tmp.txt
 	pip-compile setup.py

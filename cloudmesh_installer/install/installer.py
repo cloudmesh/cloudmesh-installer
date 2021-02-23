@@ -120,27 +120,18 @@ import textwrap
 import webbrowser
 from pathlib import Path
 from pprint import pprint
-from tabulate import tabulate
-import shlex
-import hostlist
-from ordered_set import OrderedSet
 
-import oyaml as yaml
-import requests
-from docopt import docopt
 import colorama
-from colorama import Fore, Style
-from venv import EnvBuilder
-import pip
-import os
-from cloudmesh.common.util import banner
+import requests
 from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.console import Console
 from cloudmesh.common.util import banner
-
-from cloudmesh_installer.install.bundle import *
-
 from cloudmesh_installer.install.__version__ import version as installer_version
+from cloudmesh_installer.install.bundle import *
+from colorama import Fore, Style
+from docopt import docopt
+from ordered_set import OrderedSet
+from tabulate import tabulate
 
 debug = False
 benchmark = False
@@ -176,7 +167,7 @@ def script(commands, environment):
 
 class Git(object):
 
-    #"git@github.com:cloudmesh/cloudmesh-installer.git"
+    # "git@github.com:cloudmesh/cloudmesh-installer.git"
 
     @staticmethod
     def url(repo, protocol="https"):
@@ -187,11 +178,7 @@ class Git(object):
             prefix = "git@github.com:"
         print(repo)
         global repos
-        if repo in repos['community'] or \
-            'sp19' in repo or \
-            'fa19' in repo or \
-            'sp20' in repo or \
-            'fa20' in repo:
+        if repo in repos['community'] or 'sp19' in repo or 'fa19' in repo or 'sp20' in repo or 'fa20' in repo:
             return f"{prefix}cloudmesh-community/{repo}"
         elif 'bookmanager' in repo:
             return f"{prefix}cyberaide/{repo}"
@@ -199,6 +186,18 @@ class Git(object):
             return f"{prefix}cloudmesh-community/{repo}"
         else:
             return f"{prefix}cloudmesh/{repo}"
+
+    @staticmethod
+    def error_color(error="ERROR"):
+        if error == "ERROR":
+            color = Fore.RED
+        elif error == "WARNING":
+            color = Fore.MAGENTA
+        elif error == "INFO":
+            color = Fore.MAGENTA
+        else:
+            color = ""
+        return color
 
     @staticmethod
     def clone(repos, error="ERROR", protocol="https"):
@@ -216,15 +215,10 @@ class Git(object):
                 except Exception as e:
                     print(e)
             else:
-                if error == "ERROR":
-                    color = Fore.RED
-                elif error == "WARNING":
-                    color = Fore.MAGENTA
-                else:
-                    color = ""
 
-                print(color + f"         {error}: not downloaded as repo "
-                                 "already exists.")
+                color = Git.error_color(error)
+
+                print(color + f"         {error}: not downloaded as repo already exists.")
 
     @staticmethod
     def version(repos):
@@ -232,7 +226,6 @@ class Git(object):
             with open(f"{repo}/VERSION") as f:
                 v = f.read().strip()
             print(f"version {repo:30}:", v)
-
 
     @staticmethod
     def command(repos, name, ok_msg="nothing to commit, working tree clean", r=False):
@@ -248,7 +241,7 @@ class Git(object):
 
             result = run(f"git {name}", verbose=False)
             if ok_msg in result:
-                print(Fore.GREEN + f"... ok")
+                print(Fore.GREEN + "... ok")
             else:
                 print()
                 print(Fore.RED + result)
@@ -269,14 +262,14 @@ class Git(object):
             result = run(f"{command}", verbose=False)
 
             if ok_msg in result:
-                print(Fore.GREEN + f"... ok")
+                print(Fore.GREEN + "... ok")
             else:
                 print()
                 print(Fore.RED + result)
 
             if verbose:
                 print()
-                print (textwrap.indent(result, "    "))
+                print(textwrap.indent(result, "    "))
                 print()
 
             os.chdir("../")
@@ -286,14 +279,11 @@ class Git(object):
         Git.command(repos, "status",
                     ok_msg="nothing to commit, working tree clean")
 
-
-
     @staticmethod
     def authors(repos, error="ERROR"):
 
         command = "shortlog -e -s -n"
         Git.command(repos, command)
-
 
     @staticmethod
     def pull(repos):
@@ -344,7 +334,6 @@ class Git(object):
                 os.system("yarn")
                 os.chdir("../")
 
-
             StopWatch.stop("install " + repo)
             StopWatch.status("install " + repo, True)
 
@@ -380,7 +369,7 @@ def remove(location):
     try:
         shutil.rmtree(location)
         print("removing:", location)
-    except Exception as e:
+    except Exception as e:  # noqa: F841
         print("Removing failed, file removal")
     try:
         os.remove(location)
@@ -401,7 +390,7 @@ def get_all_repos():
 
 def check_for_bundle(bundle):
     if bundle is None:
-        ERROR(f"No  bundle specified.")
+        ERROR("No  bundle specified.")
         sys.exit(1)
     elif not ((bundle in repos) or (bundle in ["cloudmesh", "all"])):
         ERROR(f"The bundle `{bundle}` does not exist")
@@ -419,9 +408,7 @@ def bundle_list(repos):
 def bundle_elements(bundle):
     block = Fore.BLUE + f"\n{bundle}:\n" + Fore.RESET
     elements = ' '.join(repos[bundle])
-    block = block + \
-            textwrap.indent(
-                textwrap.fill(elements, 70, break_on_hyphens=False), "    ")
+    block = block + textwrap.indent(textwrap.fill(elements, 70, break_on_hyphens=False), "    ")
     return block
 
 
@@ -429,7 +416,7 @@ def main():
     arguments = docopt(__doc__)
 
     bundle = arguments["BUNDLE"]
-    benchmark = arguments["--benchmark"]
+    benchmark = arguments["--benchmark"]  # noqa: F841
 
     arguments["DIR"] = \
         os.path.expandvars(os.path.expanduser(arguments.get("DIR") or '.'))
@@ -482,8 +469,7 @@ def main():
 
         print(installer_version)
 
-    elif arguments["list"] and not arguments["BUNDLE"] and not arguments[
-        "--git"]:
+    elif arguments["list"] and not arguments["BUNDLE"] and not arguments["--git"]:
 
         if not arguments["--short"]:
             banner("Cloudmesh Bundles")
@@ -508,15 +494,13 @@ def main():
 
         bundle = arguments["BUNDLE"]
         if bundle in repos:
-            print (bundle_elements(bundle))
+            print(bundle_elements(bundle))
         else:
-            print (f"ERROR: could not find bundle {bundle}")
-            print ("Available bundles: ")
-            print (" ".join(repos.keys()))
-
+            print(f"ERROR: could not find bundle {bundle}")
+            print("Available bundles: ")
+            print(" ".join(repos.keys()))
 
         return ""
-
 
     elif arguments["info"]:
 
@@ -563,8 +547,7 @@ def main():
             #
             try:
                 v = requests.get("https://raw.githubusercontent.com/cloudmesh"
-                                 "/{package}/main/VERSION".format(
-                    package=package)).text
+                                 f"/{package}/main/VERSION").text
                 entry[1] = v
             except:
                 v = "ERROR: can not find git version"
@@ -617,8 +600,7 @@ def main():
 
     elif arguments["clone"] and arguments["git"]:
         repositories = _get_bundles()
-        result = Git.clone(repositories, protocol=protocol)
-
+        result = Git.clone(repositories, error="INFO", protocol=protocol)
 
     elif arguments["pull"] and arguments["git"]:
         repositories = _get_bundles()
@@ -645,8 +627,7 @@ def main():
             print(
                 "Please copy the content now, so you can use it in the browser.")
             print()
-            if yn_question(
-                "would you like to open a web page to github to upload the key (yes/n)? "):
+            if yn_question("would you like to open a web page to github to upload the key (yes/n)? "):
                 webbrowser.open_new("https://github.com/settings/keys")
                 if yn_question("Is the key missing (yes/n)? "):
                     print("Paste the key in the next window and submit.")
@@ -697,8 +678,8 @@ def main():
         print('\n'.join(repositories))
         print()
 
-        result = Git._command(repositories, "make patch")
-        result = Git._command(repositories, "make release")
+        result = Git._command(repositories, "make patch")  # noqa: F841
+        result = Git._command(repositories, "make release")  # noqa: F841
 
         StopWatch.status("make patch", "released")
         StopWatch.status("make release", "released")
@@ -718,10 +699,10 @@ def main():
 
         RED(textwrap.dedent("""
             Please notice that executing this command can do harm to your
-            installation. 
-            
-            Make sure that you also check your 
-            .bashrc, .bash_profile or .zprofile files as appropriately to remove 
+            installation.
+
+            Make sure that you also check your
+            .bashrc, .bash_profile or .zprofile files as appropriately to remove
             aliasses or path variables pointing to your venv."""))
 
         print()
@@ -735,8 +716,7 @@ def main():
         print("\n".join(commands))
         print()
 
-        if arguments["--force"] and \
-            yn_question("Would you like us to execute them (yes/n)? "):
+        if arguments["--force"] and yn_question("Would you like us to execute them (yes/n)? "):
 
             print(70 * '-')
             for command in commands:
@@ -774,21 +754,19 @@ def main():
                 print(f" found -> {egg}")
             print()
 
-            if not yn_question(
-                Fore.RED + f"WARNING: Removing listed files. Do you really want to continue. yes/n)? "):
+            if not yn_question(Fore.RED + "WARNING: Removing listed files. Do you really want to continue. yes/n)? "):
                 sys.exit(1)
 
             for egg in eggs:
                 remove(egg)
 
-
     elif arguments["new"]:
 
-        python= arguments["--python"] or "python3.8"
+        python = arguments["--python"] or "python3.8"
         venv = arguments["VENV"] or os.path.basename(os.environ("VIRTUAL_ENV")) or "~/ENV3"
 
-        if os.path.basename(venv).startswith("ENV") and yn_question(
-            f"Would you like reinstall the venv {venv} (yes/n)? "):
+        if os.path.basename(venv).startswith("ENV") and \
+            yn_question(f"Would you like reinstall the venv {venv} (yes/n)? "):  # noqa: E125
 
             script = textwrap.dedent(f"""
             rm -rf {venv}
@@ -804,12 +782,9 @@ def main():
 
             script = "; ".join(script.splitlines())
 
-
             os.system(script)
 
-
             if bundles:
-
                 print()
                 print("Installing Bundles")
                 print()

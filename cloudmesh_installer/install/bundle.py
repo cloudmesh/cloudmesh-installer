@@ -35,10 +35,8 @@ classes = dict({
 
     'fa19-523': hostlist.expand_hostlist("fa19-523-[180-196,198-212]"),
 
-    'sp20': hostlist.expand_hostlist(
-        "fa19-516-[153,141,148,158,172,169,174,168]") \
-            + hostlist.expand_hostlist(
-        "sp20-516-[220,222-224,227,229-241,243,245-248,250-255]"),
+    'sp20': hostlist.expand_hostlist("fa19-516-[153,141,148,158,172,169,174,168]")
+            + hostlist.expand_hostlist("sp20-516-[220,222-224,227,229-241,243,245-248,250-255]"),
 
     'sp19':
         [
@@ -56,8 +54,8 @@ classes = dict({
             'hid-sp18-710',
             'sp19-616-111',
             'sp19-616-112'
-        ] \
-        + hostlist.expand_hostlist("sp19-516-[22,26,29,121-125,127-139]") \
+        ]
+        + hostlist.expand_hostlist("sp19-516-[22,26,29,121-125,127-139]")
         + hostlist.expand_hostlist("sp19-222-[89-94,96-102]"),
 
 })
@@ -125,7 +123,7 @@ repos = OrderedDict({
         'cloudmesh-test'
     ],
 
-    'pi': cms +[
+    'pi': cms + [
         'cloudmesh-admin',
         'cloudmesh-inventory',
         'cloudmesh-pi-cluster',
@@ -172,7 +170,7 @@ repos = OrderedDict({
         'cloudmesh-admin',
         'cloudmesh-cmsd',
         'cloudmesh-compute',
-#        'cloudmesh-storage',
+        #        'cloudmesh-storage',
     ],
 
     'docker': ['cloudmesh-cmsd'],
@@ -180,7 +178,7 @@ repos = OrderedDict({
     'docker-command': ['cloudmesh-cmsd',
                        'cloudmesh-docker'],
 
-    'iu': cms + cloud + [   # add cloud so the yaml file gets created
+    'iu': cms + cloud + [  # add cloud so the yaml file gets created
         'cloudmesh-iu',
         # cloudmesh-notebook
     ],
@@ -332,9 +330,7 @@ repos = OrderedDict({
 
     'fa19-523': hostlist.expand_hostlist("fa19-523-[180-196,198-212]"),
 
-    'sp20': hostlist.expand_hostlist(
-        "fa19-516-[153,141,148,158,172,169,174,168]") \
-            + hostlist.expand_hostlist(
+    'sp20': hostlist.expand_hostlist("fa19-516-[153,141,148,158,172,169,174,168]") + hostlist.expand_hostlist(
         "sp20-516-[220,222-224,227,229-241,243,245-248,250-255]"),
 
     'sp19':
