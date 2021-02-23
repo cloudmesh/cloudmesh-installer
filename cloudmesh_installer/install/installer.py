@@ -200,7 +200,7 @@ class Git(object):
         return color
 
     @staticmethod
-    def clone(repos, error="ERROR", protocol="https"):
+    def clone(repos, error="INFO", protocol="https"):
         repos = OrderedSet(repos)
 
         for repo in set(repos):
