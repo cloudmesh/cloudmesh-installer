@@ -129,6 +129,7 @@ repos = OrderedDict({
         'cloudmesh-ssh',
         'cloudmesh-pi-cluster',
         'cloudmesh-pi-burn',
+        'cloudmesh-diagram',
     ],
 
     # 'cloudmesh-cloud',
