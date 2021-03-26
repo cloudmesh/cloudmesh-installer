@@ -483,22 +483,6 @@ def main():
 
         print(installer_version)
 
-    elif arguments["pi"] and arguments["--dev"]:
-
-        if os_is_pi():
-            os.system("curl -Ls https://raw.githubusercontent.com/cloudmesh/get/main/pi/index.html | sh -")
-        else:
-            Console.error("Command can only be executed on a Pi")
-        return ""
-
-    elif arguments["pi"]:
-
-        if os_is_pi():
-            os.system("curl -Ls http://cloudmesh.github.io/get/pi | sh -")
-        else:
-            Console.error("Command can only be executed on a Pi")
-        return ""
-
     elif arguments["list"] and not arguments["BUNDLE"] and not arguments["--git"]:
 
         if not arguments["--short"]:
@@ -827,6 +811,22 @@ def main():
             print()
             print("    source ~/ENV3/bin/activate")
             print()
+
+        elif arguments["pi"] and arguments["--dev"]:
+
+            if os_is_pi():
+                os.system("curl -Ls https://raw.githubusercontent.com/cloudmesh/get/main/pi/index.html | sh -")
+            else:
+                Console.error("Command can only be executed on a Pi")
+            return ""
+
+        elif arguments["pi"]:
+
+            if os_is_pi():
+                os.system("curl -Ls http://cloudmesh.github.io/get/pi | sh -")
+            else:
+                Console.error("Command can only be executed on a Pi")
+            return ""
 
 
 if __name__ == '__main__':
