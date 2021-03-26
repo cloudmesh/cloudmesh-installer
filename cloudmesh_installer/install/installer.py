@@ -13,6 +13,7 @@ Usage:
   cloudmesh-installer clean --venv=ENV [--force]
   cloudmesh-installer new VENV [BUNDLES...] [--python=PYTHON]
   cloudmesh-installer release [REPOS...] [--benchmark]
+  cloudmesh-installer pi [--dev]
 
 
 A convenient program called `cloudmesh-installer` to download and install
@@ -120,6 +121,7 @@ import textwrap
 import webbrowser
 from pathlib import Path
 from pprint import pprint
+import platform
 
 import colorama
 import requests
@@ -136,6 +138,18 @@ from tabulate import tabulate
 debug = False
 benchmark = False
 
+def os_is_pi():
+    """
+    Checks if the os is Raspberry OS
+
+    :return: True is Raspberry OS
+    :rtype: bool
+    """
+    try:
+        content = readfile('/etc/os-release')
+        return platform.system() == "Linux" and "raspbian" in content
+    except:  # noqa: E722
+        return False
 
 def run(command, verbose=True):
     global benchmark
@@ -468,6 +482,22 @@ def main():
     if arguments["version"]:
 
         print(installer_version)
+
+    elif arguments["pi"] and arguments["--dev"]:
+
+        if os_is_pi():
+            os.system("curl -Ls https://raw.githubusercontent.com/cloudmesh/get/main/pi/index.html | sh -")
+        else:
+            Console.error("Command can only be executed on a Pi")
+        return ""
+
+    elif arguments["pi"]:
+
+        if os_is_pi():
+            os.system("curl -Ls http://cloudmesh.github.io/get/pi | sh -")
+        else:
+            Console.error("Command can only be executed on a Pi")
+        return ""
 
     elif arguments["list"] and not arguments["BUNDLE"] and not arguments["--git"]:
 
