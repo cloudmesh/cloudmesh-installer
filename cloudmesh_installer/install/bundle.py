@@ -89,6 +89,10 @@ repos = OrderedDict({
         'cloudmesh-manual',
     ],
 
+    'mpi': cms + [
+        'cloudmesh-mpi'
+    ],
+
     'cloud': cloud,
 
     'javascript': cloud + [
