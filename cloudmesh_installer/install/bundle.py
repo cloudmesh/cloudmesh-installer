@@ -99,8 +99,8 @@ repos = OrderedDict({
         'cloudmesh-javascript'
     ],
 
-    'job': cloud + [
-        'cloudmesh-job'
+    'queue': cloud + [
+        'cloudmesh-queue'
     ],
 
     'gui': cloud + [
@@ -331,11 +331,7 @@ repos = OrderedDict({
         [
             'book'
         ],
-    
-    'jobs': cms + [
-        'cloudmesh-job',
-    ],
-    
+
     'fa19-516': hostlist.expand_hostlist("fa19-516-[140-172,174]"),
 
     'fa19-523': hostlist.expand_hostlist("fa19-523-[180-196,198-212]"),
