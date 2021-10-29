@@ -49,7 +49,6 @@ pytest-cov
 pip-tools
 pipdeptree
 wheel
-pip-tools
 """.splitlines()
 
 # cloudmesh-common
