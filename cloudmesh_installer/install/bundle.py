@@ -97,6 +97,10 @@ repos = OrderedDict({
         'cloudmesh-data'
     ],
 
+    'gpu': cms + [
+        'cloudmesh-gpu'
+    ],
+
     'cloud': cloud,
 
     'javascript': cloud + [
