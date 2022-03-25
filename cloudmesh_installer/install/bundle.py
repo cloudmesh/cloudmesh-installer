@@ -97,6 +97,19 @@ repos = OrderedDict({
         'cloudmesh-catalog'
     ],
 
+    'slurm': cms + [
+        'cloudmesh-slurm'
+    ],
+
+    'nlp': cms + [
+        'cloudmesh-catalog',
+        'cloudmesh-nlp'
+    ],
+
+    'sbatch': cms + [
+        'cloudmesh-sbatch'
+    ],
+
     'run': cms + [
         'cloudmesh-run'
     ],
