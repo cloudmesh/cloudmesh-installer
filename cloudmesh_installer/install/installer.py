@@ -14,6 +14,7 @@ Usage:
   cloudmesh-installer new VENV [BUNDLES...] [--python=PYTHON]
   cloudmesh-installer release [REPOS...] [--benchmark]
   cloudmesh-installer pi [--dev]
+  cloudmesh-installer burn branch BRANCH
 
 
 A convenient program called `cloudmesh-installer` to download and install
@@ -134,6 +135,7 @@ from colorama import Fore, Style
 from docopt import docopt
 from ordered_set import OrderedSet
 from tabulate import tabulate
+from cloudmesh.common.Shell import Shell
 
 debug = False
 benchmark = False
@@ -826,6 +828,21 @@ def main():
                 os.system("curl -Ls http://cloudmesh.github.io/get/pi | sh -")
             else:
                 Console.error("Command can only be executed on a Pi")
+            return ""
+
+        elif arguments["branch"]:
+
+            Console.warning("This command only works if you installed the source version and are standing in the cm directory")
+            dirname = os.path.basename(os.getcwd())
+            if dirname != 'cm':
+                Console.error("you are not in cm")
+            else:
+                branch = arguments["BRANCH"]
+                for repo in ["cloudmesh-pi-burn", "cloudmesh-inventory"]:
+                    os.system(f"cd {repo}; git checkout {branch}; pip install -e .")
+                for repo in ["cloudmesh-pi-burn", "cloudmesh-inventory"]:
+                    b = Shell.run(f"cd {repo}; git rev-parse --symbolic-full-name --abbrev-ref HEAD").strip()
+                    Console.ok(f"{repo} is in branch {b}")
             return ""
 
 
