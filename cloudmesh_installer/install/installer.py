@@ -14,7 +14,7 @@ Usage:
   cloudmesh-installer new VENV [BUNDLES...] [--python=PYTHON]
   cloudmesh-installer release [REPOS...] [--benchmark]
   cloudmesh-installer pi [--dev]
-  cloudmesh-installer burn branch BRANCH
+  cloudmesh-installer burn --branch BRANCH
 
 
 A convenient program called `cloudmesh-installer` to download and install
@@ -485,6 +485,24 @@ def main():
 
         print(installer_version)
 
+    elif arguments["burn"] and arguments["--branch"] and arguments["BRANCH"]:
+        Console.warning(
+            "This command only works if you installed the source version and are standing in the cm directory")
+        dirname = os.path.basename(os.getcwd())
+
+        if dirname != 'cm':
+            Console.error("you are not in cm")
+        else:
+            branch = arguments["BRANCH"]
+            for repo in ["cloudmesh-pi-burn", "cloudmesh-inventory"]:
+                r = Shell.run(f"cd {repo} ; git checkout {branch} ; pip install -e .")
+                print(r)
+            for repo in ["cloudmesh-pi-burn", "cloudmesh-inventory"]:
+                b = Shell.run(f"cd {repo} ; git rev-parse --symbolic-full-name --abbrev-ref HEAD").strip()
+                Console.ok(f"{repo} is in branch {b}")
+
+        return ""
+
     elif arguments["list"] and not arguments["BUNDLE"] and not arguments["--git"]:
 
         if not arguments["--short"]:
@@ -830,20 +848,7 @@ def main():
                 Console.error("Command can only be executed on a Pi")
             return ""
 
-        elif arguments["branch"]:
 
-            Console.warning("This command only works if you installed the source version and are standing in the cm directory")
-            dirname = os.path.basename(os.getcwd())
-            if dirname != 'cm':
-                Console.error("you are not in cm")
-            else:
-                branch = arguments["BRANCH"]
-                for repo in ["cloudmesh-pi-burn", "cloudmesh-inventory"]:
-                    os.system(f"cd {repo}; git checkout {branch}; pip install -e .")
-                for repo in ["cloudmesh-pi-burn", "cloudmesh-inventory"]:
-                    b = Shell.run(f"cd {repo}; git rev-parse --symbolic-full-name --abbrev-ref HEAD").strip()
-                    Console.ok(f"{repo} is in branch {b}")
-            return ""
 
 
 if __name__ == '__main__':
