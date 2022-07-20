@@ -173,6 +173,19 @@ repos = OrderedDict({
         'cloudmesh-cluster'
     ],
 
+    'cc': cms + [
+        'cloudmesh-admin',
+        'cloudmesh-inventory',
+        'cloudmesh-cc',
+        'vloudmesh-vpn'
+    ],
+
+    'vpn': cms + [
+        'cloudmesh-admin',
+        'cloudmesh-inventory',
+        'vloudmesh-vpn'
+    ],
+
     'kubernetes': cms + [
         'cloudmesh-admin',
         'cloudmesh-inventory',
