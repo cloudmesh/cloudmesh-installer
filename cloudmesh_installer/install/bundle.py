@@ -107,6 +107,7 @@ repos = OrderedDict({
     ],
 
     'sbatch': cms + [
+        'cloudmesh-progress',
         'cloudmesh-sbatch'
     ],
 
