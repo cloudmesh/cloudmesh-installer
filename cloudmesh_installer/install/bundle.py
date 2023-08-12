@@ -106,11 +106,6 @@ repos = OrderedDict({
         'cloudmesh-nlp'
     ],
 
-    'sbatch': cms + [
-        'cloudmesh-progress',
-        'cloudmesh-sbatch'
-    ],
-
     'run': cms + [
         'cloudmesh-run'
     ],
@@ -174,11 +169,35 @@ repos = OrderedDict({
         'cloudmesh-cluster'
     ],
 
+    'executor': cms + [
+        'cloudmesh-admin',
+        'cloudmesh-inventory',
+        'cloudmesh-cc',
+        'cloudmesh-ee',
+        'cloudmesh-vpn',
+        'cloudmesh-rivanna'
+    ],
+
+    'sbatch': cms + [
+        'cloudmesh-progress',
+        'cloudmesh-ee'
+        'cloudmesh-vpn',
+        'cloudmesh-rivanna'
+    ],
+
+    'ee': cms + [
+        'cloudmesh-progress',
+        'cloudmesh-ee',
+        'cloudmesh-vpn',
+        'cloudmesh-rivanna'
+    ],
+
     'cc': cms + [
         'cloudmesh-admin',
         'cloudmesh-inventory',
         'cloudmesh-cc',
-        'cloudmesh-vpn'
+        'cloudmesh-vpn',
+        'cloudmesh-rivanna'
     ],
 
     'vpn': cms + [
