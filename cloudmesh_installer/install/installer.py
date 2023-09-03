@@ -129,6 +129,7 @@ import requests
 from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.console import Console
 from cloudmesh.common.util import banner
+from cloudmesh.common.systeminfo import os_is_windows
 from cloudmesh_installer.install.__version__ import version as installer_version
 from cloudmesh_installer.install.bundle import *
 from colorama import Fore, Style
@@ -675,6 +676,30 @@ def main():
     elif arguments["get"] or arguments["update"]:
 
         repositories = _get_bundles()
+
+        Console.info('Checking if git is installed')
+        installed = False
+        try:
+            # Use the "git --version" command to check if Git is installed
+            subprocess.check_output(["git", "--version"])
+            installed = True
+        except FileNotFoundError:
+            # If the "git" command is not found, Git is not installed
+            pass
+        except subprocess.CalledProcessError:
+            # If "git --version" returns an error, Git is likely not installed
+            pass
+
+        if installed is False:
+            if os_is_windows:
+                Console.info('Installing chocolatey to install git...')
+                Shell.install_chocolatey()
+                Console.info('Installing git...')
+                Shell.install_choco_package('git.install --params "/GitAndUnixToolsOnPath /Editor:Nano /PseudoConsoleSupport /NoAutoCrlf"')
+                
+            else:
+                Console.error("Please install git")
+                return
 
         Git.get(repositories, protocol=protocol)
 
