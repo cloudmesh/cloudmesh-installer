@@ -692,11 +692,18 @@ def main():
 
         if installed is False:
             if os_is_windows:
-                Console.msg('Installing chocolatey...')
+                
                 if Shell.install_chocolatey() is False:
                     os._exit(1)
-                Console.msg('Installing git...')
-                Shell.install_choco_package('git.install --params "/GitAndUnixToolsOnPath /Editor:Nano /PseudoConsoleSupport /NoAutoCrlf"')
+                    # Get the full path of the current Python script
+                
+                # current_script_path = os.path.abspath(__file__)
+
+                # Extract the directory path from the script's path
+                # current_script_directory = os.path.dirname(current_script_path)
+                # command = fr'{current_script_directory}\refrenv.ps1'
+                # print(command)
+                # completed_process = subprocess.run(['powershell.exe', '-File', command], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
             else:
                 Console.error("Please install git")
