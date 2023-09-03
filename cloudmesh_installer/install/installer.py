@@ -677,7 +677,7 @@ def main():
 
         repositories = _get_bundles()
 
-        Console.info('Checking if git is installed')
+        Console.msg('Checking if git is installed...')
         installed = False
         try:
             # Use the "git --version" command to check if Git is installed
@@ -692,10 +692,10 @@ def main():
 
         if installed is False:
             if os_is_windows:
-                Console.info('Installing chocolatey to install git...')
+                Console.msg('Installing chocolatey...')
                 if Shell.install_chocolatey() is False:
                     os._exit(1)
-                Console.info('Installing git...')
+                Console.msg('Installing git...')
                 Shell.install_choco_package('git.install --params "/GitAndUnixToolsOnPath /Editor:Nano /PseudoConsoleSupport /NoAutoCrlf"')
 
             else:
