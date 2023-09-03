@@ -49,6 +49,8 @@ pytest-cov
 pip-tools
 pipdeptree
 wheel
+pywin32; platform_system == "Windows"
+pyuac; platform_system == "Windows"
 """.splitlines()
 
 # cloudmesh-common
