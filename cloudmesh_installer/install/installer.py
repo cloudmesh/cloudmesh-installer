@@ -693,10 +693,11 @@ def main():
         if installed is False:
             if os_is_windows:
                 Console.info('Installing chocolatey to install git...')
-                Shell.install_chocolatey()
+                if Shell.install_chocolatey() is False:
+                    os._exit(1)
                 Console.info('Installing git...')
                 Shell.install_choco_package('git.install --params "/GitAndUnixToolsOnPath /Editor:Nano /PseudoConsoleSupport /NoAutoCrlf"')
-                
+
             else:
                 Console.error("Please install git")
                 return
