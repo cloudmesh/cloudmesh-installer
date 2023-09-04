@@ -129,6 +129,7 @@ import requests
 from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.console import Console
 from cloudmesh.common.util import banner
+from cloudmesh.common.util import readfile
 from cloudmesh.common.systeminfo import os_is_windows
 from cloudmesh_installer.install.__version__ import version as installer_version
 from cloudmesh_installer.install.bundle import *
