@@ -692,7 +692,7 @@ def main():
             pass
 
         if installed is False:
-            if os_is_windows:
+            if os_is_windows():
                 
                 if Shell.install_chocolatey() is False:
                     os._exit(1)
