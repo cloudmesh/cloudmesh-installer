@@ -35,6 +35,7 @@ Note: you can also use `cmsi` instead of `cloudmesh-installer`
 
 Description:
 
+    cmsi list
     cloudmesh-installer list
 
         Cloudmesh has a number of bundles. Bundles are simple a number of git
@@ -43,14 +44,17 @@ Description:
 
         This command lists all available bundles
 
+    cmsi list bundle
     cloudmesh-installer list bundle
 
         lists the information about a particular bundle.
 
+    cmsi list [BUNDLE] --git
     cloudmesh-installer list [BUNDLE] --git
 
         Shows the location of the repositories in a bundle.
 
+    cmsi info
     cloudmesh-installer info
 
         The info command gives some very basic information about the version
@@ -59,6 +63,7 @@ Description:
 
         In addition we try to check if you do use venv
 
+    cmsi git key [LOCATION]
     cloudmesh-installer git key [LOCATION]
 
         This command only works if you use ssh keys to authenticate with github.
@@ -67,10 +72,13 @@ Description:
         key upload. You do not have tou use this command. It is intenden for
         novice users.
 
+    cmsi git [clone|pull|status] [BUNDLE]
     cloudmesh-installer git [clone|pull|status] [BUNDLE]
 
         This command executes the given git command on the bundle
 
+    cmsi update [BUNDLE]
+    cmsi get [BUNDLE]
     cloudmesh-installer update [BUNDLE]
     cloudmesh-installer get [BUNDLE]
 
@@ -80,6 +88,7 @@ Description:
 
         The code is checked out with https
 
+    cmsi get -ssh [BUNDLE]
     cloudmesh-installer get -ssh [BUNDLE]
 
         For each repository in the bundle it clones it and also pulls.
@@ -88,32 +97,36 @@ Description:
 
         The code is checked out with ssh
 
+    cmsi install [BUNDLE]
     cloudmesh-installer install [BUNDLE]
 
         This command executes an install on the given bundle
 
+    cmsi info
     cloudmesh-installer info
 
         This command is very useful to list the version of the installed
         package, the version n git, and the version on pypi
 
+    cmsi clean --dir=. --force
     cloudmesh-installer clean --dir=. --force
 
        removes the egs in the current directory tree
 
+    cmsi clean --venv=ENV --force
     cloudmesh-installer clean --venv=ENV --force
 
         removes the venv in ~/ENV
 
     Examples:
 
-        let us assume you like to work on storage, than you need to do the following
+        let us assume you like to work on bar, than you need to do the following
 
             mkdir cm
             cd cm
-            cloudmesh-installer git clone storage
-            cloudmesh-installer install storage
-            cloudmesh-installer info
+            cmsi git clone bar
+            cmsi install bar
+            cmsi info
 
 """
 import os
