@@ -15,7 +15,8 @@ Usage:
   cloudmesh-installer release [REPOS...] [--benchmark]
   cloudmesh-installer pi [--dev]
   cloudmesh-installer burn --branch BRANCH
-
+  cloudmesh-installer help
+  cloudmesh-installer usage
 
 A convenient program called `cloudmesh-installer` to download and install
 cloudmesh from sources published in github.
@@ -29,6 +30,8 @@ Arguments:
 Options:
   -h --help
   --force   force the execution of the command. This command could delete files.
+
+Note: you can also use `cmsi` instead of `cloudmesh-installer`
 
 Description:
 
@@ -131,8 +134,8 @@ from cloudmesh.common.console import Console
 from cloudmesh.common.util import banner
 from cloudmesh.common.util import readfile
 from cloudmesh.common.systeminfo import os_is_windows
-from cloudmesh_installer.install.__version__ import version as installer_version
-from cloudmesh_installer.install.bundle import *
+from cloudmesh.installer.__version__ import version as installer_version
+from cloudmesh.installer.bundle import *
 from colorama import Fore, Style
 from docopt import docopt
 from ordered_set import OrderedSet
@@ -483,7 +486,15 @@ def main():
         if repo.startswith("cloudmesh-"):
             repos["cloudmesh"].append(repo)
 
-    if arguments["version"]:
+    if arguments['help']:
+            print(__doc__)
+
+    if arguments['usage']:
+            usage = main.__doc__.split('\n\n')[0]
+            print(usage)
+            print()
+
+    elif arguments["version"]:
 
         print(installer_version)
 
