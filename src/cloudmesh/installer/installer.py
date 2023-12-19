@@ -145,6 +145,7 @@ from cloudmesh.common.Shell import Shell
 debug = False
 benchmark = False
 
+
 def os_is_pi():
     """
     Checks if the os is Raspberry OS
@@ -153,10 +154,11 @@ def os_is_pi():
     :rtype: bool
     """
     try:
-        content = readfile('/etc/os-release')
+        content = readfile("/etc/os-release")
         return platform.system() == "Linux" and "raspbian" in content
     except:  # noqa: E722
         return False
+
 
 def run(command, verbose=True):
     global benchmark
@@ -164,10 +166,11 @@ def run(command, verbose=True):
         print(command)
     try:
         StopWatch.start(command)
-        output = subprocess.check_output(command,
-                                         shell=True,
-                                         stderr=subprocess.STDOUT,
-                                         )
+        output = subprocess.check_output(
+            command,
+            shell=True,
+            stderr=subprocess.STDOUT,
+        )
         StopWatch.stop(command)
         StopWatch.status(command, "error" not in str(output).lower())
 
@@ -177,7 +180,7 @@ def run(command, verbose=True):
             print(Fore.RED + f"ERROR: {err}")
         sys.exit(1)
 
-    return output.decode('utf-8')
+    return output.decode("utf-8")
 
 
 def script(commands, environment):
@@ -187,23 +190,27 @@ def script(commands, environment):
 
 
 class Git(object):
-
     # "git@github.com:cloudmesh/cloudmesh-installer.git"
 
     @staticmethod
     def url(repo, protocol="https"):
-
         if protocol == "https":
             prefix = "https://github.com/"
         else:
             prefix = "git@github.com:"
         print(repo)
         global repos
-        if repo in repos['community'] or 'sp19' in repo or 'fa19' in repo or 'sp20' in repo or 'fa20' in repo:
+        if (
+            repo in repos["community"]
+            or "sp19" in repo
+            or "fa19" in repo
+            or "sp20" in repo
+            or "fa20" in repo
+        ):
             return f"{prefix}cloudmesh-community/{repo}"
-        elif 'bookmanager' in repo:
+        elif "bookmanager" in repo:
             return f"{prefix}cyberaide/{repo}"
-        elif 'book' == repo:
+        elif "book" == repo:
             return f"{prefix}cloudmesh-community/{repo}"
         else:
             return f"{prefix}cloudmesh/{repo}"
@@ -236,10 +243,11 @@ class Git(object):
                 except Exception as e:
                     print(e)
             else:
-
                 color = Git.error_color(error)
 
-                print(color + f"         {error}: not downloaded as repo already exists.")
+                print(
+                    color + f"         {error}: not downloaded as repo already exists."
+                )
 
     @staticmethod
     def version(repos):
@@ -297,12 +305,10 @@ class Git(object):
 
     @staticmethod
     def status(repos):
-        Git.command(repos, "status",
-                    ok_msg="nothing to commit, working tree clean")
+        Git.command(repos, "status", ok_msg="nothing to commit, working tree clean")
 
     @staticmethod
     def authors(repos, error="ERROR"):
-
         command = "shortlog -e -s -n"
         Git.command(repos, command)
 
@@ -318,13 +324,11 @@ class Git(object):
 
     @staticmethod
     def install(repos, dev=False, protocol="https"):
-
         repos = OrderedSet(repos)
 
         Git.clone(repos, protocol=protocol)
 
         for repo in repos:
-
             StopWatch.start("install " + repo)
 
             if dev:
@@ -361,16 +365,17 @@ class Git(object):
 
 # git clone https://github.com/cloudmesh/get.git
 
+
 def yn_question(msg):
     while True:
         query = input(Fore.RED + msg)
         answer = query.lower().strip()
-        if query == '' or answer not in ['yes', 'n']:
-            print('Please answer with yes/n!')
+        if query == "" or answer not in ["yes", "n"]:
+            print("Please answer with yes/n!")
         else:
             break
     print(Fore.RESET)
-    return answer == 'yes'
+    return answer == "yes"
 
 
 def RED(msg):
@@ -428,8 +433,10 @@ def bundle_list(repos):
 
 def bundle_elements(bundle):
     block = Fore.BLUE + f"\n{bundle}:\n" + Fore.RESET
-    elements = ' '.join(repos[bundle])
-    block = block + textwrap.indent(textwrap.fill(elements, 70, break_on_hyphens=False), "    ")
+    elements = " ".join(repos[bundle])
+    block = block + textwrap.indent(
+        textwrap.fill(elements, 70, break_on_hyphens=False), "    "
+    )
     return block
 
 
@@ -439,11 +446,12 @@ def main():
     bundle = arguments["BUNDLE"]
     benchmark = arguments["--benchmark"]  # noqa: F841
 
-    arguments["DIR"] = \
-        os.path.expandvars(os.path.expanduser(arguments.get("DIR") or '.'))
-    arguments["LOCATION"] = \
-        os.path.expandvars(os.path.expanduser(
-            arguments.get("LOCATION") or '~/.ssh/id_rsa.pub'))
+    arguments["DIR"] = os.path.expandvars(
+        os.path.expanduser(arguments.get("DIR") or ".")
+    )
+    arguments["LOCATION"] = os.path.expandvars(
+        os.path.expanduser(arguments.get("LOCATION") or "~/.ssh/id_rsa.pub")
+    )
 
     protocol = "https"
     if arguments["--ssh"]:
@@ -486,24 +494,24 @@ def main():
         if repo.startswith("cloudmesh-"):
             repos["cloudmesh"].append(repo)
 
-    if arguments['help']:
-            print(__doc__)
+    if arguments["help"]:
+        print(__doc__)
 
-    if arguments['usage']:
-            usage = main.__doc__.split('\n\n')[0]
-            print(usage)
-            print()
+    if arguments["usage"]:
+        usage = main.__doc__.split("\n\n")[0]
+        print(usage)
+        print()
 
     elif arguments["version"]:
-
         print(installer_version)
 
     elif arguments["burn"] and arguments["--branch"] and arguments["BRANCH"]:
         Console.warning(
-            "This command only works if you installed the source version and are standing in the cm directory")
+            "This command only works if you installed the source version and are standing in the cm directory"
+        )
         dirname = os.path.basename(os.getcwd())
 
-        if dirname != 'cm':
+        if dirname != "cm":
             Console.error("you are not in cm")
         else:
             branch = arguments["BRANCH"]
@@ -511,13 +519,14 @@ def main():
                 r = Shell.run(f"cd {repo} ; git checkout {branch} ; pip install -e .")
                 print(r)
             for repo in ["cloudmesh-pi-burn", "cloudmesh-inventory"]:
-                b = Shell.run(f"cd {repo} ; git rev-parse --symbolic-full-name --abbrev-ref HEAD").strip()
+                b = Shell.run(
+                    f"cd {repo} ; git rev-parse --symbolic-full-name --abbrev-ref HEAD"
+                ).strip()
                 Console.ok(f"{repo} is in branch {b}")
 
         return ""
 
     elif arguments["list"] and not arguments["BUNDLE"] and not arguments["--git"]:
-
         if not arguments["--short"]:
             banner("Cloudmesh Bundles")
             block = ""
@@ -538,7 +547,6 @@ def main():
             print(f"{location}.git")
 
     elif arguments["list"] and arguments["BUNDLE"]:
-
         bundle = arguments["BUNDLE"]
         if bundle in repos:
             print(bundle_elements(bundle))
@@ -550,23 +558,24 @@ def main():
         return ""
 
     elif arguments["info"]:
-
         verbose = arguments["--verbose"]
-        native = hasattr(sys, 'real_prefix')
+        native = hasattr(sys, "real_prefix")
         executable = sys.executable
         if native:
             banner(WARNING, c=Fore.RED)
             print()
-            RED("You are likely not running in a venv. "
+            RED(
+                "You are likely not running in a venv. "
                 "Please remember that for "
                 "development purposes we recommend you run in a venv. "
-                "Please consult with our handbook on how to set one up")
+                "Please consult with our handbook on how to set one up"
+            )
 
         print()
         print("We found python in:")
         print(executable)
         print()
-        print(70 * '-')
+        print(70 * "-")
         print()
 
         # print("info")
@@ -578,7 +587,6 @@ def main():
         packages = repos[bundle]
 
         for package in packages:
-
             undefined = Fore.RED + "not found" + Style.RESET_ALL
             entry = [
                 package,
@@ -593,13 +601,15 @@ def main():
             # GIT
             #
             try:
-                v = requests.get("https://raw.githubusercontent.com/cloudmesh"
-                                 f"/{package}/main/VERSION").text
+                v = requests.get(
+                    "https://raw.githubusercontent.com/cloudmesh"
+                    f"/{package}/main/VERSION"
+                ).text
                 entry[1] = v
             except:
                 v = "ERROR: can not find git version"
             finally:
-                if '404' in v:
+                if "404" in v:
                     v = "ERROR: can not find git version"
             if verbose:
                 print("... Github Version ->", v)
@@ -608,8 +618,9 @@ def main():
             # PYPI
             #
             try:
-                v = requests.get("https://pypi.org/project/{package}/".format(
-                    package=package)).text
+                v = requests.get(
+                    "https://pypi.org/project/{package}/".format(package=package)
+                ).text
                 pat_str = '(.*)<h1 class="package-header__name">(.+?)</h1>(.*)'
                 pattern = re.compile(pat_str, re.M | re.I | re.S)
                 groups = re.match(pattern, v)
@@ -626,8 +637,7 @@ def main():
             # INSTALLED
             #
             try:
-                installed = run(f"pip freeze | grep {package}",
-                                verbose=False).strip()
+                installed = run(f"pip freeze | grep {package}", verbose=False).strip()
                 entry[3] = installed
             except:
                 installed = "ERROR: can not find installed version"
@@ -658,7 +668,6 @@ def main():
         Git.authors(repositories)
 
     elif arguments["key"] and arguments["git"]:
-
         try:
             location = arguments["LOCATION"]
             print("Key location:", location)
@@ -671,10 +680,11 @@ def main():
             print(70 * "-")
             print(key_contents.strip())
             print(70 * "-")
-            print(
-                "Please copy the content now, so you can use it in the browser.")
+            print("Please copy the content now, so you can use it in the browser.")
             print()
-            if yn_question("would you like to open a web page to github to upload the key (yes/n)? "):
+            if yn_question(
+                "would you like to open a web page to github to upload the key (yes/n)? "
+            ):
                 webbrowser.open_new("https://github.com/settings/keys")
                 if yn_question("Is the key missing (yes/n)? "):
                     print("Paste the key in the next window and submit.")
@@ -686,10 +696,9 @@ def main():
             print("To avoid typing in the password all the time, use ssh-add")
 
     elif arguments["get"] or arguments["update"]:
-
         repositories = _get_bundles()
 
-        Console.msg('Checking if git is installed...')
+        Console.msg("Checking if git is installed...")
         installed = False
         try:
             # Use the "git --version" command to check if Git is installed
@@ -704,11 +713,10 @@ def main():
 
         if installed is False:
             if os_is_windows():
-                
                 if Shell.install_chocolatey() is False:
                     os._exit(1)
                     # Get the full path of the current Python script
-                
+
                 # current_script_path = os.path.abspath(__file__)
 
                 # Extract the directory path from the script's path
@@ -729,7 +737,7 @@ def main():
     elif arguments["install"]:
         banner(f"Installing bundles: {bundles}")
         repositories = OrderedSet(_get_bundles())
-        print('\n'.join(repositories))
+        print("\n".join(repositories))
         print()
         if arguments["--venv"]:
             result = Git.install(repositories)
@@ -739,7 +747,6 @@ def main():
         StopWatch.benchmark(sysinfo=True)
 
     elif arguments["release"]:
-
         testing = "TESTING" in os.environ
 
         if testing:
@@ -754,7 +761,7 @@ def main():
             repositories.append(f"cloudmesh-{repository}")
 
         banner(f"Releasing repositories: {repositories}")
-        print('\n'.join(repositories))
+        print("\n".join(repositories))
         print()
 
         result = Git._command(repositories, "make patch")  # noqa: F841
@@ -776,37 +783,42 @@ def main():
         print()
         banner(WARNING, c=Fore.RED)
 
-        RED(textwrap.dedent("""
+        RED(
+            textwrap.dedent(
+                """
             Please notice that executing this command can do harm to your
             installation.
 
             Make sure that you also check your
             .bashrc, .bash_profile or .zprofile files as appropriately to remove
-            aliasses or path variables pointing to your venv."""))
+            aliasses or path variables pointing to your venv."""
+            )
+        )
 
         print()
 
-        print(70 * '-')
+        print(70 * "-")
         banner(f"Removing {environment}")
-        print(70 * '-')
+        print(70 * "-")
         print()
 
         commands = [f'rm -rf "~/{environment}"']
         print("\n".join(commands))
         print()
 
-        if arguments["--force"] and yn_question("Would you like us to execute them (yes/n)? "):
-
-            print(70 * '-')
+        if arguments["--force"] and yn_question(
+            "Would you like us to execute them (yes/n)? "
+        ):
+            print(70 * "-")
             for command in commands:
                 print("Executing:", command)
                 print()
                 os.system(command)
-            print(70 * '-')
+            print(70 * "-")
             print()
 
     elif arguments["clean"] and arguments["--dir"]:
-        dryrun = not arguments['--force']
+        dryrun = not arguments["--force"]
 
         directory = arguments["--dir"]
 
@@ -817,37 +829,45 @@ def main():
             for egg in eggs:
                 print(f" found -> {egg}")
         else:
-
             print()
             banner(WARNING, c=Fore.RED)
 
-            RED(textwrap.dedent("""
+            RED(
+                textwrap.dedent(
+                    """
                 Please notice that executing this command can do harm to your
                 installation. If you delete files with this command it is on your
                 own risk. The deletion may have bad effects on your python
                 environment. So please only use it if you know what it effects.
-                """))
+                """
+                )
+            )
             print()
 
             for egg in eggs:
                 print(f" found -> {egg}")
             print()
 
-            if not yn_question(Fore.RED + "WARNING: Removing listed files. Do you really want to continue. yes/n)? "):
+            if not yn_question(
+                Fore.RED
+                + "WARNING: Removing listed files. Do you really want to continue. yes/n)? "
+            ):
                 sys.exit(1)
 
             for egg in eggs:
                 remove(egg)
 
     elif arguments["new"]:
-
         python = arguments["--python"] or "python3.8"
-        venv = arguments["VENV"] or os.path.basename(os.environ("VIRTUAL_ENV")) or "~/ENV3"
+        venv = (
+            arguments["VENV"] or os.path.basename(os.environ("VIRTUAL_ENV")) or "~/ENV3"
+        )
 
-        if os.path.basename(venv).startswith("ENV") and \
-            yn_question(f"Would you like reinstall the venv {venv} (yes/n)? "):  # noqa: E125
-
-            script = textwrap.dedent(f"""
+        if os.path.basename(venv).startswith("ENV") and yn_question(
+            f"Would you like reinstall the venv {venv} (yes/n)? "
+        ):  # noqa: E125
+            script = textwrap.dedent(
+                f"""
             rm -rf {venv}
             {python} -m venv {venv}
             source {venv}/bin/activate
@@ -857,7 +877,8 @@ def main():
             python --version
             pip --version
             pip install cloudmesh-installer
-            """).strip()
+            """
+            ).strip()
 
             script = "; ".join(script.splitlines())
 
@@ -872,21 +893,23 @@ def main():
 
             print()
             print(
-                "You can add the following to your .bashrc or .bash_profile" or ".zprofile")
+                "You can add the following to your .bashrc or .bash_profile"
+                or ".zprofile"
+            )
             print()
             print("    source ~/ENV3/bin/activate")
             print()
 
         elif arguments["pi"] and arguments["--dev"]:
-
             if os_is_pi():
-                os.system("curl -Ls https://raw.githubusercontent.com/cloudmesh/get/main/pi/index.html | sh -")
+                os.system(
+                    "curl -Ls https://raw.githubusercontent.com/cloudmesh/get/main/pi/index.html | sh -"
+                )
             else:
                 Console.error("Command can only be executed on a Pi")
             return ""
 
         elif arguments["pi"]:
-
             if os_is_pi():
                 os.system("curl -Ls http://cloudmesh.github.io/get/pi | sh -")
             else:
@@ -894,7 +917,5 @@ def main():
             return ""
 
 
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
