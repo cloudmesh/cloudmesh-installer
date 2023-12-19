@@ -29,36 +29,6 @@ cloud = cms + [
     'cloudmesh-openstack',
 ]
 
-classes = dict({
-
-    'fa19-516': hostlist.expand_hostlist("fa19-516-[140-172,174]"),
-
-    'fa19-523': hostlist.expand_hostlist("fa19-523-[180-196,198-212]"),
-
-    'sp20': hostlist.expand_hostlist("fa19-516-[153,141,148,158,172,169,174,168]")
-            + hostlist.expand_hostlist("sp20-516-[220,222-224,227,229-241,243,245-248,250-255]"),
-
-    'sp19':
-        [
-            'hid-sample',
-            'hid-sp18-407',
-            'hid-sp18-512',
-            'hid-sp18-519',
-            'hid-sp18-520',
-            'hid-sp18-522',
-            'hid-sp18-523',
-            'hid-sp18-602',
-            'hid-sp18-701',
-            'hid-sp18-704',
-            'hid-sp18-709',
-            'hid-sp18-710',
-            'sp19-616-111',
-            'sp19-616-112'
-        ]
-        + hostlist.expand_hostlist("sp19-516-[22,26,29,121-125,127-139]")
-        + hostlist.expand_hostlist("sp19-222-[89-94,96-102]"),
-
-})
 
 repos = OrderedDict({
 
@@ -246,10 +216,11 @@ repos = OrderedDict({
     'docker-command': ['cloudmesh-cmsd',
                        'cloudmesh-docker'],
 
-    'iu': cms + cloud + [  # add cloud so the yaml file gets created
-        'cloudmesh-iu',
-        # cloudmesh-notebook
-    ],
+    # this bundles is deprecated
+    # 'iu': cms + cloud + [  # add cloud so the yaml file gets created
+    #     'cloudmesh-iu',
+    #     # cloudmesh-notebook
+    # ],
 
     'batch': cloud + [
         'cloudmesh-batch'
@@ -302,6 +273,7 @@ repos = OrderedDict({
         'cloudmesh-oracle',
         'cloudmesh-multipass'
     ],
+
     'frugal': cloud + [
         'cloudmesh-frugal'
     ],
@@ -313,11 +285,6 @@ repos = OrderedDict({
 
     'openapi': cms + cloud + [
         'cloudmesh-openapi',
-    ],
-
-    'twitter': cms + [
-        'cloudmesh-admin',
-        'cloudmesh-twitter'
     ],
 
     'source': cloud + [
@@ -336,7 +303,6 @@ repos = OrderedDict({
         'cloudmesh-git',
         'cloudmesh-google',
         'cloudmesh-gui',
-        'cloudmesh-iu',
         'cloudmesh-javascript',
         'cloudmesh-nist',
         'cloudmesh-nn',
@@ -358,6 +324,8 @@ repos = OrderedDict({
     'deprecated': [
         'cloudmesh-comet',
         'cloudmesh-conda'
+        'cloudmesh-iu'
+        'cloudmesh-twitter'
     ],
 
     'web': [
@@ -377,10 +345,6 @@ repos = OrderedDict({
 
     'emr': cloud + [
         'cloudmesh-emr',
-    ],
-
-    'conda': [
-        'cloudmesh-conda'
     ],
 
     'bookmanager':
@@ -420,5 +384,36 @@ repos = OrderedDict({
         ] \
         + hostlist.expand_hostlist("sp19-516-[22,26,29,121-125,127-139]") \
         + hostlist.expand_hostlist("sp19-222-[89-94,96-102]")
+
+})
+
+classes = dict({
+
+    'fa19-516': hostlist.expand_hostlist("fa19-516-[140-172,174]"),
+
+    'fa19-523': hostlist.expand_hostlist("fa19-523-[180-196,198-212]"),
+
+    'sp20': hostlist.expand_hostlist("fa19-516-[153,141,148,158,172,169,174,168]")
+            + hostlist.expand_hostlist("sp20-516-[220,222-224,227,229-241,243,245-248,250-255]"),
+
+    'sp19':
+        [
+            'hid-sample',
+            'hid-sp18-407',
+            'hid-sp18-512',
+            'hid-sp18-519',
+            'hid-sp18-520',
+            'hid-sp18-522',
+            'hid-sp18-523',
+            'hid-sp18-602',
+            'hid-sp18-701',
+            'hid-sp18-704',
+            'hid-sp18-709',
+            'hid-sp18-710',
+            'sp19-616-111',
+            'sp19-616-112'
+        ]
+        + hostlist.expand_hostlist("sp19-516-[22,26,29,121-125,127-139]")
+        + hostlist.expand_hostlist("sp19-222-[89-94,96-102]"),
 
 })
