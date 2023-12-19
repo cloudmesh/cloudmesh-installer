@@ -15,6 +15,7 @@ Usage:
   cloudmesh-installer release [REPOS...] [--benchmark]
   cloudmesh-installer pi [--dev]
   cloudmesh-installer burn --branch BRANCH
+  cloudmesh-installer to5
   cloudmesh-installer help
   cloudmesh-installer usage
 
@@ -154,6 +155,7 @@ from docopt import docopt
 from ordered_set import OrderedSet
 from tabulate import tabulate
 from cloudmesh.common.Shell import Shell
+import os
 
 debug = False
 benchmark = False
@@ -201,6 +203,49 @@ def script(commands, environment):
         result = run(command.format(env=environment))
         print(result)
 
+class Five:
+
+    @staticmethod
+    def replace_string_in_file(filepath, target_string, replacement_string):
+        with open(filepath, "r") as file:
+            file_data = file.read()
+
+        # Replace the target string
+        file_data = file_data.replace(target_string, replacement_string)
+
+        # Write the file out again
+        with open(filepath, "w") as file:
+            file.write(file_data)
+
+    @staticmethod
+    def get_command_name():
+        current_dir = os.path.basename(os.getcwd())
+
+        # Replace "cloudmesh-" with an empty string
+        command_name = current_dir.replace("cloudmesh-", "")
+        return command_name
+
+    @staticmethod
+    def convert():
+        commands = [
+            "mkdir src",
+            "git add src",
+            "git mv cloudmesh src",
+            "cp ../cloudmesh-bar/Makefile .",
+            "cp ../cloudmesh-bar/bumpversion.yaml .",
+            "cp ../cloudmesh-bar/pyproject.toml .",
+            "cp ../cloudmesh-bar/.editorconfig .",
+            "cp ../cloudmesh-bar/requirements-dev.txt .",
+            "rm .bumpversion.cfg",
+            "rm src/cloudmesh/__init__.py",
+        ]
+        name = Five.get_command_name()
+        for command in commands:
+            os.system(command)
+        for filename in ["bumpversion.yaml", "pyproject.toml"]:
+            Five.replace_string_in_file(filename, "bar", name)
+
+        Console.warning("Do not forget to delete: setup.py")
 
 class Git(object):
     # "git@github.com:cloudmesh/cloudmesh-installer.git"
@@ -514,6 +559,10 @@ def main():
         usage = main.__doc__.split("\n\n")[0]
         print(usage)
         print()
+
+    elif arguments["to5"]:
+
+        Five.convert()
 
     elif arguments["version"]:
         print(installer_version)
