@@ -1,5 +1,4 @@
 installer:
 - src/cloudmesh/installer/__init__.py
-- src/cloudmesh/installer/__version__.py
 - pyproject.toml
 - VERSION
