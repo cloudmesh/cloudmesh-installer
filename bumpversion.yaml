@@ -1,4 +1,4 @@
-installer:
+bumpversion:
 - src/cloudmesh/installer/__init__.py
 - pyproject.toml
 - VERSION
