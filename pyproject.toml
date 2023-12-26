@@ -64,7 +64,7 @@ Changelog = "https://github.com/cloudmesh/cloudmesh-installer/blob/main/CHANGELO
 
 
 [tool.setuptools.packages.find]
-where = ["src/"]
+where = ["src"]
 include = ["cloudmesh.installer", "cloudmesh.installer.*"]
 
 [project.scripts]
