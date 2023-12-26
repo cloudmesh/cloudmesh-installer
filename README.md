@@ -52,3 +52,45 @@ Tests
 This work was in part funded by the NSF
 CyberTraining: CIC: CyberTraining for Students and Technologies
 from Generation Z with the awadrd numbers 1829704 and 2200409.
+
+
+
+## Manual Page
+
+<!-- START-MANUAL -->
+```
+Command bar
+===========
+
+::
+
+  Usage:
+        bar --file=FILE
+        bar list
+        bar [--parameter=PARAMETER] [--experiment=EXPERIMENT] [COMMAND...]
+
+  This command does some useful things.
+
+  Arguments:
+      FILE   a file name
+      PARAMETER  a parameterized parameter of the form "a[0-3],a5"
+
+  Options:
+      -f      specify the file
+
+  Description:
+
+    > cms bar --parameter="a[1-2,5],a10"
+    >    example on how to use Parameter.expand. See source code at
+    >      https://github.com/cloudmesh/cloudmesh-bar/blob/main/cloudmesh/bar/command/bar.py
+    >    prints the expanded parameter as a list
+    >    ['a1', 'a2', 'a3', 'a4', 'a5', 'a10']
+
+    > bar exp --experiment=a=b,c=d
+    > example on how to use Parameter.arguments_to_dict. See source code at
+    >      https://github.com/cloudmesh/cloudmesh-bar/blob/main/cloudmesh/bar/command/bar.py
+    > prints the parameter as dict
+    >   {'a': 'b', 'c': 'd'}
+
+```
+<!-- STOP-MANUAL -->
