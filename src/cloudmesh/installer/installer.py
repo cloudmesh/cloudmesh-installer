@@ -615,7 +615,7 @@ def main():
         native = hasattr(sys, "real_prefix")
         executable = sys.executable
         if native:
-            banner(WARNING, c=Fore.RED)
+            banner(WARNING, c=Console.theme["RED"])
             print()
             Console.red(
                 "You are likely not running in a venv. "
@@ -902,8 +902,8 @@ def main():
             print()
 
             if not yn_question(
-                Fore.RED
-                + "WARNING: Removing listed files. Do you really want to continue. yes/n)? "
+                Fore.RED + 
+                "WARNING: Removing listed files. Do you really want to continue. yes/n)? "
             ):
                 sys.exit(1)
 
