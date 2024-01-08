@@ -148,7 +148,7 @@ from cloudmesh.common.console import Console
 from cloudmesh.common.util import banner
 from cloudmesh.common.util import readfile
 from cloudmesh.common.systeminfo import os_is_windows
-from cloudmesh.installer.__version__ import version as installer_version
+from cloudmesh.installer import __version__ as installer_version
 from cloudmesh.installer.bundle import *
 # from colorama import Fore, Style
 from rich.console import Console as RichConsole
