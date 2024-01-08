@@ -150,7 +150,10 @@ from cloudmesh.common.util import readfile
 from cloudmesh.common.systeminfo import os_is_windows
 from cloudmesh.installer.__version__ import version as installer_version
 from cloudmesh.installer.bundle import *
-from colorama import Fore, Style
+# from colorama import Fore, Style
+from rich.text import Text
+from rich import print
+
 from docopt import docopt
 from ordered_set import OrderedSet
 from tabulate import tabulate
@@ -192,7 +195,8 @@ def run(command, verbose=True):
     except subprocess.CalledProcessError as err:
         if verbose:
             print()
-            print(Fore.RED + f"ERROR: {err}")
+            # print(Fore.RED + f"ERROR: {err}")
+            print(f"ERROR: {err}", style="bold red")
         sys.exit(1)
 
     return output.decode("utf-8")
@@ -274,13 +278,16 @@ class Git(object):
             return f"{prefix}cloudmesh/{repo}"
 
     @staticmethod
-    def error_color(error="ERROR"):
+    def error_color(error="ERROR") -> str:
         if error == "ERROR":
-            color = Fore.RED
+            # color = Fore.RED
+            color = "bold red"
         elif error == "WARNING":
-            color = Fore.MAGENTA
+            # color = Fore.MAGENTA
+            color = "bold magenta"
         elif error == "INFO":
-            color = Fore.MAGENTA
+            # color = Fore.MAGENTA
+            color = "bold magenta"
         else:
             color = ""
         return color
@@ -304,7 +311,8 @@ class Git(object):
                 color = Git.error_color(error)
 
                 print(
-                    color + f"         {error}: not downloaded as repo already exists."
+                    f"         {error}: not downloaded as repo already exists.",
+                    style=color,
                 )
 
     @staticmethod
@@ -324,14 +332,17 @@ class Git(object):
             try:
                 os.chdir(repo)
             except FileNotFoundError:
-                print(Fore.RED + "ERROR:", repo, "not found")
+                # print(Fore.RED + "ERROR:", repo, "not found")
+                print("ERROR:", repo, "not found", style="bold red")
 
             result = run(f"git {name}", verbose=False)
             if ok_msg in result:
-                print(Fore.GREEN + "... ok")
+                # print(Fore.GREEN + "... ok")
+                print("... ok", style="bold green")
             else:
                 print()
-                print(Fore.RED + result)
+                # print(Fore.RED + result)
+                print(result, style="bold red")
             os.chdir("../")
 
     @staticmethod
@@ -344,15 +355,18 @@ class Git(object):
             try:
                 os.chdir(repo)
             except FileNotFoundError:
-                print(Fore.RED + "ERROR:", repo, "not found")
+                # print(Fore.RED + "ERROR:", repo, "not found")
+                print("ERROR:", repo, "not found", style="bold red")
 
             result = run(f"{command}", verbose=False)
 
             if ok_msg in result:
-                print(Fore.GREEN + "... ok")
+                # print(Fore.GREEN + "... ok")
+                print("... ok", style="bold green")
             else:
                 print()
-                print(Fore.RED + result)
+                # print(Fore.RED + result)
+                print(result, style="bold red")
 
             if verbose:
                 print()
@@ -426,18 +440,20 @@ class Git(object):
 
 def yn_question(msg):
     while True:
-        query = input(Fore.RED + msg)
+        print(msg, style="bold red")
+        query = input()
         answer = query.lower().strip()
         if query == "" or answer not in ["yes", "n"]:
             print("Please answer with yes/n!")
         else:
             break
-    print(Fore.RESET)
+    # print(Fore.RESET)
     return answer == "yes"
 
 
 def RED(msg):
-    print(Fore.RED + msg + Fore.RESET)
+    # print(Fore.RED + msg + Fore.RESET)
+    print(msg, style="bold red")
 
 
 def ERROR(msg):
@@ -490,7 +506,9 @@ def bundle_list(repos):
 
 
 def bundle_elements(bundle):
-    block = Fore.BLUE + f"\n{bundle}:\n" + Fore.RESET
+    # block = Fore.BLUE + f"\n{bundle}:\n" + Fore.RESET
+    block = Text(f"\n{bundle}:\n", style="blue")
+    # block = "[blue]\n" + f"{bundle}:\n" + "[/blue]"
     elements = " ".join(repos[bundle])
     block = block + textwrap.indent(
         textwrap.fill(elements, 70, break_on_hyphens=False), "    "
@@ -624,7 +642,7 @@ def main():
         native = hasattr(sys, "real_prefix")
         executable = sys.executable
         if native:
-            banner(WARNING, c=Fore.RED)
+            banner(WARNING, color="red")
             print()
             RED(
                 "You are likely not running in a venv. "
@@ -649,7 +667,8 @@ def main():
         packages = repos[bundle]
 
         for package in packages:
-            undefined = Fore.RED + "not found" + Style.RESET_ALL
+            # undefined = Fore.RED + "not found" + Style.RESET_ALL
+            undefined = Text("not found", style="red")
             entry = [
                 package,
                 undefined,  # "git":
@@ -843,7 +862,7 @@ def main():
         environment = arguments["--venv"]
 
         print()
-        banner(WARNING, c=Fore.RED)
+        banner(WARNING, c="red")
 
         RED(
             textwrap.dedent(
@@ -892,7 +911,7 @@ def main():
                 print(f" found -> {egg}")
         else:
             print()
-            banner(WARNING, c=Fore.RED)
+            banner(WARNING, c="red")
 
             RED(
                 textwrap.dedent(
@@ -911,8 +930,7 @@ def main():
             print()
 
             if not yn_question(
-                Fore.RED
-                + "WARNING: Removing listed files. Do you really want to continue. yes/n)? "
+                "WARNING: Removing listed files. Do you really want to continue. yes/n)? "
             ):
                 sys.exit(1)
 
