@@ -151,6 +151,7 @@ from cloudmesh.common.systeminfo import os_is_windows
 from cloudmesh.installer.__version__ import version as installer_version
 from cloudmesh.installer.bundle import *
 # from colorama import Fore, Style
+from rich.console import Console as RichConsole
 from rich.text import Text
 from rich import print
 
@@ -162,6 +163,9 @@ import os
 
 debug = False
 benchmark = False
+
+console = RichConsole()
+print = console.print
 
 
 def os_is_pi():
