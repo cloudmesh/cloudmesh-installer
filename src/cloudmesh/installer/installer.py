@@ -153,7 +153,6 @@ from cloudmesh.installer.bundle import *
 # from colorama import Fore, Style
 from rich.console import Console as RichConsole
 from rich.text import Text
-from rich import print
 
 from docopt import docopt
 from ordered_set import OrderedSet
