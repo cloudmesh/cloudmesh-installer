@@ -141,7 +141,6 @@ from pathlib import Path
 from pprint import pprint
 import platform
 
-import colorama
 import requests
 from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.console import Console
@@ -150,7 +149,6 @@ from cloudmesh.common.util import readfile
 from cloudmesh.common.systeminfo import os_is_windows
 from cloudmesh.installer.__version__ import version as installer_version
 from cloudmesh.installer.bundle import *
-from colorama import Fore, Style
 from docopt import docopt
 from ordered_set import OrderedSet
 from tabulate import tabulate
@@ -192,7 +190,7 @@ def run(command, verbose=True):
     except subprocess.CalledProcessError as err:
         if verbose:
             print()
-            print(Fore.RED + f"ERROR: {err}")
+            Console.red(f"ERROR: {err}")
         sys.exit(1)
 
     return output.decode("utf-8")
@@ -276,11 +274,11 @@ class Git(object):
     @staticmethod
     def error_color(error="ERROR"):
         if error == "ERROR":
-            color = Fore.RED
+            color = Console.theme["RED"]
         elif error == "WARNING":
-            color = Fore.MAGENTA
+            color = Console.theme["MAGENTA"]
         elif error == "INFO":
-            color = Fore.MAGENTA
+            color = Console.theme["MAGENTA"]
         else:
             color = ""
         return color
@@ -324,14 +322,14 @@ class Git(object):
             try:
                 os.chdir(repo)
             except FileNotFoundError:
-                print(Fore.RED + "ERROR:", repo, "not found")
+                Console.red(f"ERROR: {repo} not found")
 
             result = run(f"git {name}", verbose=False)
             if ok_msg in result:
-                print(Fore.GREEN + "... ok")
+                Console.green("... ok")
             else:
                 print()
-                print(Fore.RED + result)
+                Console.red(result)
             os.chdir("../")
 
     @staticmethod
@@ -344,15 +342,15 @@ class Git(object):
             try:
                 os.chdir(repo)
             except FileNotFoundError:
-                print(Fore.RED + "ERROR:", repo, "not found")
+                Console.red("ERROR:", repo, "not found")
 
             result = run(f"{command}", verbose=False)
 
             if ok_msg in result:
-                print(Fore.GREEN + "... ok")
+                Console.green("... ok")
             else:
                 print()
-                print(Fore.RED + result)
+                Console.red(result)
 
             if verbose:
                 print()
@@ -426,26 +424,21 @@ class Git(object):
 
 def yn_question(msg):
     while True:
-        query = input(Fore.RED + msg)
+        query = input(Console.red(msg))
         answer = query.lower().strip()
         if query == "" or answer not in ["yes", "n"]:
-            print("Please answer with yes/n!")
+            Console.red("Please answer with yes/n!")
         else:
             break
-    print(Fore.RESET)
     return answer == "yes"
 
 
-def RED(msg):
-    print(Fore.RED + msg + Fore.RESET)
-
-
 def ERROR(msg):
-    RED("ERROR: " + msg)
+    Console.red("ERROR: " + msg)
 
 
 def WARNING(msg):
-    RED("WARNING: " + msg)
+    Console.red("WARNING: {msg}")
 
 
 def remove(location):
@@ -514,9 +507,7 @@ def main():
     protocol = "https"
     if arguments["--ssh"]:
         protocol = "ssh"
-
-    colorama.init(autoreset=True)
-
+    
     if debug:
         banner("BEGIN ARGUMENTS")
         pprint(arguments)
@@ -626,7 +617,7 @@ def main():
         if native:
             banner(WARNING, c=Fore.RED)
             print()
-            RED(
+            Console.red(
                 "You are likely not running in a venv. "
                 "Please remember that for "
                 "development purposes we recommend you run in a venv. "
@@ -843,9 +834,9 @@ def main():
         environment = arguments["--venv"]
 
         print()
-        banner(WARNING, c=Fore.RED)
+        banner(WARNING, c=Console.theme["RED"])
 
-        RED(
+        Console.red(
             textwrap.dedent(
                 """
             Please notice that executing this command can do harm to your
@@ -892,9 +883,9 @@ def main():
                 print(f" found -> {egg}")
         else:
             print()
-            banner(WARNING, c=Fore.RED)
+            banner(WARNING, c=Console.theme["RED"])
 
-            RED(
+            Console.red(
                 textwrap.dedent(
                     """
                 Please notice that executing this command can do harm to your
