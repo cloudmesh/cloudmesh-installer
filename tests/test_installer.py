@@ -60,8 +60,11 @@ class Test_installer:
         print("PWD:", os.getcwd())
 
         cmd = "cloudmesh-installer git clone WRONG"
-        result = Shell.run(cmd)
-        assert True
+        try:
+            result = Shell.run(cmd)
+            assert False
+        except RuntimeError:
+            assert True
 
     def test_clone_community(self):
         banner("test_clone_community")
