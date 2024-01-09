@@ -141,7 +141,7 @@ from pathlib import Path
 from pprint import pprint
 import platform
 
-import colorama
+# import colorama
 import requests
 from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.console import Console
@@ -153,6 +153,7 @@ from cloudmesh.installer.bundle import *
 # from colorama import Fore, Style
 from rich.console import Console as RichConsole
 from rich.text import Text
+from rich.table import Table
 
 from docopt import docopt
 from ordered_set import OrderedSet
@@ -493,7 +494,7 @@ def get_all_repos():
 
 def check_for_bundle(bundle):
     if bundle is None:
-        ERROR("No  bundle specified.")
+        ERROR("No bundle specified.")
         sys.exit(1)
     elif not ((bundle in repos) or (bundle in ["cloudmesh", "all"])):
         ERROR(f"The bundle `{bundle}` does not exist")
@@ -508,15 +509,22 @@ def bundle_list(repos):
     return result
 
 
-def bundle_elements(bundle):
-    # block = Fore.BLUE + f"\n{bundle}:\n" + Fore.RESET
-    block = Text(f"\n{bundle}:\n", style="blue")
-    # block = "[blue]\n" + f"{bundle}:\n" + "[/blue]"
-    elements = " ".join(repos[bundle])
-    block = block + textwrap.indent(
-        textwrap.fill(elements, 70, break_on_hyphens=False), "    "
-    )
-    return block
+def bundle_elements(bundle) -> Table:
+    table = Table(title="Cloudmesh Bundles",
+                  show_lines=True,
+                #   show_header=True,
+                  header_style="black",
+                  title_style="bold black",
+                  )
+
+    table.add_column("Bundle", style="cyan")
+    table.add_column("Repos", style="magenta")
+
+    for bundle in repos:
+        repos_list = repos[bundle]
+        if repos_list:  # check if the list is not empty
+            table.add_row(bundle, ', '.join(repos_list))  # add the repos as a comma-separated list
+    return table
 
 
 def main():
@@ -536,7 +544,7 @@ def main():
     if arguments["--ssh"]:
         protocol = "ssh"
 
-    colorama.init(autoreset=True)
+    # colorama.init(autoreset=True)
 
     if debug:
         banner("BEGIN ARGUMENTS")
@@ -611,12 +619,9 @@ def main():
 
     elif arguments["list"] and not arguments["BUNDLE"] and not arguments["--git"]:
         if not arguments["--short"]:
-            banner("Cloudmesh Bundles")
-            block = ""
-            for bundle in repos:
-                block = block + bundle_elements(bundle)
-
-            print(block)
+            # banner("Cloudmesh Bundles")
+            table = bundle_elements(bundle)
+            print(table)
         else:
             print(bundle_list(repos))
 
