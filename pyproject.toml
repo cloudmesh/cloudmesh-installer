@@ -52,6 +52,7 @@ dependencies = [
     "toml",
     "docopt",
     "ordered_set",
+    "rich",
     "cloudmesh-common",
 ]
 
