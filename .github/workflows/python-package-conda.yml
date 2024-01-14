@@ -46,6 +46,7 @@ jobs:
     - name: Install current Python library
       shell: bash
       run: |
+        conda init
         conda activate base  # Activate the conda environment
         pip install -e .     # Install the current Python library in editable mode
     - name: Test with pytest
