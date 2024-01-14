@@ -47,9 +47,9 @@ jobs:
       shell: bash -l {0}
       run: |
         conda init bash
-        
     - name: Pip install
       shell: bash -l {0}
+      run: |
         conda activate base  # Activate the conda environment
         pip install -e .     # Install the current Python library in editable mode
     - name: Test with pytest
