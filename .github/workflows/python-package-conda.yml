@@ -10,8 +10,6 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
 
-
-
     steps:
     - uses: actions/checkout@v3
 
@@ -22,6 +20,7 @@ jobs:
         python-version: '3.12'
 
     - name: Add conda to system path
+      shell: bash
       run: |
         if [[ "${{ runner.os }}" == "Windows" ]]; then
           echo "$CONDA\bin" >> $GITHUB_PATH
