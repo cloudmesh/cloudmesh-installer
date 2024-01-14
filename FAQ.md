@@ -1,35 +1,5 @@
 # FAQ
 
-## (Only for class students) How to report an issue to us in piazza
-
-Assume you have an issue with the cloudmesh install. 
-
-a) It is not sufficient to send us a screenshot, send the ASCII text
-b) It is not sufficinent to just send the ASCII text, but you must 
-
-   1) mention the OS
-   2) mention if you us pyenv or not
-   3) mention if you run in a VM
-   4) mention if you run cloudmesh in a container
-   
-The reason is that dependent on the answer we will ask you to simply restarts as 
-this is the easiest.
-
-## I used the curl install and get an issue
-
-I get 
-
-    ModuleNotFoundError: No module named 'cloudmesh.management'
-    (ENV3) xxxx-MacBook-Pro:cm xxxx$ 
- 
-A dependency is not yet met. You may be able to fix it with 
-
-    cd cloudmesh-cloud
-    pip install -e .
-    
-In case it does not, please use the `cloudmesh-installer` approach wich is more
-or less the same, but with much more advanced features.
-
 ## I followed the one line installer but it still did not work
 
 There may be a dependency issue between older installs. You could try to uninstall 
