@@ -141,16 +141,20 @@ from pathlib import Path
 from pprint import pprint
 import platform
 
-import colorama
+# import colorama
 import requests
 from cloudmesh.common.StopWatch import StopWatch
 from cloudmesh.common.console import Console
 from cloudmesh.common.util import banner
 from cloudmesh.common.util import readfile
 from cloudmesh.common.systeminfo import os_is_windows
-from cloudmesh.installer.__version__ import version as installer_version
+from cloudmesh.installer import __version__ as installer_version
 from cloudmesh.installer.bundle import *
-from colorama import Fore, Style
+# from colorama import Fore, Style
+from rich.console import Console as RichConsole
+from rich.text import Text
+from rich.table import Table
+
 from docopt import docopt
 from ordered_set import OrderedSet
 from tabulate import tabulate
@@ -159,6 +163,9 @@ import os
 
 debug = False
 benchmark = False
+
+console = RichConsole()
+print = console.print
 
 
 def os_is_pi():
@@ -192,7 +199,8 @@ def run(command, verbose=True):
     except subprocess.CalledProcessError as err:
         if verbose:
             print()
-            print(Fore.RED + f"ERROR: {err}")
+            # print(Fore.RED + f"ERROR: {err}")
+            print(f"ERROR: {err}", style="bold red")
         sys.exit(1)
 
     return output.decode("utf-8")
@@ -274,13 +282,16 @@ class Git(object):
             return f"{prefix}cloudmesh/{repo}"
 
     @staticmethod
-    def error_color(error="ERROR"):
+    def error_color(error="ERROR") -> str:
         if error == "ERROR":
-            color = Fore.RED
+            # color = Fore.RED
+            color = "bold red"
         elif error == "WARNING":
-            color = Fore.MAGENTA
+            # color = Fore.MAGENTA
+            color = "bold magenta"
         elif error == "INFO":
-            color = Fore.MAGENTA
+            # color = Fore.MAGENTA
+            color = "bold magenta"
         else:
             color = ""
         return color
@@ -304,7 +315,8 @@ class Git(object):
                 color = Git.error_color(error)
 
                 print(
-                    color + f"         {error}: not downloaded as repo already exists."
+                    f"         {error}: not downloaded as repo already exists.",
+                    style=color,
                 )
 
     @staticmethod
@@ -324,14 +336,17 @@ class Git(object):
             try:
                 os.chdir(repo)
             except FileNotFoundError:
-                print(Fore.RED + "ERROR:", repo, "not found")
+                # print(Fore.RED + "ERROR:", repo, "not found")
+                print("ERROR:", repo, "not found", style="bold red")
 
             result = run(f"git {name}", verbose=False)
             if ok_msg in result:
-                print(Fore.GREEN + "... ok")
+                # print(Fore.GREEN + "... ok")
+                print("... ok", style="bold green")
             else:
                 print()
-                print(Fore.RED + result)
+                # print(Fore.RED + result)
+                print(result, style="bold red")
             os.chdir("../")
 
     @staticmethod
@@ -344,15 +359,18 @@ class Git(object):
             try:
                 os.chdir(repo)
             except FileNotFoundError:
-                print(Fore.RED + "ERROR:", repo, "not found")
+                # print(Fore.RED + "ERROR:", repo, "not found")
+                print("ERROR:", repo, "not found", style="bold red")
 
             result = run(f"{command}", verbose=False)
 
             if ok_msg in result:
-                print(Fore.GREEN + "... ok")
+                # print(Fore.GREEN + "... ok")
+                print("... ok", style="bold green")
             else:
                 print()
-                print(Fore.RED + result)
+                # print(Fore.RED + result)
+                print(result, style="bold red")
 
             if verbose:
                 print()
@@ -426,18 +444,20 @@ class Git(object):
 
 def yn_question(msg):
     while True:
-        query = input(Fore.RED + msg)
+        print(msg, style="bold red")
+        query = input()
         answer = query.lower().strip()
         if query == "" or answer not in ["yes", "n"]:
             print("Please answer with yes/n!")
         else:
             break
-    print(Fore.RESET)
+    # print(Fore.RESET)
     return answer == "yes"
 
 
 def RED(msg):
-    print(Fore.RED + msg + Fore.RESET)
+    # print(Fore.RED + msg + Fore.RESET)
+    print(msg, style="bold red")
 
 
 def ERROR(msg):
@@ -474,7 +494,7 @@ def get_all_repos():
 
 def check_for_bundle(bundle):
     if bundle is None:
-        ERROR("No  bundle specified.")
+        ERROR("No bundle specified.")
         sys.exit(1)
     elif not ((bundle in repos) or (bundle in ["cloudmesh", "all"])):
         ERROR(f"The bundle `{bundle}` does not exist")
@@ -489,13 +509,22 @@ def bundle_list(repos):
     return result
 
 
-def bundle_elements(bundle):
-    block = Fore.BLUE + f"\n{bundle}:\n" + Fore.RESET
-    elements = " ".join(repos[bundle])
-    block = block + textwrap.indent(
-        textwrap.fill(elements, 70, break_on_hyphens=False), "    "
-    )
-    return block
+def bundle_elements(bundle) -> Table:
+    table = Table(title="Cloudmesh Bundles",
+                  show_lines=True,
+                #   show_header=True,
+                  header_style="black",
+                  title_style="bold black",
+                  )
+
+    table.add_column("Bundle", style="cyan")
+    table.add_column("Repos", style="magenta")
+
+    for bundle in repos:
+        repos_list = repos[bundle]
+        if repos_list:  # check if the list is not empty
+            table.add_row(bundle, ', '.join(repos_list))  # add the repos as a comma-separated list
+    return table
 
 
 def main():
@@ -515,7 +544,7 @@ def main():
     if arguments["--ssh"]:
         protocol = "ssh"
 
-    colorama.init(autoreset=True)
+    # colorama.init(autoreset=True)
 
     if debug:
         banner("BEGIN ARGUMENTS")
@@ -590,12 +619,9 @@ def main():
 
     elif arguments["list"] and not arguments["BUNDLE"] and not arguments["--git"]:
         if not arguments["--short"]:
-            banner("Cloudmesh Bundles")
-            block = ""
-            for bundle in repos:
-                block = block + bundle_elements(bundle)
-
-            print(block)
+            # banner("Cloudmesh Bundles")
+            table = bundle_elements(bundle)
+            print(table)
         else:
             print(bundle_list(repos))
 
@@ -624,7 +650,7 @@ def main():
         native = hasattr(sys, "real_prefix")
         executable = sys.executable
         if native:
-            banner(WARNING, c=Fore.RED)
+            banner(WARNING, color="red")
             print()
             RED(
                 "You are likely not running in a venv. "
@@ -649,7 +675,8 @@ def main():
         packages = repos[bundle]
 
         for package in packages:
-            undefined = Fore.RED + "not found" + Style.RESET_ALL
+            # undefined = Fore.RED + "not found" + Style.RESET_ALL
+            undefined = Text("not found", style="red")
             entry = [
                 package,
                 undefined,  # "git":
@@ -843,7 +870,7 @@ def main():
         environment = arguments["--venv"]
 
         print()
-        banner(WARNING, c=Fore.RED)
+        banner(WARNING, c="red")
 
         RED(
             textwrap.dedent(
@@ -892,7 +919,7 @@ def main():
                 print(f" found -> {egg}")
         else:
             print()
-            banner(WARNING, c=Fore.RED)
+            banner(WARNING, c="red")
 
             RED(
                 textwrap.dedent(
@@ -911,8 +938,7 @@ def main():
             print()
 
             if not yn_question(
-                Fore.RED
-                + "WARNING: Removing listed files. Do you really want to continue. yes/n)? "
+                "WARNING: Removing listed files. Do you really want to continue. yes/n)? "
             ):
                 sys.exit(1)
 
