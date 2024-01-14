@@ -4,21 +4,30 @@ on: [push]
 
 jobs:
   build-linux:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       max-parallel: 5
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+
 
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python 3.12
-      uses: actions/setup-python@v3
+
+    - name: Setup Miniconda
+      uses: conda-incubator/setup-miniconda@v2
       with:
+        auto-update-conda: true
         python-version: '3.12'
+
     - name: Add conda to system path
       run: |
-        # $CONDA is an environment variable pointing to the root of the miniconda directory
-        echo $CONDA/bin >> $GITHUB_PATH
-
+        if [[ "${{ runner.os }}" == "Windows" ]]; then
+          echo "$CONDA\bin" >> $GITHUB_PATH
+        else
+          echo "$CONDA/bin" >> $GITHUB_PATH
+        fi
     - name: Add extra channels
       run: |
         conda config --add channels conda-forge
