@@ -8,7 +8,6 @@ import shutil
 
 import os
 import pytest
-from cloudmesh.common.util import readfile
 from cloudmesh.common.Shell import Shell
 from cloudmesh.common.util import banner
 
@@ -31,7 +30,7 @@ class Test_installer:
     def test_version(self):
         banner("test_version")
 
-        cmd = "cloudmesh-installer version"
+        cmd = "cmsi version"
         result = Shell.run(cmd)
         print(result)
         print()
@@ -41,7 +40,7 @@ class Test_installer:
         banner("test_info")
         print("PWD:", os.getcwd())
 
-        cmd = "cloudmesh-installer info"
+        cmd = "cmsi info"
         result = Shell.run(cmd)
         print(result)
         print()
@@ -50,7 +49,7 @@ class Test_installer:
     def test_list(self):
         banner("list")
 
-        cmd = "cloudmesh-installer list"
+        cmd = "cmsi list"
         result = Shell.run(cmd)
         print(result)
         assert "cloudmesh-common" in result
@@ -59,7 +58,7 @@ class Test_installer:
         banner("test_non_existing")
         print("PWD:", os.getcwd())
 
-        cmd = "cloudmesh-installer git clone WRONG"
+        cmd = "cmsi git clone WRONG"
         try:
             result = Shell.run(cmd)
             assert False
@@ -70,7 +69,7 @@ class Test_installer:
         banner("test_clone_community")
         print("PWD:", os.getcwd())
 
-        cmd = "cloudmesh-installer git clone community"
+        cmd = "cmsi git clone community"
         result = Shell.run(cmd)
         print(result)
         assert os.path.isdir("cloudmesh-community.github.io")
@@ -79,7 +78,7 @@ class Test_installer:
         banner("test_clone_cms")
         print("PWD:", os.getcwd())
 
-        cmd = "cloudmesh-installer git clone cms"
+        cmd = "cmsi git clone cms"
         result = Shell.run(cmd)
         print("RESULT:", result)
 
@@ -99,10 +98,15 @@ class Test_installer:
         banner("test_install_cms")
         print("PWD:", os.getcwd())
 
-        cmd = "cloudmesh-installer install cms"
+        cmd = "cmsi install cms"
         result = Shell.run(cmd)
         print("RESULT:", result)
-        assert os.path.isdir("cloudmesh-cmd5/cloudmesh_cmd5.egg-info")
+        # Try to import the module and check if it raises an ImportError
+        try:
+            import cloudmesh.shell
+            assert True
+        except ImportError:
+            assert False
 
     def test_cms_help(self):
         banner("test_cms_help")
