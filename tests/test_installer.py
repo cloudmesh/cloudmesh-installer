@@ -9,6 +9,7 @@ import shutil
 import os
 import pytest
 from cloudmesh.common.Shell import Shell
+from cloudmesh.common.console import Console
 from cloudmesh.common.util import banner
 
 
@@ -18,6 +19,17 @@ class Test_installer:
     def test_create_dir(self):
         banner("test_create_dir")
         path = "tmp"
+        if os.path.isdir('./tmp'):
+            if os.path.isdir('./tmp/cloudmesh-common'):
+                try:
+                    shutil.rmtree('./tmp')
+                except OSError:
+                    Console.error("Failed to remove directory, exiting.")
+                    os._exit(1)
+            else:
+                Console.error("cowardly exiting because i don't know "
+                              "if anything valuable is in tmp")
+                os.exit(1)
         try:
             os.mkdir(path)
         except OSError:
@@ -101,12 +113,23 @@ class Test_installer:
         cmd = "cmsi install cms"
         result = Shell.run(cmd)
         print("RESULT:", result)
-        # Try to import the module and check if it raises an ImportError
-        try:
-            import cloudmesh.shell
-            assert True
-        except ImportError:
-            assert False
+
+    # this is not possible to check.
+    # when one runs pytest,
+    # the python process will have to be
+    # rerun for the installed module to be
+    # available.
+    #
+    # def test_import_cms(self):
+    #     banner("test_import_cms")
+    #     print("PWD:", os.getcwd())
+
+    #     # Try to import the module and check if it raises an ImportError
+    #     try:
+    #         import cloudmesh.shell
+    #         assert True
+    #     except ImportError:
+    #         assert False
 
     def test_cms_help(self):
         banner("test_cms_help")

@@ -410,11 +410,11 @@ class Git(object):
             if dev:
                 banner(f"dev install -> {repo}")
 
-                Console.info(f"pip install -e .: {repo}")
+                Console.info(f"make pip: {repo}")
                 print()
 
                 os.chdir(repo)
-                os.system("pip install -e .")
+                os.system("make pip")
                 os.chdir("../")
 
             else:
