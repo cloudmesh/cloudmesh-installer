@@ -59,23 +59,6 @@ from Generation Z with the awadrd numbers 1829704 and 2200409.
 
 <!-- START-MANUAL -->
 ```
-Usage:
-  cloudmesh-installer git key [LOCATION] [--benchmark]
-  cloudmesh-installer [--ssh] git [clone|pull|status|authors] [BUNDLES...] [--benchmark]
-  cloudmesh-installer [--ssh] get [BUNDLES...] [--benchmark]
-  cloudmesh-installer update [BUNDLES...] [--benchmark]
-  cloudmesh-installer install [BUNDLES...] [--venv=ENV | -e] [--benchmark]
-  cloudmesh-installer list [BUNDLE] [--short | --git]
-  cloudmesh-installer version
-  cloudmesh-installer info [BUNDLE] [--verbose]
-  cloudmesh-installer clean --dir=DIR [--force]
-  cloudmesh-installer clean --venv=ENV [--force]
-  cloudmesh-installer new VENV [BUNDLES...] [--python=PYTHON]
-  cloudmesh-installer release [REPOS...] [--benchmark]
-  cloudmesh-installer pi [--dev]
-  cloudmesh-installer burn --branch BRANCH
-  cloudmesh-installer to5
-  cloudmesh-installer help
-  cloudmesh-installer usage
+*** No help on installer
 ```
 <!-- STOP-MANUAL -->
