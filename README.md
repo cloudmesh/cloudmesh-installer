@@ -59,38 +59,23 @@ from Generation Z with the awadrd numbers 1829704 and 2200409.
 
 <!-- START-MANUAL -->
 ```
-Command bar
-===========
-
-::
-
-  Usage:
-        bar --file=FILE
-        bar list
-        bar [--parameter=PARAMETER] [--experiment=EXPERIMENT] [COMMAND...]
-
-  This command does some useful things.
-
-  Arguments:
-      FILE   a file name
-      PARAMETER  a parameterized parameter of the form "a[0-3],a5"
-
-  Options:
-      -f      specify the file
-
-  Description:
-
-    > cms bar --parameter="a[1-2,5],a10"
-    >    example on how to use Parameter.expand. See source code at
-    >      https://github.com/cloudmesh/cloudmesh-bar/blob/main/cloudmesh/bar/command/bar.py
-    >    prints the expanded parameter as a list
-    >    ['a1', 'a2', 'a3', 'a4', 'a5', 'a10']
-
-    > bar exp --experiment=a=b,c=d
-    > example on how to use Parameter.arguments_to_dict. See source code at
-    >      https://github.com/cloudmesh/cloudmesh-bar/blob/main/cloudmesh/bar/command/bar.py
-    > prints the parameter as dict
-    >   {'a': 'b', 'c': 'd'}
-
+Usage:
+  cloudmesh-installer git key [LOCATION] [--benchmark]
+  cloudmesh-installer [--ssh] git [clone|pull|status|authors] [BUNDLES...] [--benchmark]
+  cloudmesh-installer [--ssh] get [BUNDLES...] [--benchmark]
+  cloudmesh-installer update [BUNDLES...] [--benchmark]
+  cloudmesh-installer install [BUNDLES...] [--venv=ENV | -e] [--benchmark]
+  cloudmesh-installer list [BUNDLE] [--short | --git]
+  cloudmesh-installer version
+  cloudmesh-installer info [BUNDLE] [--verbose]
+  cloudmesh-installer clean --dir=DIR [--force]
+  cloudmesh-installer clean --venv=ENV [--force]
+  cloudmesh-installer new VENV [BUNDLES...] [--python=PYTHON]
+  cloudmesh-installer release [REPOS...] [--benchmark]
+  cloudmesh-installer pi [--dev]
+  cloudmesh-installer burn --branch BRANCH
+  cloudmesh-installer to5
+  cloudmesh-installer help
+  cloudmesh-installer usage
 ```
 <!-- STOP-MANUAL -->
