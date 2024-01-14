@@ -44,14 +44,15 @@ jobs:
         flake8 --exclude deprecated . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
     - name: Install current Python library
+      shell: bash
       run: |
-        source activate base  # Activate the conda environment
+        conda activate base  # Activate the conda environment
         pip install -e .     # Install the current Python library in editable mode
-        # pip install cloudmesh-vpn
     - name: Test with pytest
+      shell: bash
       run: |
-        conda install pytest
-        source activate base & pytest tests -rsx
+        conda activate base  # Activate the conda environment
+        pytest tests -rsx
 
 
 #  build-windows:
