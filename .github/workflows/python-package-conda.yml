@@ -54,6 +54,7 @@ jobs:
       shell: bash -l {0}
       run: |
         conda activate base  # Activate the conda environment
+        conda install pytest
         pytest tests -rsx
 
 
