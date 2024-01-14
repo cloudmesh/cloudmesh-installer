@@ -136,22 +136,9 @@ start a new terminal if you installed it in pyenv
 
     cms help vm
 
-## I used anaconda
+## The Azure cloud modules take a long tiem to install
 
-In case you used anaconda, please contact the TA Bo who is using anaconda and
-can give instructions. 
-
-
-## Something is different and I can not figure it out
-
-Get in contact with Gregor, he is not available Thursday and Friday morning, but
-otherwise he is there if not in other meetings. We ran the installation on
-multiple students and TA's computers and if something does not work, please let
-us know. so we can help.
-
-## TheAzure cloud modules take a long tiem to install
-
-Yes it takes up to five minutes, On older machines may be longer. 
+Yes it takes up to five minutes, on older machines may be longer. 
 
 
 
