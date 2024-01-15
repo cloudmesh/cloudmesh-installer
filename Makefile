@@ -11,3 +11,6 @@ help:
 	@echo "------------------"
 	@grep ": ##"  ../cloudmesh-common/makefile.mk | awk 'BEGIN {FS=": ##"}; {printf "%-11s - %s\n", $$1, $$2}'
 	@echo
+
+readme:
+	python src/bin/readme.py
