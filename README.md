@@ -70,6 +70,7 @@ from Generation Z with the awadrd numbers 1829704 and 2200409.
 
 ## Manual Page
 
+```bash
 cloudmesh-installer -- a helper to install cloudmesh from source for 
 developers.
 Usage:
@@ -167,5 +168,5 @@ following
             cmsi git clone bar
             cmsi install bar
             cmsi info
-
+```
 

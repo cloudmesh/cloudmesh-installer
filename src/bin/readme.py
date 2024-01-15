@@ -27,7 +27,7 @@ def update_section(command: str,
         output = "\n```bash\n" + output + "\n```\n"  # Wrap the output in ```bash```
     else:
         output = "\n".join([line for line in output.split('\n') if line.strip()])  # Remove empty lines
-        output = "\n" + output + "\n"
+        output = "\n```bash\n" + output + "\n```\n"
     print('------------------')
     print(output)
     print('------------------')
